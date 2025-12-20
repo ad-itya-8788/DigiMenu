@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Admin Dashboard - Hotel Aditya | Manage Orders & Menu</title>
+  <meta name="title" content="Admin Dashboard - Hotel Aditya | Manage Orders & Menu">
+  <meta name="description" content="Hotel Aditya admin dashboard. Manage orders, menu items, categories, customer data, and restaurant operations in real-time.">
+  <meta name="keywords" content="Hotel Aditya admin, dashboard, order management, menu management, restaurant admin, operations">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin">
+  <meta property="og:title" content="Admin Dashboard - Hotel Aditya">
+  <meta property="og:description" content="Hotel Aditya admin dashboard for managing restaurant operations.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin">
+  <meta property="twitter:title" content="Admin Dashboard - Hotel Aditya">
+  <meta property="twitter:description" content="Hotel Aditya admin dashboard for managing restaurant operations.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1; /* Indigo */
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+    }
+
+    :root {
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+      --pill-bg: #e9ecef;
+      --pill-active-bg: #6366f1;
+      --pill-active-text: #ffffff;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-btn i {
+      width: 24px;
+      text-align: center;
+    }
+
+    /* --- Main Content Area --- */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    /* --- Navbar --- */
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- Stats Cards --- */
+    .stat-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .stat-icon-bg {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .bg-icon-primary { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .bg-icon-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .bg-icon-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .bg-icon-info { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    /* --- Orders Grid --- */
+    .order-card {
+      background: var(--card-bg-custom);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      padding: 0;
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .order-card:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .order-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .order-body {
+      padding: 1rem;
+      flex-grow: 1;
+    }
+
+    .order-footer {
+      padding: 1rem;
+      background: var(--bs-tertiary-bg);
+      border-radius: 0 0 12px 12px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+
+    .table-badge {
+      background: linear-gradient(135deg, var(--primary-color), #4338ca);
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: white;
+    }
+
+    /* --- Menu Items --- */
+    .category-pills-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .category-pill {
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      background: var(--pill-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 50px;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      color: var(--bs-body-color);
+      user-select: none;
+    }
+
+    .category-pill:hover {
+      filter: brightness(0.95);
+    }
+
+    .category-pill.active {
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      border-color: var(--pill-active-bg);
+    }
+
+    .menu-item-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      transition: all 0.3s;
+    }
+
+    .menu-item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .menu-img-wrap {
+      height: 180px;
+      width: 100%;
+      position: relative;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* --- Forms & Modals --- */
+    .form-control, .form-select {
+      background-color: var(--card-bg-custom);
+      border-color: var(--sidebar-border);
+      color: var(--bs-body-color);
+    }
+    .form-control:focus, .form-select:focus {
+      background-color: var(--card-bg-custom);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+      color: var(--bs-body-color);
+    }
+    
+    .modal-content {
+      background-color: var(--card-bg-custom);
+      border: 1px solid var(--sidebar-border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    
+    .modal-header { border-bottom: 1px solid var(--sidebar-border); }
+    .modal-footer { border-top: 1px solid var(--sidebar-border); }
+
+    /* --- Responsive Tweaks --- */
+    @media (max-width: 991px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+      }
+      .overlay.show { display: block; }
+    }
+
+    /* Utilities */
+    .text-primary-custom { color: var(--primary-color); }
+    .btn-primary-custom {
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+    }
+    .btn-primary-custom:hover { background: var(--primary-hover); color: white; }
+    
+    .view-section { display: none; }
+    .view-section.active { display: block; fade-in: 0.3s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--body-bg-custom); }
+    ::-webkit-scrollbar-thumb { background: #6c757d; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <button class="nav-btn active" id="btn-orders" onclick="switchTab('orders')">
+        <i class="fas fa-receipt"></i> Orders
+      </button>
+      <button class="nav-btn" id="btn-menu" onclick="switchTab('menu')">
+        <i class="fas fa-utensils"></i> Menu Items
+      </button>
+      <button class="nav-btn" id="btn-categories" onclick="switchTab('categories')">
+        <i class="fas fa-tags"></i> Categories
+      </button>
+      <a href="/admin/ratings" class="nav-btn text-decoration-none">
+        <i class="fas fa-star"></i> Ratings & Reviews
+      </a>
+      <a href="/admin/users" class="nav-btn text-decoration-none">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+   <a href="/admin/sales-report" class="nav-btn text-decoration-none">
+  <i class="fas fa-chart-line"></i> Sales & Analytics
+</a>
+   <a href="/admin/kitchen" class="nav-btn text-decoration-none" target="_blank">
+  <i class="fas fa-utensils"></i> Kitchen Display
+</a>
+      <a href="/admin/oldorders" class="nav-btn text-decoration-none">
+        <i class="fas fa-history"></i> Old Orders
+      </a>
+      <a href="/admin/settings" class="nav-btn text-decoration-none">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 d-none d-sm-block fw-semibold">Dashboard Overview</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        
+        <!-- Order Status Toggle -->
+        <div class="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded bg-body-tertiary border border-secondary border-opacity-10">
+             <div class="form-check form-switch m-0">
+               <input class="form-check-input" type="checkbox" id="ordersEnabledSwitch" checked onchange="toggleOrdersEnabled(this)">
+               <label class="form-check-label text-small fw-semibold" for="ordersEnabledSwitch" style="font-size:0.8rem" id="ordersStatusLabel">Orders ON</label>
+             </div>
+        </div>
+
+        <!-- Live Notification Toggle -->
+        <div class="d-none d-md-flex align-items-center gap-2 px-3 py-1 rounded bg-body-tertiary border border-secondary border-opacity-10">
+             <div class="spinner-grow text-success spinner-grow-sm" id="autoRefreshIndicator" role="status"></div>
+             <div class="form-check form-switch m-0">
+               <input class="form-check-input" type="checkbox" id="liveNotificationSwitch" checked onchange="toggleLiveNotifications(this)">
+               <label class="form-check-label text-small fw-semibold" for="liveNotificationSwitch" style="font-size:0.8rem" id="liveNotificationLabel">Live ON</label>
+             </div>
+        </div>
+
+   
+        <!-- Admin Profile -->
+        <div class="d-flex align-items-center gap-2 ps-3 border-start">
+          <div class="text-end d-none d-sm-block">
+            <div class="fw-bold" style="font-size: 0.9rem;" id="adminUsername">Admin</div>
+            <div class="text-muted" style="font-size: 0.75rem;">Manager</div>
+          </div>
+          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-5">
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-primary"><i class="fas fa-shopping-bag"></i></div>
+          <div class="stat-value" id="totalOrders">0</div>
+          <div class="text-muted small">Total Orders</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-info"><i class="fas fa-calendar-day"></i></div>
+          <div class="stat-value" id="todayOrders">0</div>
+          <div class="text-muted small">Today's Orders</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 col-xl-4">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-success"><i class="fas fa-rupee-sign"></i></div>
+          <div class="stat-value" id="totalRevenue">₹0</div>
+          <div class="text-muted small">Total Revenue</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-6 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-warning"><i class="fas fa-clock"></i></div>
+          <div class="stat-value" id="pendingOrders">0</div>
+          <div class="text-muted small">Pending</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-6 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-primary"><i class="fas fa-users"></i></div>
+          <div class="stat-value" id="totalCustomers">0</div>
+          <div class="text-muted small">Customers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Sections (Managed by Vanilla JS) -->
+    <div id="content-area">
+      
+      <!-- Orders Section -->
+      <div id="section-orders" class="view-section active">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+          <h4 class="fw-bold mb-0">Active Orders</h4>
+          <div class="d-flex gap-2 flex-wrap">
+            <select class="form-select form-select-sm" id="orderDateFilter" style="width: auto; min-width: 120px;">
+              <option value="" selected>All Dates</option>
+              <option value="today">Today</option>
+              <option value="old">History</option>
+            </select>
+            <select class="form-select form-select-sm" id="orderStatusFilter" style="width: auto; min-width: 120px;">
+              <option value="" selected>All Status</option>
+              <option value="pending,preparing,ready">Active</option>
+              <option value="pending">Pending</option>
+              <option value="preparing">Preparing</option>
+              <option value="ready">Ready</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+             <a href="/admin/oldorders" class="btn btn-outline-secondary btn-sm">
+               <i class="fas fa-history"></i> Archive
+             </a>
+          </div>
+        </div>
+
+        <div id="ordersCardsContainer" class="row g-3">
+            <div class="col-12 text-center py-5">
+              <div class="spinner-border text-primary" role="status"></div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Menu Items Section -->
+      <div id="section-menu" class="view-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Menu Management</h4>
+            <button class="btn btn-primary-custom shadow" onclick="openItemModal()">
+              <i class="fas fa-plus me-2"></i>New Item
+            </button>
+        </div>
+        
+        <!-- Category Filter Bar -->
+        <div class="category-pills-container" id="categoryFilterBar">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="menuItemsGrid" class="row g-4">
+            <!-- Menu Items Injected Here -->
+        </div>
+      </div>
+
+      <!-- Categories Section -->
+      <div id="section-categories" class="view-section">
+         <div class="card border-0 shadow-sm" style="background-color: var(--card-bg-custom);">
+            <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center py-3">
+               <h5 class="mb-0">Categories</h5>
+               <button class="btn btn-primary-custom btn-sm" onclick="openCategoryModal()">
+                 <i class="fas fa-plus me-1"></i> Add Category
+               </button>
+            </div>
+            <div class="card-body p-0">
+               <div class="table-responsive">
+                  <table class="table table-hover mb-0 align-middle" style="color: var(--bs-body-color);">
+                     <thead class="bg-body-tertiary">
+                        <tr>
+                           <th class="ps-4">Category Name</th>
+                           <th class="text-end pe-4">Actions</th>
+                        </tr>
+                     </thead>
+                     <tbody id="categoriesTableBody"></tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- --- Modals --- -->
+
+  <!-- Category Modal -->
+  <div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoryModalTitle">Add Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="categoryForm">
+            <input type="hidden" id="categoryId">
+            <div class="mb-3">
+              <label class="form-label text-muted small text-uppercase fw-bold">Name</label>
+              <input type="text" class="form-control" id="categoryName" placeholder="e.g. Starters" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary-custom" onclick="saveCategory()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item Modal -->
+  <div class="modal fade" id="itemModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="itemModalTitle">Manage Menu Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="itemForm">
+            <input type="hidden" id="itemId">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label text-muted small text-uppercase fw-bold">Item Name</label>
+                <input type="text" class="form-control" id="itemName" placeholder="e.g. Butter Chicken" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-muted small text-uppercase fw-bold">Category</label>
+                <select class="form-select" id="itemCategory" required>
+                  <option value="">Select Category</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-muted small text-uppercase fw-bold">Price (₹)</label>
+                <input type="number" step="0.01" class="form-control" id="itemPrice" placeholder="0.00" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-muted small text-uppercase fw-bold">Availability</label>
+                <select class="form-select" id="itemAvailable">
+                  <option value="true">Available</option>
+                  <option value="false">Unavailable</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-muted small text-uppercase fw-bold">Image</label>
+                <input type="file" class="form-control" id="itemImageFile" accept="image/*" onchange="previewImage(this)">
+                <input type="hidden" id="existingImageUrl">
+                <div id="imagePreview" class="mt-3 p-2 border rounded d-inline-block" style="display: none; background: var(--body-bg-custom);">
+                    <img id="previewImg" src="" alt="Preview" style="max-height: 150px; border-radius: 6px;">
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label text-muted small text-uppercase fw-bold">Description</label>
+                <textarea class="form-control" id="itemDescription" rows="3" placeholder="Description..."></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary-custom" onclick="saveItem()">Save Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  
+  <script>
+    // --- Manual Tab Switching (Fixes 'Illegal invocation') ---
+    function switchTab(tabId) {
+      // Buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + tabId).classList.add('active');
+
+      // Sections
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('section-' + tabId).classList.add('active');
+
+      // Mobile sidebar auto close
+      if (window.innerWidth < 992) {
+        document.getElementById('sidebar').classList.remove('show');
+        document.getElementById('mobileOverlay').classList.remove('show');
+      }
+    }
+
+    // --- Data Store (Yaha sab data store hota hai) ---
+    let categories = []; // Saare categories ka data (Starters, Main Course, etc.)
+    let items = []; // Saare menu items ka data (dishes/food items)
+    let orders = []; // Saare active orders ka data (pending, preparing, ready orders)
+    let currentCategoryFilter = 'all'; // Abhi konsa category filter laga hai (all ya koi specific category)
+    let lastOrderCount = 0; // Pichli baar kitne orders the (new order detect karne ke liye)
+    let autoRefreshInterval = null; // Auto-refresh ka timer ID (har 8 second me backend call karta hai)
+    let isUserInteracting = false; // User abhi dropdown ya kuch use kar raha hai kya? (true = refresh mat karo)
+    let liveNotificationsEnabled = true; // Live notification ON hai ya OFF (true = backend call hogi, false = nahi hogi)
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('mobileOverlay').classList.toggle('show');
+    }
+
+    // --- Auth & Data Loading ---
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) { window.location.href = '/admin/login'; return; }
+        document.getElementById('adminUsername').textContent = data.admin.username;
+        loadDashboard();
+      } catch (error) { console.error('Auth error', error); }
+    }
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch('/api/admin/dashboard/stats');
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('totalOrders').textContent = data.stats.totalOrders;
+          document.getElementById('todayOrders').textContent = data.stats.todayOrders;
+          document.getElementById('totalRevenue').textContent = `₹${data.stats.totalRevenue.toFixed(2)}`;
+          document.getElementById('pendingOrders').textContent = data.stats.pendingOrders;
+          document.getElementById('totalCustomers').textContent = data.stats.totalCustomers;
+        }
+        await loadOrders(false);
+        lastOrderCount = orders.length;
+        // Start auto-refresh (will respect liveNotificationsEnabled flag)
+        startAutoRefresh();
+        await loadCategories();
+        loadItems();
+      } catch (error) { console.error('Dashboard error', error); }
+    }
+
+    // --- Orders (Backend se orders load karta hai) ---
+    // showNotification = true matlab new order aane par sound aur popup dikhao
+    async function loadOrders(showNotification = false) {
+      try {
+        // Skip refresh if user is interacting
+        if (isUserInteracting && showNotification) {
+          return;
+        }
+        
+        const status = document.getElementById('orderStatusFilter').value;
+        const dateFilter = document.getElementById('orderDateFilter').value;
+        let url = '/api/admin/orders?';
+        const params = ['view_type=active']; // ALWAYS exclude completed orders
+        if (status) params.push(`status=${status}`);
+        if (dateFilter) params.push(`date_filter=${dateFilter}`);
+        url += params.join('&');
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success) {
+          const previousOrderIds = new Set(orders.map(o => o.order_id));
+          const previousOrders = [...orders];
+          orders = data.orders;
+          
+          // Check for new orders
+          if (showNotification && orders.length > 0 && lastOrderCount >= 0) {
+            const newOrders = orders.filter(o => !previousOrderIds.has(o.order_id));
+            if (newOrders.length > 0) {
+              // Play notification sound
+              const audio = new Audio('/notification.mp3');
+              audio.volume = 1.0;
+              audio.play().catch(() => {
+                // Try alternative path
+                const audio2 = new Audio('./notification.mp3');
+                audio2.play().catch(() => {});
+              });
+              
+              // Show notification popup
+              Swal.fire({
+                icon: 'info', title: 'New Order!', text: `${newOrders.length} new order(s)!`,
+                timer: 3000, showConfirmButton: false, toast: true, position: 'top-end'
+              });
+            }
+          }
+          
+          // Only re-render if there are actual changes
+          const hasChanges = checkOrderChanges(previousOrders, orders);
+          if (hasChanges || orders.length !== previousOrders.length) {
+            lastOrderCount = orders.length;
+            displayOrders();
+          }
+        }
+      } catch (error) { console.error('Orders error', error); }
+    }
+    
+    // Check karta hai ki orders me koi change hua hai ya nahi (status, payment, etc.)
+    // Agar koi change nahi hai to cards ko re-render nahi karega (flickering nahi hogi)
+    function checkOrderChanges(oldOrders, newOrders) {
+      if (oldOrders.length !== newOrders.length) return true;
+      
+      for (let i = 0; i < newOrders.length; i++) {
+        const newOrder = newOrders[i];
+        const oldOrder = oldOrders.find(o => o.order_id === newOrder.order_id);
+        
+        if (!oldOrder) return true;
+        
+        // Check if key fields changed
+        if (oldOrder.status !== newOrder.status ||
+            oldOrder.payment_status !== newOrder.payment_status ||
+            oldOrder.total_amount !== newOrder.total_amount) {
+          return true;
+        }
+      }
+      
+      return false;
+    }
+
+    // Orders ko screen par dikhata hai (cards banata hai)
+    function displayOrders() {
+      const container = document.getElementById('ordersCardsContainer');
+      if (orders.length === 0) {
+        container.innerHTML = '<div class="col-12 text-center py-5"><p class="text-muted fs-5">No active orders found.</p></div>';
+        return;
+      }
+      
+      container.innerHTML = orders.map(order => {
+        const formattedDate = new Date(order.created_at).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+        const tableNumber = order.table_number.replace('T-', '');
+        
+        // Status Badge Logic
+        const statusMap = {
+          pending: 'bg-warning text-dark',
+          preparing: 'bg-info text-white',
+          ready: 'bg-primary text-white',
+          completed: 'bg-success text-white',
+          cancelled: 'bg-danger text-white'
+        };
+        const badgeClass = statusMap[order.status] || 'bg-secondary';
+
+        // Payment Status Logic
+        const isPaid = order.payment_status === 'completed';
+        const isCash = !order.payment_method || order.payment_method === 'cash';
+        
+        let paymentBadge = '';
+        if (isPaid) {
+          // Already paid - show clickable badge to view details
+          paymentBadge = `<span onclick="showPaymentDetails(${order.order_id}, '${order.razorpay_payment_id || 'N/A'}', '${order.payment_method || 'cash'}', ${order.total_amount})" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 0.3rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; border: none;"><i class="fas fa-check-circle"></i> PAID</span>`;
+        } else if (isCash) {
+          // Cash order not paid - show clickable badge to mark as paid
+          paymentBadge = `<span onclick="markAsPaid(${order.order_id})" style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: white; padding: 0.3rem 0.6rem; border-radius: 12px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; border: none;"><i class="fas fa-money-bill-wave"></i> PAY NOW</span>`;
+        } else {
+          // Online payment pending
+          paymentBadge = '<span class="badge bg-warning bg-opacity-75 text-dark border border-warning"><i class="fas fa-clock me-1"></i>PENDING</span>';
+        }
+        
+        const paymentMethodDisplay = order.payment_method ? order.payment_method.toUpperCase() : 'CASH';
+
+        // Items HTML
+        let itemsHtml = order.items && order.items.length > 0 ? order.items.map(item => `
+             <div class="d-flex justify-content-between mb-1 small border-bottom border-opacity-10 pb-1">
+               <span>${item.quantity}x ${item.item_name}</span>
+               <span class="fw-bold">₹${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</span>
+             </div>`).join('') : '<small class="text-muted">No items</small>';
+
+        return `
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="order-card">
+              <div class="order-header">
+                <div>
+                   <span class="badge ${badgeClass} mb-2 text-uppercase" style="font-size:0.7rem">${order.status}</span>
+                   <h6 class="m-0">#${order.order_id}</h6>
+                </div>
+                <div class="text-end">
+                  <div class="table-badge"><i class="fas fa-chair me-1"></i> T-${tableNumber}</div>
+                  <small class="text-muted d-block mt-1">${formattedDate}</small>
+                </div>
+              </div>
+              <div class="order-body">
+                <div class="d-flex align-items-center mb-3">
+                   <div class="bg-body-secondary rounded-circle d-flex align-items-center justify-content-center me-2" style="width:30px; height:30px;">
+                      <i class="fas fa-user text-muted" style="font-size:0.8rem"></i>
+                   </div>
+                   <div>
+                     <div class="fw-bold small">${order.customer_name}</div>
+                     <div class="text-muted" style="font-size:0.7rem">${order.customer_phone || '-'}</div>
+                   </div>
+                </div>
+                <div class="bg-body-secondary bg-opacity-50 p-2 rounded mb-3" style="max-height: 120px; overflow-y:auto;">
+                  ${itemsHtml}
+                </div>
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <div>${paymentBadge} <small class="text-muted ms-1" style="font-size:0.75rem">${paymentMethodDisplay}</small></div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center border-top border-opacity-10 pt-2">
+                   <small class="text-muted">Total Amount</small>
+                   <span class="text-primary-custom fw-bold fs-5">₹${parseFloat(order.total_amount).toFixed(2)}</span>
+                </div>
+              </div>
+              <div class="order-footer d-flex gap-2 align-items-center">
+                 <select class="form-select form-select-sm" 
+                         onfocus="isUserInteracting = true" 
+                         onblur="setTimeout(() => { isUserInteracting = false; }, 500)"
+                         onchange="updateOrderStatus(${order.order_id}, this.value)">
+                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                    <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>Preparing</option>
+                    <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready</option>
+                    <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+                    <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                 </select>
+                 <button class="btn btn-danger btn-sm" onclick="deleteOrder(${order.order_id})"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Order ka status change karta hai (pending -> preparing -> ready -> completed)
+    async function updateOrderStatus(id, status) {
+      try {
+        // Status change karte waqt auto-refresh ko pause kar do (disturbance na ho)
+        isUserInteracting = true;
+        
+        const res = await fetch(`/api/admin/orders/${id}/status`, {
+          method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({status})
+        });
+        if((await res.json()).success) {
+          Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 1500}).fire({icon:'success', title:'Updated'});
+          await loadOrders(false); 
+          await loadDashboard();
+        }
+        
+        // 2 second baad auto-refresh phir se chalu ho jayega
+        setTimeout(() => { isUserInteracting = false; }, 2000);
+      } catch(e) { 
+        Swal.fire('Error', 'Failed', 'error'); 
+        isUserInteracting = false;
+      }
+    }
+
+    // Order ko delete karta hai (confirmation ke baad)
+    async function deleteOrder(id) {
+       if((await Swal.fire({title:'Delete?', icon:'warning', showCancelButton:true, confirmButtonColor:'#d33'})).isConfirmed) {
+         await fetch(`/api/admin/orders/${id}`, {method:'DELETE'});
+         loadOrders(false); loadDashboard();
+       }
+    }
+
+    // Cash order ko "Paid" mark karta hai (jab customer payment de de)
+    async function markAsPaid(orderId) {
+      const result = await Swal.fire({
+        title: 'Mark as Paid?',
+        text: `Confirm payment received for Order #${orderId}`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, Mark as Paid',
+        cancelButtonText: 'Cancel'
+      });
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`/api/admin/orders/${orderId}/mark-paid`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          const data = await response.json();
+          if (data.success) {
+            Swal.fire({ icon: 'success', title: 'Payment Confirmed', text: 'Order marked as paid', timer: 1500, showConfirmButton: false });
+            loadOrders(false);
+            loadDashboard();
+          } else {
+            Swal.fire('Error', data.message || 'Failed to mark as paid', 'error');
+          }
+        } catch (error) {
+          Swal.fire('Error', 'Failed to mark as paid', 'error');
+        }
+      }
+    }
+
+    // Payment ki details dikhata hai (popup me - payment ID, method, amount)
+    function showPaymentDetails(orderId, paymentId, paymentMethod, amount) {
+      const paymentMethodText = paymentMethod === 'razorpay' ? 'Online Payment (Razorpay)' : 'Cash Payment';
+      const paymentIdDisplay = paymentId && paymentId !== 'N/A' ? paymentId : 'Not Available';
+      Swal.fire({
+        title: 'Payment Details',
+        html: `
+          <div style="text-align: left; padding: 1rem;">
+            <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; text-align: center;">
+              <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+              <div style="font-size: 1.1rem; font-weight: 700;">Payment Completed</div>
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+              <tr style="border-bottom: 1px solid #e0e0e0;">
+                <td style="padding: 0.75rem 0; color: #666; font-weight: 500;">Order ID</td>
+                <td style="padding: 0.75rem 0; text-align: right; font-weight: 600;">#${orderId}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e0e0e0;">
+                <td style="padding: 0.75rem 0; color: #666; font-weight: 500;">Payment Method</td>
+                <td style="padding: 0.75rem 0; text-align: right; font-weight: 600;">
+                  <i class="fas ${paymentMethod === 'razorpay' ? 'fa-credit-card' : 'fa-money-bill-wave'}"></i>
+                  ${paymentMethodText}
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e0e0e0;">
+                <td style="padding: 0.75rem 0; color: #666; font-weight: 500;">Amount Paid</td>
+                <td style="padding: 0.75rem 0; text-align: right; font-weight: 700; color: #28a745; font-size: 1.1rem;">₹${parseFloat(amount).toFixed(2)}</td>
+              </tr>
+              ${paymentId && paymentId !== 'N/A' ? `
+                <tr>
+                  <td style="padding: 0.75rem 0; color: #666; font-weight: 500;">Payment ID</td>
+                  <td style="padding: 0.75rem 0; text-align: right; font-weight: 600; font-size: 0.75rem; word-break: break-all;">${paymentIdDisplay}</td>
+                </tr>
+              ` : ''}
+            </table>
+          </div>
+        `,
+        confirmButtonText: 'Close',
+        confirmButtonColor: '#4e2a84',
+        width: '450px'
+      });
+    }
+
+    // --- Auto Refresh (Har 8 second me backend se data check karta hai) ---
+    function startAutoRefresh() {
+      if(autoRefreshInterval) clearInterval(autoRefreshInterval); // Purana timer clear kar do
+      // Har 8 second me backend call hogi (agar user interact nahi kar raha aur live notification ON hai)
+      autoRefreshInterval = setInterval(()=>{ 
+        if(!isUserInteracting && liveNotificationsEnabled) {
+          loadOrders(true); // Orders load karo aur notification dikhao
+          loadDashboard(); // Stats update karo (total orders, revenue, etc.)
+        }
+      }, 8000); // 8000 milliseconds = 8 seconds
+    }
+    
+    // Live Notification ko ON/OFF karta hai (toggle switch se)
+    function toggleLiveNotifications(switchEl) {
+      liveNotificationsEnabled = switchEl.checked; // Switch ki value store kar lo (true/false)
+      const indicator = document.getElementById('autoRefreshIndicator'); // Green spinner
+      const label = document.getElementById('liveNotificationLabel'); // "Live ON/OFF" text
+      
+      if (liveNotificationsEnabled) {
+        // Agar ON hai to:
+        indicator.style.display = 'block'; // Spinner dikhao
+        label.textContent = 'Live ON'; // Text "Live ON" kar do
+        label.classList.remove('text-danger'); // Red color hata do
+        label.classList.add('text-success'); // Green color laga do
+        // Auto-refresh start kar do (agar pehle se nahi chal raha)
+        if (!autoRefreshInterval) {
+          startAutoRefresh();
+        }
+      } else {
+        // Agar OFF hai to:
+        indicator.style.display = 'none'; // Spinner chupa do
+        label.textContent = 'Live OFF'; // Text "Live OFF" kar do
+        label.classList.remove('text-success'); // Green color hata do
+        label.classList.add('text-danger'); // Red color laga do
+        // Timer ko stop nahi karte, bas execution skip ho jayegi (liveNotificationsEnabled false hai)
+      }
+    }
+
+    // --- Menu Categories & Filtering (Categories load aur filter karta hai) ---
+    // Backend se saare categories load karta hai (Starters, Main Course, Desserts, etc.)
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/admin/categories');
+        const data = await res.json();
+        if(data.success) {
+          categories = data.categories;
+          renderCategoryFilters();
+          displayCategoriesTable();
+          
+          // Only repopulate category select if item modal is NOT open
+          const itemModal = document.getElementById('itemModal');
+          const isModalOpen = itemModal && itemModal.classList.contains('show');
+          if (!isModalOpen) {
+            populateCategorySelect();
+          }
+        }
+      } catch(e) { console.error(e); }
+    }
+
+    // Category filter pills banata hai (All Items, Starters, Main Course, etc.)
+    function renderCategoryFilters() {
+      const container = document.getElementById('categoryFilterBar');
+      let html = `<span class="category-pill ${currentCategoryFilter === 'all' ? 'active' : ''}" onclick="filterItemsByCategory('all')">All Items</span>`;
+      categories.forEach(cat => {
+        // Loose equality handles string/int mismatches
+        const isActive = currentCategoryFilter == cat.category_id ? 'active' : '';
+        html += `<span class="category-pill ${isActive}" onclick="filterItemsByCategory(${cat.category_id})">${cat.category_name}</span>`;
+      });
+      container.innerHTML = html;
+    }
+
+    // Category pill par click karne par items ko filter karta hai
+    // catId = 'all' ya koi specific category ID (1, 2, 3, etc.)
+    window.filterItemsByCategory = function(catId) {
+      currentCategoryFilter = catId; // Selected category store kar lo
+      renderCategoryFilters();
+      displayItems();
+    }
+
+    // Backend se saare menu items load karta hai (dishes/food items)
+    async function loadItems() {
+      try {
+        const res = await fetch('/api/admin/items');
+        const data = await res.json();
+        if(data.success) { items = data.items; displayItems(); }
+      } catch(e) { console.error(e); }
+    }
+
+    // Menu items ko screen par dikhata hai (cards banata hai)
+    // Selected category ke according filter karke dikhata hai
+    function displayItems() {
+      const grid = document.getElementById('menuItemsGrid');
+      let filtered = items; // Pehle saare items le lo
+      if (currentCategoryFilter !== 'all') {
+        // Agar specific category select hai to sirf wahi items dikhao
+        filtered = items.filter(i => i.category_id == currentCategoryFilter);
+      }
+      
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="col-12 text-center text-muted py-5">No items in this category.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+          <div class="menu-item-card h-100 d-flex flex-column position-relative">
+             <div class="menu-img-wrap">
+               ${item.image_url ? `<img src="${item.image_url}" alt="${item.item_name}">` : `<i class="fas fa-image fa-3x text-secondary"></i>`}
+               <span class="badge position-absolute top-0 end-0 m-3 ${item.is_available ? 'bg-success' : 'bg-danger'} shadow">
+                 ${item.is_available ? 'In Stock' : 'Out of Stock'}
+               </span>
+             </div>
+             <div class="p-3 d-flex flex-column flex-grow-1">
+               <h6 class="fw-bold mb-1 text-truncate">${item.item_name}</h6>
+               <small class="text-muted mb-3">${item.category_name || 'Uncategorized'}</small>
+               <div class="mt-auto d-flex justify-content-between align-items-center pt-3 border-top border-opacity-10">
+                 <span class="text-primary-custom fw-bold fs-5">₹${parseFloat(item.price).toFixed(2)}</span>
+                 <div>
+                   <button class="btn btn-sm btn-light border" onclick="openItemModal(${item.item_id})"><i class="fas fa-pen text-info"></i></button>
+                   <button class="btn btn-sm btn-light border ms-1" onclick="deleteItem(${item.item_id})"><i class="fas fa-trash text-danger"></i></button>
+                 </div>
+               </div>
+             </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Category Management (Categories ko table me dikhata hai) ---
+    // Categories Section me table banata hai (Edit/Delete buttons ke saath)
+    function displayCategoriesTable() {
+       const tbody = document.getElementById('categoriesTableBody');
+       if(categories.length===0) { tbody.innerHTML='<tr><td colspan="2" class="text-center">No categories</td></tr>'; return; }
+       tbody.innerHTML = categories.map(c => `
+         <tr>
+           <td class="ps-4">${c.category_name}</td>
+           <td class="text-end pe-4">
+             <button class="btn btn-sm btn-outline-info me-1" onclick="openCategoryModal(${c.category_id}, '${c.category_name}')"><i class="fas fa-pen"></i></button>
+             <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory(${c.category_id})"><i class="fas fa-trash"></i></button>
+           </td>
+         </tr>
+       `).join('');
+    }
+
+    // --- Modal Functions (Popup windows kholta hai) ---
+    // Category add/edit karne ka popup kholta hai
+    // id = null matlab new category, id = number matlab edit existing category
+    window.openCategoryModal = function(id = null, name = '') {
+      document.getElementById('categoryId').value = id || '';
+      document.getElementById('categoryName').value = name;
+      document.getElementById('categoryModalTitle').textContent = id ? 'Edit Category' : 'Add Category';
+      new bootstrap.Modal(document.getElementById('categoryModal')).show();
+    }
+    
+    // Category ko save karta hai (new add ya existing edit)
+    window.saveCategory = async function() {
+      const id = document.getElementById('categoryId').value; // Agar ID hai to edit, nahi to new
+      const name = document.getElementById('categoryName').value; // Category ka naam
+      if(!name) return Swal.fire('Error', 'Name required', 'error');
+      
+      try {
+        const url = id ? `/api/admin/categories/${id}` : '/api/admin/categories';
+        const method = id ? 'PUT' : 'POST';
+        await fetch(url, {method, headers:{'Content-Type':'application/json'}, body:JSON.stringify({category_name:name})});
+        bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+        loadCategories(); // Reloads both filter bar and table
+        Swal.fire({icon:'success', title:'Saved', timer:1000, showConfirmButton:false});
+      } catch(e) { console.error(e); }
+    }
+
+    // Category ko delete karta hai (confirmation ke baad)
+    window.deleteCategory = async function(id) {
+       if((await Swal.fire({title:'Delete?', icon:'warning', showCancelButton:true, confirmButtonColor:'#d33'})).isConfirmed) {
+         await fetch(`/api/admin/categories/${id}`, {method:'DELETE'});
+         loadCategories();
+       }
+    }
+
+    // Menu item add/edit karne ka popup kholta hai
+    // id = null matlab new item, id = number matlab edit existing item
+    window.openItemModal = function(id = null) {
+      document.getElementById('itemId').value = id || ''; // Item ID store kar lo
+      document.getElementById('itemModalTitle').textContent = id ? 'Edit Item' : 'New Item'; // Title set kar do
+      
+      // Form aur image preview ko reset kar do
+      document.getElementById('itemImageFile').value = ''; // File input clear kar do
+      document.getElementById('imagePreview').style.display = 'none'; // Image preview chupa do
+      
+      if (id) {
+        // Edit mode - existing item ka data load kar do
+        const item = items.find(i => i.item_id == id); // Item ko dhundo
+        if (item) {
+          // Categories dropdown ko populate kar do aur selected value set kar do
+          populateCategorySelect();
+          
+          document.getElementById('itemName').value = item.item_name;
+          document.getElementById('itemCategory').value = item.category_id;
+          document.getElementById('itemPrice').value = item.price;
+          document.getElementById('existingImageUrl').value = item.image_url || '';
+          document.getElementById('itemDescription').value = item.description || '';
+          document.getElementById('itemAvailable').value = item.is_available ? 'true' : 'false';
+          if (item.image_url) { 
+             document.getElementById('previewImg').src = item.image_url; 
+             document.getElementById('imagePreview').style.display = 'block'; 
+          }
+        }
+      } else {
+        // Add mode - saare fields ko manually clear kar do (category dropdown ko preserve karne ke liye)
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('existingImageUrl').value = '';
+        document.getElementById('itemAvailable').value = 'true'; // Default to available
+        
+        // Populate categories AFTER clearing fields
+        populateCategorySelect();
+        document.getElementById('itemCategory').value = ''; // Set to default "Select Category"
+      }
+      
+      new bootstrap.Modal(document.getElementById('itemModal')).show();
+    }
+
+    // Category dropdown ko populate karta hai (saare categories ke options add karta hai)
+    function populateCategorySelect() {
+      const sel = document.getElementById('itemCategory'); // Dropdown element
+      // Currently selected value ko save kar lo (re-populate karne ke baad restore karenge)
+      const currentValue = sel.value;
+      // Dropdown ko phir se populate kar do (saare categories ke options)
+      sel.innerHTML = '<option value="">Select Category</option>' + categories.map(c=>`<option value="${c.category_id}">${c.category_name}</option>`).join('');
+      // Agar pehle koi value selected thi to use restore kar do
+      if (currentValue) {
+        sel.value = currentValue;
+      }
+    }
+
+    // Menu item ko save karta hai (new add ya existing edit)
+    window.saveItem = async function() {
+       // Form se saari values le lo
+       const id = document.getElementById('itemId').value; // Agar ID hai to edit, nahi to new
+       const itemName = document.getElementById('itemName').value.trim(); // Item ka naam
+       const categoryId = document.getElementById('itemCategory').value; // Category ID
+       const price = document.getElementById('itemPrice').value; // Price
+       
+       // Required fields ko validate kar lo (empty nahi hone chahiye)
+       if (!itemName) {
+         Swal.fire({icon: 'error', title: 'Error', text: 'Please enter item name'});
+         return;
+       }
+       if (!categoryId) {
+         Swal.fire({icon: 'error', title: 'Error', text: 'Please select a category'});
+         return;
+       }
+       if (!price || parseFloat(price) <= 0) {
+         Swal.fire({icon: 'error', title: 'Error', text: 'Please enter a valid price'});
+         return;
+       }
+
+       // Loading popup dikhao (user ko pata chale ki save ho raha hai)
+       Swal.fire({
+         title: 'Saving...',
+         allowOutsideClick: false,
+         didOpen: () => { Swal.showLoading(); }
+       });
+
+       // Form data banao (image upload ke liye FormData chahiye)
+       const formData = new FormData();
+       formData.append('item_name', itemName);
+       formData.append('category_id', categoryId);
+       formData.append('price', price);
+       formData.append('description', document.getElementById('itemDescription').value);
+       formData.append('is_available', document.getElementById('itemAvailable').value === 'true');
+       if(id) formData.append('existing_image_url', document.getElementById('existingImageUrl').value);
+       if(document.getElementById('itemImageFile').files[0]) formData.append('image', document.getElementById('itemImageFile').files[0]);
+
+       try {
+         const url = id ? `/api/admin/items/${id}` : '/api/admin/items';
+         const method = id ? 'PUT' : 'POST';
+         const res = await fetch(url, {method, body:formData});
+         const data = await res.json();
+         
+         if(data.success) {
+           bootstrap.Modal.getInstance(document.getElementById('itemModal')).hide();
+           await loadItems();
+           Swal.fire({icon:'success', title: id ? 'Item Updated!' : 'Item Added!', text: 'Menu item saved successfully', timer:2000, showConfirmButton:false});
+         } else {
+           Swal.fire({icon: 'error', title: 'Error', text: data.message || 'Failed to save item'});
+         }
+       } catch(e) { 
+         console.error('Save item error:', e);
+         Swal.fire({icon: 'error', title: 'Error', text: 'Failed to save item. Please try again.'});
+       }
+    }
+    
+    // Menu item ko delete karta hai (confirmation ke baad)
+    window.deleteItem = async function(id) {
+      if((await Swal.fire({title:'Delete?', icon:'warning', showCancelButton:true, confirmButtonColor:'#d33'})).isConfirmed) {
+         await fetch(`/api/admin/items/${id}`, {method:'DELETE'});
+         loadItems();
+      }
+    }
+
+    // Image upload karne se pehle preview dikhata hai
+    window.previewImage = function(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0]; // Selected file
+        const maxSize = 10 * 1024 * 1024; // Maximum 10MB allowed (bytes me)
+        
+        // File size check karo (10MB se zyada nahi hona chahiye)
+        if (file.size > maxSize) {
+          Swal.fire({
+            icon: 'error',
+            title: 'File Too Large',
+            text: `Image size is ${(file.size / (1024 * 1024)).toFixed(2)}MB. Maximum allowed size is 10MB.`,
+            confirmButtonText: 'OK'
+          });
+          input.value = ''; // Clear the file input
+          document.getElementById('imagePreview').style.display = 'none';
+          return;
+        }
+        
+        // File type check karo (sirf image files allowed hai)
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File Type',
+            text: 'Please select a valid image file (JPEG, PNG, GIF, or WebP)',
+            confirmButtonText: 'OK'
+          });
+          input.value = '';
+          document.getElementById('imagePreview').style.display = 'none';
+          return;
+        }
+        
+        // Image ko preview me dikhao (upload karne se pehle)
+        const r = new FileReader(); // File reader banao
+        r.onload = e => { 
+          document.getElementById('previewImg').src = e.target.result; // Image ka source set kar do
+          document.getElementById('imagePreview').style.display = 'block'; // Preview container dikhao
+        };
+        r.readAsDataURL(file); // File ko read karo (base64 format me)
+      }
+    }
+
+
+
+    // Admin ko logout karta hai aur login page par bhej deta hai
+    async function logout() { await fetch('/api/auth/admin/logout', {method: 'POST'}); window.location.href = '/admin/login'; }
+
+    // --- System Settings Functions (System settings load aur manage karta hai) ---
+    
+    // Order acceptance status load karta hai (Orders ON/OFF)
+    // Backend se check karta hai ki abhi orders accept ho rahe hai ya nahi
+    async function loadSystemSettings() {
+      try {
+        const response = await fetch('/api/admin/order-accept-status');
+        const data = await response.json();
+        
+        if (data.success) {
+          const switchEl = document.getElementById('ordersEnabledSwitch');
+          const labelEl = document.getElementById('ordersStatusLabel');
+          switchEl.checked = data.isOrderAccept;
+          labelEl.textContent = data.isOrderAccept ? 'Orders ON' : 'Orders OFF';
+          labelEl.style.color = data.isOrderAccept ? '#22c55e' : '#ef4444';
+        }
+      } catch (error) {
+        console.error('Load order status error:', error);
+      }
+    }
+    
+    // Orders ko ON/OFF karta hai (customers order kar sakte hai ya nahi)
+    // enabled = true matlab customers order kar sakte hai, false matlab nahi kar sakte
+    async function toggleOrdersEnabled(switchEl) {
+      const enabled = switchEl.checked; // Switch ki value (true/false)
+      const labelEl = document.getElementById('ordersStatusLabel');
+      
+      try {
+        const response = await fetch('/api/admin/toggle-order-accept', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          labelEl.textContent = enabled ? 'Orders ON' : 'Orders OFF';
+          labelEl.style.color = enabled ? '#22c55e' : '#ef4444';
+          
+          Swal.fire({
+            icon: 'success',
+            title: enabled ? 'Orders Enabled' : 'Orders Disabled',
+            text: enabled ? 'Customers can now place orders' : 'Customers cannot place orders',
+            timer: 2000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+          });
+        } else {
+          // Revert switch on error
+          switchEl.checked = !enabled;
+          Swal.fire('Error', data.message || 'Failed to update setting', 'error');
+        }
+      } catch (error) {
+        console.error('Toggle orders error:', error);
+        switchEl.checked = !enabled;
+        Swal.fire('Error', 'Failed to update setting', 'error');
+      }
+    }
+    
+
+
+    // --- Event Listeners (Filter change hone par orders reload karta hai) ---
+    document.getElementById('orderStatusFilter').addEventListener('change', () => loadOrders(false)); // Status filter change hone par
+    document.getElementById('orderDateFilter').addEventListener('change', () => loadOrders(false)); // Date filter change hone par
+    
+    // --- Initialization (Page load hone par ye sab chalta hai) ---
+    checkAdminAuth(); // Pehle check karo ki admin logged in hai ya nahi
+    loadSystemSettings(); // System settings load karo (Orders ON/OFF status)
+  </script>
+
+
+
+</body>
+</html>

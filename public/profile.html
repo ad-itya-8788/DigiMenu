@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, private">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <!-- Primary Meta Tags -->
+  <title>My Profile - Hotel Aditya | Order History & Account</title>
+  <meta name="title" content="My Profile - Hotel Aditya | Order History & Account">
+  <meta name="description" content="View your Hotel Aditya profile, order history, reviews, and account details. Track your orders and manage your dining preferences.">
+  <meta name="keywords" content="Hotel Aditya profile, order history, customer account, my orders, reviews, dining history">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/profile">
+  <meta property="og:title" content="My Profile - Hotel Aditya">
+  <meta property="og:description" content="View your Hotel Aditya profile and order history.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/profile">
+  <meta property="twitter:title" content="My Profile - Hotel Aditya">
+  <meta property="twitter:description" content="View your Hotel Aditya profile and order history.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/profile">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#4e2a84">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Profile">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4e2a84;
+      --primary-dark: #3d2168;
+      --secondary: #f68628;
+      --text-dark: #333333;
+      --text-light: #666666;
+      --text-muted: #999999;
+      --background: #FFFFFF;
+      --white: #ffffff;
+      --border-color: #e0e0e0;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background);
+      color: var(--text-dark);
+      font-size: 14px;
+      padding-bottom: 80px;
+    }
+
+    .navbar {
+      background-color: var(--white);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 0.5rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 1.5rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .profile-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 0.75rem;
+      border: 3px solid white;
+    }
+
+    .profile-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-phone {
+      text-align: center;
+      opacity: 0.9;
+      font-size: 0.85rem;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 1rem 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .stat-card:active {
+      transform: scale(0.98);
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.7rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .orders-container {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      margin: 0 0.5rem;
+    }
+
+    .order-card {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .order-card:active {
+      transform: scale(0.98);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-id {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    .order-date {
+      color: var(--text-light);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .order-status {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 15px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-completed {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelled {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .order-items {
+      margin-bottom: 0.75rem;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-item:last-child {
+      border-bottom: none;
+    }
+
+    .item-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .item-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--background);
+    }
+
+    .item-details {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .item-quantity {
+      color: var(--text-light);
+      font-size: 0.75rem;
+    }
+
+    .item-price {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-color);
+      gap: 1rem;
+    }
+
+    .order-total {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .order-total-amount {
+      color: var(--primary);
+    }
+
+    .payment-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-light);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-light);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-light);
+    }
+
+    /* Footer Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      padding: 0.75rem 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      flex: 1;
+      padding: 0.25rem;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-item span {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+
+
+    /* Rating Button for Order Items */
+    .rate-item-btn {
+      background: linear-gradient(135deg, #1fb881 0%, #17a06f 100%);
+      color: white;
+      border: none;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 2px 6px rgba(31, 184, 129, 0.25);
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .rate-item-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(31, 184, 129, 0.4);
+    }
+
+    .rate-item-btn:active {
+      transform: translateY(0);
+    }
+
+    .rate-item-btn.rated {
+      background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+      color: #686b78;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .rate-item-btn.rated:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Rating Modal */
+    .rating-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .rating-modal.active {
+      display: flex;
+    }
+
+    .rating-content {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 1.5rem;
+      max-width: 450px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .rating-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .rating-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .close-rating {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .close-rating:hover {
+      background: #f0f0f0;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    .star {
+      font-size: 2.5rem;
+      color: #e8e8e8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .star.active {
+      color: #FFC107;
+      transform: scale(1.1);
+    }
+
+    .star:hover {
+      transform: scale(1.15);
+    }
+
+    .rating-textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      resize: none;
+      margin-bottom: 1rem;
+      min-height: 100px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .rating-textarea:focus {
+      border-color: #1fb881;
+    }
+
+    .submit-rating-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #1fb881 0%, #17a06f 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(31, 184, 129, 0.3);
+    }
+
+    .submit-rating-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Rate Order Button - Top Right */
+    .rate-order-btn {
+      background: linear-gradient(135deg, #4e2a84 0%, #6a4c9c 100%);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 2px 6px rgba(78, 42, 132, 0.3);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .rate-order-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(78, 42, 132, 0.4);
+    }
+
+    .rate-order-btn:active {
+      transform: translateY(0);
+    }
+
+    .rate-order-btn.rated {
+      background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+      color: #686b78;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .rate-order-btn.rated:hover {
+      transform: none;
+    }
+
+    @media (max-width: 576px) {
+      body {
+        font-size: 13px;
+      }
+
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+
+      .profile-name {
+        font-size: 1.1rem;
+      }
+
+      .profile-phone {
+        font-size: 0.8rem;
+      }
+
+      .stat-value {
+        font-size: 1rem;
+      }
+
+      .stat-label {
+        font-size: 0.65rem;
+      }
+
+      .section-title {
+        font-size: 1rem;
+      }
+
+      .order-header {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .item-image {
+        width: 40px;
+        height: 40px;
+      }
+
+      .item-name {
+        font-size: 0.8rem;
+      }
+
+      .item-quantity {
+        font-size: 0.7rem;
+      }
+
+      .item-price {
+        font-size: 0.8rem;
+      }
+
+      .order-total {
+        font-size: 0.9rem;
+      }
+
+      .payment-info {
+        font-size: 0.7rem;
+      }
+
+      .rating-content {
+        padding: 1.25rem;
+      }
+
+      .star {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <a class="navbar-brand" href="/menu">
+          Hotel Aditya
+        </a>
+        <button class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="container">
+      <div class="profile-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <h1 class="profile-name" id="profileName">Loading...</h1>
+      <p class="profile-phone" id="profilePhone">Loading...</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Stats Cards -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="stat-value" id="joinDate">--</div>
+        <div class="stat-label">Member Since</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="stat-value" id="totalOrders">0</div>
+        <div class="stat-label">Total Orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-rupee-sign"></i>
+        </div>
+        <div class="stat-value" id="totalSpent">₹0</div>
+        <div class="stat-label">Total Spent</div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="orders-container" style="margin-bottom: 1.5rem;">
+      <h2 class="section-title">
+        <i class="fas fa-receipt"></i>
+        Order History
+      </h2>
+      <div id="ordersContainer">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin fa-2x"></i>
+          <p class="mt-2" style="font-size: 0.85rem;">Loading orders...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ratings Section (Display Only) -->
+    <div class="orders-container">
+      <h2 class="section-title">
+        <i class="fas fa-star"></i>
+        Ratings
+      </h2>
+      <div id="ratingsContainer">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin fa-2x"></i>
+          <p class="mt-2" style="font-size: 0.85rem;">Loading ratings...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Footer -->
+  <div class="bottom-nav">
+    <a href="/menu" class="nav-item">
+      <i class="fas fa-utensils"></i>
+      <span>Menu</span>
+    </a>
+    <a href="/profile" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Rating Modal -->
+  <div class="rating-modal" id="ratingModal">
+    <div class="rating-content">
+      <div class="rating-header">
+        <h3>
+          <i class="fas fa-star" style="color: #1fb881;"></i>
+          <span id="ratingItemName">Rate Item</span>
+        </h3>
+        <button class="close-rating" onclick="closeRatingModal()">&times;</button>
+      </div>
+      <p style="text-align: center; color: #686b78; font-size: 0.9rem; margin-bottom: 1rem;">How would you rate this item?</p>
+      <div class="star-rating" id="starRating">
+        <i class="fas fa-star star" data-rating="1"></i>
+        <i class="fas fa-star star" data-rating="2"></i>
+        <i class="fas fa-star star" data-rating="3"></i>
+        <i class="fas fa-star star" data-rating="4"></i>
+        <i class="fas fa-star star" data-rating="5"></i>
+      </div>
+      <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Share your experience (Optional)</label>
+      <textarea class="rating-textarea" id="ratingText" placeholder="Tell us what you loved or what could be better..."></textarea>
+      <button class="submit-rating-btn" onclick="submitItemRating()">
+        <i class="fas fa-check"></i>
+        Submit Rating
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    // 📦 GLOBAL VARIABLES - Profile page ke liye important data
+    // customer → logged-in user ki details
+    // selectedRating → rating modal mein kitne stars select kiye (1-5)
+    // currentRatingOrderId → konse order ko rate kar rahe hain
+    // ratedOrders → customer ne jinko rating de di hai (Set for fast lookup)
+    let customer = null;
+    let selectedRating = 0;
+    let currentRatingOrderId = null;
+    let ratedOrders = new Set();
+
+    // 🍞 TOAST NOTIFICATION - Chhota popup message corner mein dikhata hai
+    // 3 seconds ke liye dikhta hai fir automatically gayab ho jata hai
+    function showToast(icon, title, text) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+      });
+    }
+
+    // 🔐 AUTHENTICATION CHECK - User logged in hai ya nahi check karta hai
+    // Agar logged out hai → login page pe redirect karo
+    // Agar logged in hai:
+    //   → customer details save karo
+    //   → profile, ratings, aur orders load karo
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/session-check');
+        const data = await res.json();
+        if (!data.authenticated) {
+          window.location.href = '/login';
+          return;
+        }
+        customer = data.customer;
+        loadProfile();
+        loadMyRatings();
+        loadOrders();
+      } catch (error) {
+        window.location.href = '/login';
+      }
+    }
+
+    // 👤 LOAD PROFILE - Customer ki profile details load karta hai
+    // Server se API call karke ye data lete hain:
+    //   → name, phone → header mein dikhate hain
+    //   → joinDate → member since kab se hai
+    //   → totalOrders → kitne orders place kiye
+    //   → totalSpent → total kitna paisa kharch kiya
+    async function loadProfile() {
+      try {
+        const res = await fetch('/api/profile');
+        const data = await res.json();
+        if (!data.success) return;
+
+        const profile = data.profile;
+        document.getElementById('profileName').textContent = profile.name;
+        document.getElementById('profilePhone').textContent = `+91 ${profile.phone}`;
+
+        const joinDate = new Date(profile.joinDate);
+        const formattedDate = joinDate.toLocaleDateString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+        document.getElementById('joinDate').textContent = formattedDate;
+        document.getElementById('totalOrders').textContent = profile.totalOrders;
+        document.getElementById('totalSpent').textContent = `₹${profile.totalSpent.toFixed(2)}`;
+      } catch (error) {}
+    }
+
+    // Load orders history with ratings
+    async function loadOrders() {
+      try {
+        const [ordersResponse, ratingsResponse] = await Promise.all([
+          fetch('/api/orders'),
+          fetch('/api/ratings/my-ratings')
+        ]);
+        
+        const ordersData = await ordersResponse.json();
+        const ratingsData = await ratingsResponse.json();
+
+        if (ordersData.success) {
+          const orders = ordersData.orders;
+          const container = document.getElementById('ordersContainer');
+
+          // Create a map of order ratings for quick lookup
+          const orderRatingsMap = new Map();
+          if (ratingsData.success && ratingsData.ratings) {
+            ratingsData.ratings.forEach(rating => {
+              if (rating.order_id) {
+                orderRatingsMap.set(rating.order_id, rating);
+                ratedOrders.add(rating.order_id);
+              }
+            });
+          }
+
+          if (orders.length === 0) {
+            container.innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-shopping-bag"></i>
+                <h3 style="font-size: 1rem;">No Orders Yet</h3>
+                <p style="font-size: 0.85rem;">You haven't placed any orders yet.</p>
+                <a href="/menu" class="btn btn-primary mt-2" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Browse Menu</a>
+              </div>
+            `;
+            return;
+          }
+
+          // Make orderRatingsMap available to the map function
+          window.orderRatingsMap = orderRatingsMap;
+          
+          container.innerHTML = orders.map(order => {
+            const orderDate = new Date(order.createdAt);
+            const formattedDate = orderDate.toLocaleDateString('en-IN', {
+              timeZone: 'Asia/Kolkata',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+
+            const statusClass = `status-${order.status}`;
+            const statusText = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+            const isCompleted = order.status === 'completed';
+
+            // Get rating for this order
+            const orderRating = orderRatingsMap.get(order.orderId);
+            const isOrderRated = orderRating !== undefined;
+
+            const itemsHtml = order.items.map(item => {
+              return `
+                <div class="order-item">
+                  <div class="item-info">
+                    ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" class="item-image">` : ''}
+                    <div class="item-details">
+                      <div class="item-name">${item.name}</div>
+                      <div class="item-quantity">Qty: ${item.quantity}</div>
+                    </div>
+                  </div>
+                  <div class="item-price">₹${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+              `;
+            }).join('');
+
+            const paymentIcon = order.paymentMethod === 'online' ? 'fa-credit-card' : 'fa-money-bill-wave';
+            const paymentText = order.paymentStatus || 'Not paid';
+            const isPaid = order.paymentStatus === 'completed' || order.paymentStatus === 'paid';
+            const isPayAtCounter = (order.paymentMethod === 'cash' || !order.paymentMethod) && !isPaid && order.paymentStatus !== 'completed';
+
+            // Build rating display HTML
+            let ratingDisplayHtml = '';
+            if (isOrderRated && orderRating) {
+              const stars = '⭐'.repeat(orderRating.rating_value);
+              const ratingDate = new Date(orderRating.created_at);
+              const formattedRatingDate = ratingDate.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              });
+              
+              ratingDisplayHtml = `
+                <div style="margin-top: 0.75rem; padding: 0.75rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 8px; border-left: 3px solid #4e2a84;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div style="font-weight: 600; color: #4e2a84; font-size: 0.85rem;">
+                      <i class="fas fa-star" style="color: #FFC107;"></i> Your Rating
+                    </div>
+                    <div style="font-size: 1rem;">${stars}</div>
+                  </div>
+                  ${orderRating.review_text ? `
+                    <div style="color: #495057; font-size: 0.8rem; line-height: 1.4; font-style: italic; margin-top: 0.5rem;">
+                      "${orderRating.review_text}"
+                    </div>
+                  ` : ''}
+                  <div style="color: #6c757d; font-size: 0.7rem; margin-top: 0.5rem;">
+                    <i class="fas fa-calendar-alt"></i> Rated on ${formattedRatingDate}
+                  </div>
+                </div>
+              `;
+            }
+
+            return `
+              <div class="order-card">
+                <div class="order-header">
+                  <div>
+                    <div class="order-id">Order #${order.orderId}</div>
+                    <div class="order-date">${formattedDate}</div>
+                    ${isPaid ? '<div style="margin-top: 0.5rem;"><span style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 0.3rem 0.7rem; border-radius: 15px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);"><i class="fas fa-check-circle"></i> Already Paid Bill</span></div>' : ''}
+                    ${isPayAtCounter ? '<div style="margin-top: 0.5rem;"><span style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: white; padding: 0.3rem 0.7rem; border-radius: 15px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(255, 193, 7, 0.3);"><i class="fas fa-money-bill-wave"></i> Pay at Counter</span></div>' : ''}
+                  </div>
+                  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                    <span class="order-status ${statusClass}">${statusText}</span>
+                    ${isCompleted ? (isOrderRated ? 
+                      `<button class="rate-order-btn rated" disabled>
+                        <i class="fas fa-check-circle"></i> Rated
+                      </button>` :
+                      `<button class="rate-order-btn" onclick="openOrderRatingModal(${order.orderId})">
+                        <i class="fas fa-star"></i> Rate Order
+                      </button>`
+                    ) : ''}
+                  </div>
+                </div>
+                <div class="order-items">
+                  ${itemsHtml}
+                </div>
+                ${ratingDisplayHtml}
+                <div class="order-footer">
+                  <div>
+                    <div class="order-total">
+                      Total: <span class="order-total-amount">₹${order.totalAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="payment-info">
+                      <i class="fas ${paymentIcon}"></i>
+                      ${paymentText} | Table ${order.tableNumber}
+                    </div>
+                  </div>
+                  <button class="btn btn-sm" onclick="downloadBill(${order.orderId})" style="background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                    <i class="fas fa-file-pdf"></i>
+                    Download Bill
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (error) {
+        console.error('Load orders error:', error);
+        document.getElementById('ordersContainer').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3 style="font-size: 1rem;">Error Loading Orders</h3>
+            <p style="font-size: 0.85rem;">Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    // ⭐ LOAD MY RATINGS - Customer ki sab ratings dikhata hai
+    // Server se API call karke ratings lete hain
+    // 2 types ki ratings hoti hain:
+    //   1) Item ratings → specific item ko rate kiya (Paneer Tikka, etc)
+    //   2) Order ratings → pura order rate kiya (Order #123)
+    // Har rating mein ye dikhate hain:
+    //   → stars (⭐⭐⭐⭐⭐)
+    //   → review text (agar di hai to)
+    //   → date & time
+    // ratedOrders Set mein save karte hain (order history mein button hide karne ke liye)
+    async function loadMyRatings() {
+      try {
+        const res = await fetch('/api/ratings/my-ratings');
+        const data = await res.json();
+        const container = document.getElementById('ratingsContainer');
+
+        if (!data.success || data.ratings.length === 0) {
+          container.innerHTML = `<div class="empty-state">
+            <i class="fas fa-star"></i>
+            <h3 style="font-size: 1rem;">No Ratings Yet</h3>
+            <p style="font-size: 0.85rem;">Rate items from the menu page!</p>
+          </div>`;
+          return;
+        }
+
+        ratedOrders = new Set(data.ratings.filter(r => r.order_id).map(r => r.order_id));
+
+        container.innerHTML = data.ratings.map(rating => {
+          const date = new Date(rating.created_at);
+          const formattedDate = date.toLocaleDateString('en-IN', {
+            timeZone: 'Asia/Kolkata',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          const stars = '⭐'.repeat(rating.rating_value);
+          const isItem = rating.item_id !== null;
+          const title = isItem ? rating.item_name : `Order #${rating.order_id}`;
+          const icon = isItem ? '<i class="fas fa-utensils" style="color: #1fb881; margin-right: 0.5rem;"></i>' : '<i class="fas fa-receipt" style="color: #4e2a84; margin-right: 0.5rem;"></i>';
+          const gradient = isItem ? '#1fb881 0%, #17a06f' : '#4e2a84 0%, #6a4c9c';
+
+          return `<div class="order-card" style="margin-bottom: 1rem;">
+            <div class="order-header" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+              <div>
+                <div style="font-size: 1rem; font-weight: 600; color: #1c1c1c; margin-bottom: 0.5rem;">${icon}${title}</div>
+                <div style="font-size: 1.2rem; margin-bottom: 0.25rem;">${stars}</div>
+                <div style="font-size: 0.75rem; color: #999;"><i class="fas fa-calendar-alt me-1"></i>${formattedDate}</div>
+              </div>
+              <div style="text-align: right;">
+                <span style="background: linear-gradient(135deg, ${gradient} 100%); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">${rating.rating_value}/5</span>
+              </div>
+            </div>
+            ${rating.review_text ? `<div style="padding: 0.5rem 0; color: #333; font-size: 0.9rem; line-height: 1.5;">"${rating.review_text}"</div>` : 
+            `<div style="padding: 0.5rem 0; color: #999; font-size: 0.85rem; font-style: italic;">No review text provided</div>`}
+          </div>`;
+        }).join('');
+      } catch (error) {
+        document.getElementById('ratingsContainer').innerHTML = `<div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3 style="font-size: 1rem;">Error Loading Ratings</h3>
+          <p style="font-size: 0.85rem;">Please try again later.</p>
+        </div>`;
+      }
+    }
+
+    // 🚪 LOGOUT - User ko logout karta hai
+    // Server ko logout request bhejte hain
+    // localStorage se cart clear karte hain
+    // Login page pe redirect karte hain
+    async function logout() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        localStorage.removeItem('cart');
+        window.location.href = '/login';
+      } catch (error) {
+        window.location.href = '/login';
+      }
+    }
+
+
+
+    // Download Bill as PDF
+    async function downloadBill(orderId) {
+      try {
+        // Get order details from already loaded data
+        const response = await fetch('/api/orders');
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error('Failed to load orders');
+        }
+
+        const order = data.orders.find(o => o.orderId === orderId);
+        if (!order) {
+          showToast('error', 'Order Not Found', 'Could not find order details');
+          return;
+        }
+
+        // Get customer profile
+        const profileResponse = await fetch('/api/profile');
+        const profileData = await profileResponse.json();
+        const customerData = profileData.success ? profileData.profile : null;
+
+        // Generate PDF - Clean Hotel Bill Design
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Page setup
+        const leftMargin = 15;
+        const rightMargin = 195;
+        const pageWidth = 210;
+
+        // Column positions for better spacing
+        const colItem = leftMargin;
+        const colQty = 125;
+        const colRate = 155;
+        const colAmount = rightMargin;
+
+        let yPos = 18;
+
+        // ========== HEADER ==========
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('HOTEL ADITYA', pageWidth / 2, yPos, { align: 'center' });
+        
+        yPos += 5;
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Delicious Food | Quality Service', pageWidth / 2, yPos, { align: 'center' });
+        
+        yPos += 4;
+        doc.text('Contact: +91 8788200189', pageWidth / 2, yPos, { align: 'center' });
+        
+        yPos += 6;
+        doc.setLineWidth(0.5);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 6;
+
+        // ========== BILL TITLE ==========
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text('TAX INVOICE', pageWidth / 2, yPos, { align: 'center' });
+        yPos += 6;
+
+        doc.setLineWidth(0.3);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 6;
+
+        // ========== ORDER INFO ==========
+        const orderDate = new Date(order.createdAt);
+        const formattedDate = orderDate.toLocaleDateString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        });
+        const formattedTime = orderDate.toLocaleTimeString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        
+        // Left column
+        doc.text(`Bill No: ${order.orderId}`, leftMargin, yPos);
+        yPos += 4;
+        doc.text(`Date: ${formattedDate}`, leftMargin, yPos);
+        yPos += 4;
+        doc.text(`Time: ${formattedTime}`, leftMargin, yPos);
+        
+        // Reset yPos for right column
+        yPos -= 8;
+        
+        // Right column
+        if (customerData) {
+          doc.text(`Guest: ${customerData.name}`, 110, yPos);
+          yPos += 4;
+          doc.text(`Phone: +91 ${customerData.phone}`, 110, yPos);
+          yPos += 4;
+        }
+        doc.text(`Table: ${order.tableNumber}`, 110, yPos);
+        
+        yPos += 6;
+        doc.setLineWidth(0.3);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 5;
+
+        // ========== TABLE HEADER ==========
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.text('ITEM', colItem, yPos);
+        doc.text('QTY', colQty, yPos);
+        doc.text('RATE', colRate, yPos);
+        doc.text('AMOUNT', colAmount, yPos, { align: 'right' });
+        
+        yPos += 3;
+        doc.setLineWidth(0.3);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 5;
+
+        // ========== ITEMS ==========
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        
+        order.items.forEach((item) => {
+          const itemTotal = item.price * item.quantity;
+          
+          // Item name
+          const itemName = item.name.length > 40 ? item.name.substring(0, 40) + '...' : item.name;
+          doc.text(itemName, colItem, yPos);
+          
+          // Quantity (centered)
+          doc.text(String(item.quantity), colQty, yPos);
+          
+          // Rate (no rupee symbol to avoid overlap)
+          doc.text(item.price.toFixed(2), colRate, yPos);
+          
+          // Amount (right aligned)
+          doc.text(itemTotal.toFixed(2), colAmount, yPos, { align: 'right' });
+          
+          yPos += 5;
+
+          // Check if we need a new page
+          if (yPos > 260) {
+            doc.addPage();
+            yPos = 20;
+          }
+        });
+
+        yPos += 1;
+        doc.setLineWidth(0.3);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 5;
+
+        // ========== TOTAL ==========
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text('TOTAL', leftMargin, yPos);
+        doc.text(`₹ ${order.totalAmount.toFixed(2)}`, colAmount, yPos, { align: 'right' });
+        
+        yPos += 3;
+        doc.setLineWidth(0.5);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 6;
+
+        // ========== PAYMENT INFO ==========
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        const paymentMethod = order.paymentMethod === 'online' ? 'Online' : 'Cash';
+        const paymentStatus = order.paymentStatus === 'completed' || order.paymentStatus === 'paid' ? 'PAID' : 'PENDING';
+        
+        doc.text(`Payment: ${paymentMethod}`, leftMargin, yPos);
+        doc.text(`Status: ${paymentStatus}`, colAmount, yPos, { align: 'right' });
+        
+        yPos += 6;
+        doc.setLineWidth(0.3);
+        doc.line(leftMargin, yPos, rightMargin, yPos);
+        yPos += 6;
+
+        // ========== FOOTER ==========
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text('Thank You! Visit Again', pageWidth / 2, yPos, { align: 'center' });
+        
+        yPos += 4;
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(80, 80, 80);
+        doc.text('We appreciate your business', pageWidth / 2, yPos, { align: 'center' });
+
+        // Save PDF
+        const fileName = `Bill_Order_${order.orderId}_${orderDate.getTime()}.pdf`;
+        doc.save(fileName);
+
+        showToast('success', 'Bill Downloaded!', 'Your bill has been downloaded successfully');
+      } catch (error) {
+        console.error('Download bill error:', error);
+        showToast('error', 'Error', 'Failed to generate bill. Please try again.');
+      }
+    }
+
+    // 🌟 OPEN ORDER RATING MODAL - Order ko rate karne ke liye popup kholta hai
+    // orderId → konse order ko rate kar rahe hain
+    // Modal mein ye dikhate hain:
+    //   → 5 stars (click karke select karo)
+    //   → review text box (optional feedback)
+    //   → submit button
+    function openOrderRatingModal(orderId) {
+      // Check if already rated
+      if (ratedOrders.has(orderId)) {
+        showToast('info', 'Already Rated', 'You have already rated this order');
+        return;
+      }
+      
+      currentRatingOrderId = orderId;
+      document.getElementById('ratingItemName').textContent = `Order #${orderId}`;
+      document.getElementById('ratingModal').classList.add('active');
+      selectedRating = 0;
+      updateStars(0);
+      document.getElementById('ratingText').value = '';
+    }
+
+    // ❌ CLOSE RATING MODAL - Rating popup ko band karta hai
+    // Sab values reset kar dete hain
+    function closeRatingModal() {
+      document.getElementById('ratingModal').classList.remove('active');
+      currentRatingOrderId = null;
+      selectedRating = 0;
+    }
+
+    // ⭐ UPDATE STARS - Stars ko highlight/unhighlight karta hai
+    // rating → kitne stars select hain (1-5)
+    // Selected stars ko yellow color dete hain
+    function updateStars(rating) {
+      document.querySelectorAll('.star').forEach((star, index) => {
+        star.classList.toggle('active', index < rating);
+      });
+    }
+
+    // 🎯 STAR RATING HANDLERS - Stars pe click aur hover events
+    // Click → star select ho jata hai
+    // Hover → preview dikhata hai (agar abhi koi select nahi hai)
+    // Modal ke bahar click → modal band ho jata hai
+    document.addEventListener('DOMContentLoaded', () => {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+          selectedRating = index + 1;
+          updateStars(selectedRating);
+        });
+        star.addEventListener('mouseenter', () => {
+          if (selectedRating === 0) updateStars(index + 1);
+        });
+      });
+
+      document.getElementById('starRating').addEventListener('mouseleave', () => {
+        updateStars(selectedRating);
+      });
+
+      document.getElementById('ratingModal').addEventListener('click', (e) => {
+        if (e.target.id === 'ratingModal') closeRatingModal();
+      });
+    });
+
+    // 📤 SUBMIT ITEM RATING - Order rating ko server pe bhejta hai
+    // Pehle validation karte hain:
+    //   → stars select kiye hain ya nahi
+    //   → order ID valid hai ya nahi
+    // Fir server ko POST request bhejte hain with:
+    //   → order_id
+    //   → rating (1-5)
+    //   → review_text (optional)
+    // Success hone par:
+    //   → modal band karo
+    //   → ratedOrders mein add karo (button hide ho jaye)
+    //   → ratings aur orders refresh karo
+    async function submitItemRating() {
+      const reviewText = document.getElementById('ratingText').value.trim();
+
+      if (selectedRating === 0) {
+        showToast('warning', 'Rating Required', 'Please select a star rating');
+        return;
+      }
+      if (!currentRatingOrderId) {
+        showToast('error', 'Error', 'Invalid order selection');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/ratings/submit-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order_id: currentRatingOrderId, rating: selectedRating, review_text: reviewText || null })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          closeRatingModal();
+          ratedOrders.add(currentRatingOrderId);
+          showToast('success', 'Rating submitted!', data.message || 'Thank you for your feedback');
+          loadMyRatings();
+          loadOrders();
+        } else {
+          showToast('error', 'Error', data.message || 'Failed to submit rating');
+        }
+      } catch (error) {
+        showToast('error', 'Error', 'Failed to submit rating. Please try again.');
+      }
+    }
+
+    // 🚀 PAGE LOAD - Jab page load hota hai
+    // Authentication check karte hain
+    checkAuth();
+
+    // 🔄 PAGE CACHE PREVENTION - Back button se aane par page reload karo
+    // Logout ke baad back button se wapas na aa sake
+    window.onpageshow = function(event) {
+      if (event.persisted) window.location.reload();
+    };
+
+    // 👁️ VISIBILITY CHANGE - Tab switch karke wapas aane par
+    // Session check karte hain (logout ho gaya to redirect karo)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) checkAuth();
+    });
+  </script>
+</body>
+</html>

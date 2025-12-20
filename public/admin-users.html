@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>User Management - Hotel Aditya Admin | Customer Reports</title>
+  <meta name="title" content="User Management - Hotel Aditya Admin | Customer Reports">
+  <meta name="description" content="Manage Hotel Aditya customers, view user reports, track customer orders, and analyze customer behavior.">
+  <meta name="keywords" content="Hotel Aditya users, customer management, user reports, admin users, customer data">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/users">
+  <meta property="og:title" content="User Management - Hotel Aditya Admin">
+  <meta property="og:description" content="Manage Hotel Aditya customers and view user reports.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/users">
+  <meta property="twitter:title" content="User Management - Hotel Aditya Admin">
+  <meta property="twitter:description" content="Manage Hotel Aditya customers and view user reports.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/users">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+    }
+
+    /* Theme Variables */
+    :root {
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-btn i { width: 24px; text-align: center; }
+
+    /* --- Main Content --- */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- Stats & Cards --- */
+    .stat-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .stat-card:hover { transform: translateY(-5px); border-color: rgba(99, 102, 241, 0.3); }
+
+    .stat-icon-wrapper {
+      width: 60px; height: 60px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .bg-icon-users { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .bg-icon-new { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+
+    /* --- Table Card --- */
+    .table-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+    }
+    
+    .table-card-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* --- Inputs --- */
+    .form-control, .form-select {
+      background-color: var(--body-bg-custom);
+      border-color: var(--card-border);
+      color: var(--bs-body-color);
+    }
+    .form-control:focus, .form-select:focus {
+      background-color: var(--body-bg-custom);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+      color: var(--bs-body-color);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5); z-index: 999; display: none;
+      }
+      .overlay.show { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <a href="/admin" class="nav-btn text-decoration-none">
+        <i class="fas fa-receipt"></i> Dashboard
+      </a>
+      <a href="/admin/ratings" class="nav-btn text-decoration-none">
+        <i class="fas fa-star"></i> Ratings & Reviews
+      </a>
+      <a href="/admin/users" class="nav-btn active text-decoration-none">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+      <a href="/admin/sales-report" class="nav-btn text-decoration-none">
+        <i class="fas fa-chart-line"></i> Sales & Analytics
+      </a>
+      <a href="/admin/kitchen" class="nav-btn text-decoration-none" target="_blank">
+        <i class="fas fa-utensils"></i> Kitchen Display
+      </a>
+      <a href="/admin/oldorders" class="nav-btn text-decoration-none">
+        <i class="fas fa-history"></i> Old Orders
+      </a>
+      <a href="/admin/settings" class="nav-btn text-decoration-none">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 fw-semibold">User Management</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2 ps-3 border-start" style="border-color: var(--sidebar-border) !important;">
+          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+            <i class="fas fa-user-shield"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon-wrapper bg-icon-users">
+            <i class="fas fa-users"></i>
+          </div>
+          <div>
+            <h3 class="mb-1 fw-bold" id="totalCustomers">0</h3>
+            <span class="text-muted small">Total Customers</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="stat-card">
+          <div class="stat-icon-wrapper bg-icon-new">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div>
+            <h3 class="mb-1 fw-bold" id="todayCustomers">0</h3>
+            <span class="text-muted small">New Today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Table Section -->
+    <div class="table-card shadow-sm">
+      <div class="table-card-header">
+        <h5 class="m-0 fw-bold"><i class="fas fa-list me-2 text-primary"></i>Customer List</h5>
+        <div class="d-flex gap-2 flex-wrap">
+          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search name or phone..." style="min-width: 200px;">
+          <select class="form-select form-select-sm" id="customerFilter" style="min-width: 150px;">
+            <option value="all" selected>All Customers</option>
+            <option value="new">New Today</option>
+            <option value="birthday">Birthday Today</option>
+            <option value="with_dob">With DOB</option>
+            <option value="no_dob">No DOB</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle" style="color: var(--bs-body-color);">
+          <thead class="bg-body-tertiary">
+            <tr style="border-bottom: 2px solid var(--sidebar-border);">
+              <th class="ps-4 py-3">Customer Name</th>
+              <th class="py-3">Phone</th>
+              <th class="py-3">DOB</th>
+              <th class="py-3 text-center">Orders</th>
+              <th class="py-3">Total Spent</th>
+              <th class="pe-4 py-3 text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+             <tr><td colspan="6" class="text-center py-5 text-muted">Loading data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script>
+    // 🎨 UI MANAGEMENT - Sidebar toggle
+    
+    // 📱 toggleSidebar - Mobile sidebar show/hide karta hai
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('mobileOverlay').classList.toggle('show');
+    }
+
+    // 📦 GLOBAL STATE - Users data store karne ke liye
+    // users → currently displayed users (filtered)
+    // allUsers → sab users ka original data
+    let users = [];
+    let allUsers = [];
+
+    // 🔐 AUTH CHECK - Admin authentication verify karta hai
+    // Agar logged out → login page pe redirect
+    // Agar logged in → stats aur users load karo
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) { window.location.href = '/admin/login'; return; }
+        loadStats(); // Customer stats load karo
+        loadUsers(); // Users list load karo
+      } catch (error) { window.location.href = '/admin/login'; }
+    }
+
+    // 📊 LOAD STATS - Customer statistics fetch karta hai
+    // Total customers aur today's new customers
+    async function loadStats() {
+      try {
+        const response = await fetch('/api/admin/customer-stats');
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('totalCustomers').textContent = data.stats.totalCustomers;
+          document.getElementById('todayCustomers').textContent = data.stats.todayCustomers;
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    // 👥 LOAD USERS - Sab customers ki list fetch karta hai
+    // Server se users data lete hain
+    // allUsers mein original data save karte hain
+    // users mein current filtered data rakhte hain
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/admin/users');
+        const data = await response.json();
+        if (data.success) {
+          allUsers = data.users; // Original data save karo
+          users = allUsers; // Initially sab users dikhao
+          displayUsers(); // Table mein display karo
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    // 🔍 APPLY FILTER - Users ko filter karta hai dropdown aur search ke basis par
+    // Filters:
+    // 1) Dropdown filter (new, birthday, with_dob, no_dob)
+    // 2) Search filter (name ya phone number se)
+    // Dono filters ek sath apply hote hain
+    function applyFilter() {
+      const filterValue = document.getElementById('customerFilter').value;
+      const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+      const monthDay = `${today.getMonth() + 1}-${today.getDate()}`; // M-D format
+
+      let filtered = allUsers; // Original data se start karo
+
+      // 📋 DROPDOWN FILTER - Category ke basis par filter karo
+      if (filterValue === 'new') {
+        // Aaj join hone wale customers
+        filtered = filtered.filter(u => u.joined_date && u.joined_date.startsWith(todayStr));
+      } else if (filterValue === 'birthday') {
+        // Aaj birthday wale customers
+        filtered = filtered.filter(u => {
+          if(!u.dob) return false;
+          const d = new Date(u.dob);
+          return `${d.getMonth() + 1}-${d.getDate()}` === monthDay;
+        });
+      } else if (filterValue === 'with_dob') {
+        // Birthday di hui customers
+        filtered = filtered.filter(u => u.dob);
+      } else if (filterValue === 'no_dob') {
+        // Birthday nahi di customers
+        filtered = filtered.filter(u => !u.dob);
+      }
+
+      // 🔎 SEARCH FILTER - Name ya phone number se search karo
+      if (searchValue) {
+        filtered = filtered.filter(u => 
+          (u.name && u.name.toLowerCase().includes(searchValue)) || 
+          (u.phone && u.phone.includes(searchValue))
+        );
+      }
+
+      users = filtered; // Filtered data save karo
+      displayUsers(); // Table update karo
+    }
+
+    function displayUsers() {
+      const tbody = document.getElementById('usersTableBody');
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted">No customers found</td></tr>';
+        return;
+      }
+
+      const today = new Date();
+      const monthDay = `${today.getMonth() + 1}-${today.getDate()}`;
+
+      tbody.innerHTML = users.map(user => {
+        let dobDisplay = '<span class="text-muted small">Not set</span>';
+        let birthdayIcon = '';
+        
+        if (user.dob) {
+          const d = new Date(user.dob);
+          const isBday = `${d.getMonth() + 1}-${d.getDate()}` === monthDay;
+          dobDisplay = d.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
+          if(isBday) birthdayIcon = '<i class="fas fa-birthday-cake text-danger me-2 fa-beat" title="Birthday Today!"></i>';
+        }
+
+        return `
+          <tr style="border-bottom: 1px solid var(--sidebar-border);">
+            <td class="ps-4 fw-medium text-primary-emphasis">${birthdayIcon}${user.name}</td>
+            <td class="text-muted small">${user.phone}</td>
+            <td class="small">${dobDisplay}</td>
+            <td class="text-center"><span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill">${user.total_orders}</span></td>
+            <td class="fw-bold">₹${parseFloat(user.total_spent || 0).toFixed(0)}</td>
+            <td class="pe-4 text-end">
+              <a href="/admin/report/${user.customer_id}" class="btn btn-sm btn-outline-primary border-0 bg-primary-subtle text-primary" title="Report">
+                <i class="fas fa-chart-pie"></i>
+              </a>
+              <a href="https://wa.me/91${user.phone}" target="_blank" class="btn btn-sm btn-outline-success border-0 bg-success-subtle text-success ms-1" title="WhatsApp">
+                <i class="fab fa-whatsapp fw-bold"></i>
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function logout() {
+      await fetch('/api/auth/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    }
+
+    // Init
+    checkAdminAuth();
+    
+    // Listeners
+    document.getElementById('customerFilter').addEventListener('change', applyFilter);
+    document.getElementById('searchInput').addEventListener('input', applyFilter);
+  </script>
+</body>
+</html>

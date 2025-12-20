@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Sales & Analytics - Hotel Aditya Admin | Business Reports</title>
+  <meta name="title" content="Sales & Analytics - Hotel Aditya Admin | Business Reports">
+  <meta name="description" content="View comprehensive sales reports and analytics for Hotel Aditya. Track revenue, best sellers, customer insights, and business performance.">
+  <meta name="keywords" content="Hotel Aditya sales, analytics, business reports, revenue tracking, sales dashboard, performance metrics">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/sales-report">
+  <meta property="og:title" content="Sales & Analytics - Hotel Aditya Admin">
+  <meta property="og:description" content="View comprehensive sales reports and analytics for Hotel Aditya.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/sales-report">
+  <meta property="twitter:title" content="Sales & Analytics - Hotel Aditya Admin">
+  <meta property="twitter:description" content="View comprehensive sales reports and analytics for Hotel Aditya.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/sales-report">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Reports">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+    }
+
+    :root {
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-btn i {
+      width: 24px;
+      text-align: center;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted-custom);
+      font-size: 0.9rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted-custom);
+      font-size: 0.9rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      height: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
+
+    .stat-icon-bg {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    .bg-icon-primary { background: rgba(99, 102, 241, 0.15); color: #6366f1; }
+    .bg-icon-success { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .bg-icon-warning { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .bg-icon-info { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .chart-card {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .period-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg-custom);
+      color: var(--bs-body-color);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .pill-btn.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .product-item:hover {
+      border-color: var(--primary-color);
+    }
+
+    .product-rank {
+      font-size: 1.25rem;
+      font-weight: 700;
+      min-width: 35px;
+      text-align: center;
+    }
+
+    .product-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .product-category {
+      font-size: 0.8rem;
+      color: var(--text-muted-custom);
+    }
+
+    .product-stats {
+      text-align: right;
+    }
+
+    .product-revenue {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .product-quantity {
+      font-size: 0.8rem;
+      color: var(--text-muted-custom);
+    }
+
+    .table-custom {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-custom thead {
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .table-custom th {
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .table-custom td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .table-custom tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-custom tbody tr:hover {
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .btn-back {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      color: var(--bs-body-color);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .order-card {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    .order-card:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+      border-color: var(--primary-color);
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .order-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-preparing { background: #dbeafe; color: #1e40af; }
+    .badge-ready { background: #d1fae5; color: #065f46; }
+    .badge-completed { background: #d1fae5; color: #065f46; }
+    .badge-cancelled { background: #fee2e2; color: #991b1b; }
+
+    .order-items-list {
+      margin: 1rem 0;
+    }
+
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .order-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .item-qty {
+      background: #eef2ff;
+      color: var(--primary-color);
+      font-weight: 700;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .review-section {
+      background: #f9fafb;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .review-card {
+      background: white;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .star-rating {
+      color: #fbbf24;
+      font-size: 0.9rem;
+    }
+
+    .review-type-badge {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      background: #e0e7ff;
+      color: #4338ca;
+      font-weight: 600;
+    }
+
+    .no-reviews {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted-custom);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .stat-value {
+        font-size: 1.5rem;
+      }
+      
+      .product-item {
+        flex-wrap: wrap;
+      }
+
+      .order-header {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <a href="/admin" class="nav-btn text-decoration-none">
+        <i class="fas fa-receipt"></i> Orders
+      </a>
+      <a href="/admin/ratings" class="nav-btn text-decoration-none">
+        <i class="fas fa-star"></i> Ratings & Reviews
+      </a>
+      <a href="/admin/users" class="nav-btn text-decoration-none">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+      <a href="/admin/sales-report" class="nav-btn active text-decoration-none">
+        <i class="fas fa-chart-line"></i> Sales & Analytics
+      </a>
+      <a href="/admin/kitchen" class="nav-btn text-decoration-none" target="_blank">
+        <i class="fas fa-utensils"></i> Kitchen Display
+      </a>
+      <a href="/admin/oldorders" class="nav-btn text-decoration-none">
+        <i class="fas fa-history"></i> Old Orders
+      </a>
+      <a href="/admin/settings" class="nav-btn text-decoration-none">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 fw-semibold">Sales & Analytics Report</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2 ps-3 border-start">
+          <div class="text-end d-none d-sm-block">
+            <div class="fw-bold" style="font-size: 0.9rem;" id="adminUsername">Admin</div>
+            <div class="text-muted" style="font-size: 0.75rem;">Manager</div>
+          </div>
+          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content:center text-primary" style="width: 40px; height: 40px;">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div>
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
+          <h1 class="page-title">
+            <i class="fas fa-chart-line"></i>
+            Sales & Analytics Report
+          </h1>
+          <p class="page-subtitle">Comprehensive business insights and performance metrics</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Period Selector -->
+    <div class="period-pills">
+      <button class="pill-btn active" onclick="changePeriod('all')">All Time</button>
+      <button class="pill-btn" onclick="changePeriod('today')">Today</button>
+      <button class="pill-btn" onclick="changePeriod('week')">Last 7 Days</button>
+      <button class="pill-btn" onclick="changePeriod('month')">Last 30 Days</button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-primary">
+            <i class="fas fa-rupee-sign"></i>
+          </div>
+          <div class="stat-value" id="totalRevenue">₹0</div>
+          <div class="text-muted small">Total Revenue</div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-success">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="stat-value" id="totalOrders">0</div>
+          <div class="text-muted small">Total Orders</div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-warning">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="stat-value" id="avgOrderValue">₹0</div>
+          <div class="text-muted small">Avg Order Value</div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-info">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-value" id="totalCustomers">0</div>
+          <div class="text-muted small">Total Customers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-xl-8">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-chart-line me-2"></i>Revenue Trend (Last 7 Days)
+          </h3>
+          <div style="height: 300px;">
+            <canvas id="revenueTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-chart-pie me-2"></i>Category Distribution
+          </h3>
+          <div style="height: 300px;">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best & Worst Sellers -->
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-trophy me-2 text-success"></i>Top 10 Best Sellers
+          </h3>
+          <div id="bestSellersContainer"></div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-arrow-down me-2 text-danger"></i>Top 10 Worst Sellers
+          </h3>
+          <div id="worstSellersContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-3 mb-3">
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-credit-card me-2"></i>Payment Methods
+          </h3>
+          <div style="height: 300px;">
+            <canvas id="paymentMethodsChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="chart-card">
+          <h3 class="chart-title">
+            <i class="fas fa-clock me-2"></i>Peak Hours
+          </h3>
+          <div style="height: 300px;">
+            <canvas id="peakHoursChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Customers Table -->
+    <div class="chart-card">
+      <h3 class="chart-title">
+        <i class="fas fa-star me-2"></i>Top 20 Customers
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-custom mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer Name</th>
+              <th>Phone</th>
+              <th>Total Orders</th>
+              <th>Total Spent</th>
+              <th>Last Order</th>
+            </tr>
+          </thead>
+          <tbody id="topCustomersTable">
+            <tr>
+              <td colspan="6" class="text-center py-4">
+                <i class="fas fa-spinner fa-spin fa-2x text-muted"></i>
+                <p class="text-muted mt-2 mb-0">Loading data...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let currentPeriod = 'all';
+    let charts = {};
+
+    function changePeriod(period) {
+      currentPeriod = period;
+      document.querySelectorAll('.pill-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      loadAllData();
+    }
+
+    async function loadAllData() {
+      try {
+        await Promise.all([
+          loadOverviewStats(),
+          loadBestSellers(),
+          loadWorstSellers(),
+          loadCategoryStats(),
+          loadRevenueTrend(),
+          loadPaymentMethods(),
+          loadPeakHours(),
+          loadTopCustomers()
+        ]);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    // 📈 LOAD OVERVIEW STATS - Top 4 stat cards ko load karta hai
+    // Server se API call karke ye data lete hain:
+    //   → total_revenue → kitna total paisa aaya
+    //   → total_orders → kitne orders aaye
+    //   → avg_order_value → average order ka price
+    //   → total_customers → kitne unique customers
+    // Agar 401 error aaye → admin logged out hai, login page pe bhejo
+    // Agar data nahi aaye → 0 values dikhao
+    async function loadOverviewStats() {
+      try {
+        const response = await fetch('/api/sales/stats/overview?period=' + currentPeriod);
+        
+        if (response.status === 401) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        
+        if (!response.ok) throw new Error('Failed to fetch overview stats');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          const stats = data.stats;
+          document.getElementById('totalRevenue').textContent = '₹' + parseFloat(stats.total_revenue || 0).toFixed(0);
+          document.getElementById('totalOrders').textContent = stats.total_orders || 0;
+          document.getElementById('avgOrderValue').textContent = '₹' + parseFloat(stats.avg_order_value || 0).toFixed(0);
+          document.getElementById('totalCustomers').textContent = stats.total_customers || 0;
+        }
+      } catch (error) {
+        console.error('Error loading overview stats:', error);
+        document.getElementById('totalRevenue').textContent = '₹0';
+        document.getElementById('totalOrders').textContent = '0';
+        document.getElementById('avgOrderValue').textContent = '₹0';
+        document.getElementById('totalCustomers').textContent = '0';
+      }
+    }
+
+    // 🏆 LOAD BEST SELLERS - Top 10 sabse zyada bikne wale items
+    // Server se API call karke best selling items lete hain
+    // Har item ke liye ye dikhate hain:
+    //   → Rank (#1, #2, #3...)
+    //   → Item image
+    //   → Item name aur category
+    //   → Total revenue (kitna paisa kamaya)
+    //   → Total quantity sold (kitne items bike)
+    // Agar data nahi hai → "No data available" message
+    async function loadBestSellers() {
+      const container = document.getElementById('bestSellersContainer');
+      try {
+        container.innerHTML = '<div class="text-center py-4"><i class="fas fa-spinner fa-spin text-muted"></i></div>';
+        const response = await fetch('/api/sales/stats/best-sellers?period=' + currentPeriod + '&limit=10');
+        
+        if (!response.ok) throw new Error('Failed to fetch best sellers');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (data.items.length === 0) {
+            container.innerHTML = '<p class="text-muted text-center py-4">No data available</p>';
+            return;
+          }
+          container.innerHTML = data.items.map((item, index) => `
+            <div class="product-item">
+              <div class="product-rank text-success">#${index + 1}</div>
+              <img src="${item.image_url || 'https://via.placeholder.com/50'}" alt="${item.name}" class="product-img" onerror="this.src='https://via.placeholder.com/50'">
+              <div class="product-info">
+                <div class="product-name">${item.name}</div>
+                <div class="product-category">${item.category}</div>
+              </div>
+              <div class="product-stats">
+                <div class="product-revenue text-success">₹${parseFloat(item.total_revenue).toFixed(0)}</div>
+                <div class="product-quantity">${item.total_quantity_sold} sold</div>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading best sellers:', error);
+        container.innerHTML = '<p class="text-danger text-center py-4">Failed to load data</p>';
+      }
+    }
+
+    // 📉 LOAD WORST SELLERS - Top 10 sabse kam bikne wale items
+    // Server se API call karke worst selling items lete hain
+    // Ye items menu se remove karne ya improve karne ke liye useful hai
+    // Display format same hai best sellers jaisa
+    // Sirf color red hai (danger) instead of green
+    async function loadWorstSellers() {
+      const container = document.getElementById('worstSellersContainer');
+      try {
+        container.innerHTML = '<div class="text-center py-4"><i class="fas fa-spinner fa-spin text-muted"></i></div>';
+        const response = await fetch('/api/sales/stats/worst-sellers?period=' + currentPeriod + '&limit=10');
+        
+        if (!response.ok) throw new Error('Failed to fetch worst sellers');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (data.items.length === 0) {
+            container.innerHTML = '<p class="text-muted text-center py-4">No data available</p>';
+            return;
+          }
+          container.innerHTML = data.items.map((item, index) => `
+            <div class="product-item">
+              <div class="product-rank text-danger">#${index + 1}</div>
+              <img src="${item.image_url || 'https://via.placeholder.com/50'}" alt="${item.name}" class="product-img" onerror="this.src='https://via.placeholder.com/50'">
+              <div class="product-info">
+                <div class="product-name">${item.name}</div>
+                <div class="product-category">${item.category}</div>
+              </div>
+              <div class="product-stats">
+                <div class="product-revenue text-danger">₹${parseFloat(item.total_revenue).toFixed(0)}</div>
+                <div class="product-quantity">${item.total_quantity_sold} sold</div>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading worst sellers:', error);
+        container.innerHTML = '<p class="text-danger text-center py-4">Failed to load data</p>';
+      }
+    }
+
+    // 🍰 LOAD CATEGORY STATS - Category-wise revenue distribution (pie chart)
+    // Server se API call karke category stats lete hain
+    // Chart.js use karke doughnut chart banate hain
+    // Har category ka revenue dikhata hai (Starters, Main Course, etc)
+    // Colors → different colors for each category
+    // Agar pehle se chart hai → destroy karke naya banao (memory leak avoid)
+    async function loadCategoryStats() {
+      try {
+        const response = await fetch('/api/sales/stats/by-category?period=' + currentPeriod);
+        if (!response.ok) throw new Error('Failed to fetch category stats');
+        
+        const data = await response.json();
+        
+        if (data.success && data.categories.length > 0) {
+          const ctx = document.getElementById('categoryChart');
+          if (charts.category) charts.category.destroy();
+          charts.category = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: data.categories.map(c => c.category),
+              datasets: [{
+                data: data.categories.map(c => parseFloat(c.total_revenue)),
+                backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6']
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: { padding: 15, font: { size: 11 } }
+                }
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading category stats:', error);
+      }
+    }
+
+    // 📊 LOAD REVENUE TREND - Last 7 days ka revenue trend (line chart)
+    // Server se API call karke daily revenue data lete hain
+    // Chart.js use karke line chart banate hain
+    // X-axis → dates (Jan 1, Jan 2, etc)
+    // Y-axis → revenue (₹0, ₹1000, etc)
+    // Smooth curve (tension: 0.4) aur gradient fill
+    async function loadRevenueTrend() {
+      try {
+        const response = await fetch('/api/sales/stats/revenue-trend?days=7');
+        if (!response.ok) throw new Error('Failed to fetch revenue trend');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          const ctx = document.getElementById('revenueTrendChart');
+          if (charts.revenue) charts.revenue.destroy();
+          charts.revenue = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.trend.map(t => new Date(t.date).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', month: 'short', day: 'numeric' })),
+              datasets: [{
+                label: 'Revenue',
+                data: data.trend.map(t => parseFloat(t.revenue)),
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function(value) { return '₹' + value; }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading revenue trend:', error);
+      }
+    }
+
+    // 💳 LOAD PAYMENT METHODS - Payment method wise revenue (bar chart)
+    // Server se API call karke payment stats lete hain
+    // Chart.js use karke bar chart banate hain
+    // X-axis → payment methods (CASH, ONLINE, etc)
+    // Y-axis → total revenue (₹)
+    // Ye data useful hai to know:
+    //   → Kitne customers online pay karte hain
+    //   → Kitne cash prefer karte hain
+    async function loadPaymentMethods() {
+      try {
+        const response = await fetch('/api/sales/stats/payment-methods?period=' + currentPeriod);
+        if (!response.ok) throw new Error('Failed to fetch payment methods');
+        
+        const data = await response.json();
+        
+        if (data.success && data.payment_methods.length > 0) {
+          const ctx = document.getElementById('paymentMethodsChart');
+          if (charts.payment) charts.payment.destroy();
+          charts.payment = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.payment_methods.map(p => (p.payment_method || 'Not Set').toUpperCase()),
+              datasets: [{
+                label: 'Revenue',
+                data: data.payment_methods.map(p => parseFloat(p.total_amount)),
+                backgroundColor: '#6366f1',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function(value) { return '₹' + value; }
+                  }
+                }
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading payment methods:', error);
+      }
+    }
+
+    // ⏰ LOAD PEAK HOURS - Hour-wise order count (bar chart)
+    // Server se API call karke hourly order data lete hain
+    // Chart.js use karke bar chart banate hain
+    // X-axis → hours (0:00, 1:00, 2:00... 23:00)
+    // Y-axis → order count
+    // Ye data useful hai to know:
+    //   → Konse time pe zyada orders aate hain (lunch, dinner)
+    //   → Staff planning ke liye (peak hours pe zyada staff rakho)
+    async function loadPeakHours() {
+      try {
+        const response = await fetch('/api/sales/stats/peak-hours?period=' + currentPeriod);
+        if (!response.ok) throw new Error('Failed to fetch peak hours');
+        
+        const data = await response.json();
+        
+        if (data.success && data.peak_hours.length > 0) {
+          const ctx = document.getElementById('peakHoursChart');
+          if (charts.peakHours) charts.peakHours.destroy();
+          const hourlyData = Array(24).fill(0);
+          data.peak_hours.forEach(h => {
+            hourlyData[parseInt(h.hour)] = parseInt(h.order_count);
+          });
+          charts.peakHours = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: Array.from({length: 24}, (_, i) => i + ':00'),
+              datasets: [{
+                label: 'Orders',
+                data: hourlyData,
+                backgroundColor: '#10b981',
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 1 }
+                }
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading peak hours:', error);
+      }
+    }
+
+    // 👥 LOAD TOP CUSTOMERS - Top 20 customers jo sabse zyada order karte hain
+    // Server se API call karke customer stats lete hain
+    // Table mein ye dikhate hain:
+    //   → Rank (#1, #2, #3...)
+    //   → Customer name aur phone
+    //   → Total orders count
+    //   → Total spent (kitna paisa kharch kiya)
+    //   → Last order date
+    // Ye data useful hai for:
+    //   → Loyal customers ko identify karna
+    //   → Special offers dena
+    //   → Customer retention strategy
+    async function loadTopCustomers() {
+      const tbody = document.getElementById('topCustomersTable');
+      try {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><i class="fas fa-spinner fa-spin text-muted"></i></td></tr>';
+        
+        const response = await fetch('/api/sales/stats/customers?period=' + currentPeriod);
+        if (!response.ok) throw new Error('Failed to fetch customers');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          if (data.top_customers.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No customer data available</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.top_customers.map((customer, index) => `
+            <tr>
+              <td><strong>${index + 1}</strong></td>
+              <td>${customer.name}</td>
+              <td>${customer.phone || 'N/A'}</td>
+              <td><span class="badge bg-primary">${customer.total_orders}</span></td>
+              <td class="fw-bold text-success">₹${parseFloat(customer.total_spent).toFixed(2)}</td>
+              <td>${new Date(customer.last_order_date).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading top customers:', error);
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Failed to load data</td></tr>';
+      }
+    }
+
+    async function initializePage() {
+      try {
+        await loadAllData();
+        await checkAdminSession();
+      } catch (error) {
+        console.error('Initialization error:', error);
+      }
+    }
+
+    async function checkAdminSession() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        
+        if (!data.authenticated) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        
+        if (data.admin && data.admin.username) {
+          document.getElementById('adminUsername').textContent = data.admin.username;
+        }
+      } catch (error) {
+        console.error('Session check error:', error);
+        window.location.href = '/admin/login';
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('/api/auth/admin/logout', { method: 'POST' });
+        window.location.href = '/admin/login';
+      } catch (error) {
+        console.error('Logout error:', error);
+        window.location.href = '/admin/login';
+      }
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializePage);
+    } else {
+      initializePage();
+    }
+  </script>
+</main>
+</body>
+</html>

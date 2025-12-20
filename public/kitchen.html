@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Kitchen Display System - Hotel Aditya | Live Order Management</title>
+  <meta name="title" content="Kitchen Display System - Hotel Aditya | Live Order Management">
+  <meta name="description" content="Real-time kitchen display system for Hotel Aditya. View and manage incoming orders, track preparation time, and optimize kitchen workflow.">
+  <meta name="keywords" content="Hotel Aditya kitchen, KDS, kitchen display, order management, kitchen operations, real-time orders">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/kitchen">
+  <meta property="og:title" content="Kitchen Display System - Hotel Aditya">
+  <meta property="og:description" content="Real-time kitchen display system for Hotel Aditya order management.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/kitchen">
+  <meta property="twitter:title" content="Kitchen Display System - Hotel Aditya">
+  <meta property="twitter:description" content="Real-time kitchen display system for Hotel Aditya order management.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/kitchen">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Kitchen">
+  
+  <!-- Fonts & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #FFFFFF;
+      --text-dark: #111827;
+      --text-muted: #6b7280;
+      --card-border: #e5e7eb;
+      --primary: #6366f1;
+      --success: #22c55e;
+      --warning: #eab308;
+      --danger: #ef4444;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-dark);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* --- Header --- */
+    .kds-header {
+      background: white;
+      padding: 0.8rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .clock-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      background: #f9fafb;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .stats-pill {
+      background: var(--primary);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* --- Grid Layout --- */
+    .kds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    /* --- Ticket Card --- */
+    .ticket {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .ticket:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Urgency Stripes (Top Border) */
+    .ticket::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: var(--success); /* Default */
+    }
+
+    .ticket.warning::before { background: var(--warning); }
+    .ticket.urgent::before { background: var(--danger); animation: pulse-bar 2s infinite; }
+
+    @keyframes pulse-bar {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Header */
+    .ticket-head {
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+
+    .table-badge {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+    }
+
+    .timer-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--success);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background: #ecfdf5;
+    }
+
+    .ticket.warning .timer-badge { color: #b45309; background: #fffbeb; }
+    .ticket.urgent .timer-badge { color: #b91c1c; background: #fef2f2; }
+
+    /* Body */
+    .ticket-body {
+      padding: 1rem;
+      flex-grow: 1;
+    }
+
+    .order-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    .qty-circle {
+      background: #eef2ff;
+      color: var(--primary);
+      font-weight: 700;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      border: 1px solid #c7d2fe;
+    }
+
+    .item-name {
+      font-weight: 500;
+      color: var(--text-dark);
+      padding-top: 2px;
+    }
+
+    /* Footer */
+    .ticket-footer {
+      padding: 1rem;
+      background: #f9fafb;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .btn-done {
+      width: 100%;
+      background: white;
+      border: 2px solid #d1d5db;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0.7rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-done:hover {
+      border-color: var(--success);
+      background: var(--success);
+      color: white;
+      box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Empty State */
+    .empty-box {
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      text-align: center;
+    }
+    .empty-box i {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      color: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="kds-header">
+    <div class="brand">
+      <div style="width:40px; height:40px; background:var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; color:white;">
+        <i class="fas fa-fire"></i>
+      </div>
+      <span>KITCHEN DISPLAY</span>
+    </div>
+
+    <div class="d-flex align-items-center gap-4">
+      <div class="stats-pill">
+        <span id="activeCount">0</span> PENDING
+      </div>
+      <div class="clock-display" id="clock">--:--</div>
+      <a href="/admin" class="btn btn-outline-secondary border-0"><i class="fas fa-times fa-lg"></i></a>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div id="mainContent">
+    <div class="kds-grid" id="orderGrid"></div>
+    
+    <div class="empty-box" id="emptyState" style="display:none;">
+      <i class="fas fa-utensils"></i>
+      <h2 class="fw-bold text-dark">All Caught Up!</h2>
+      <p>Kitchen is clear. Waiting for new orders.</p>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="alertSound" src="/notification.mp3"></audio>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // 🍳 KITCHEN DISPLAY SYSTEM - Real-time order management for kitchen staff
+    
+    // 🔐 ADMIN AUTHENTICATION CHECK - Kitchen access sirf admins ke liye
+    // Session verify karta hai
+    // Agar logged out → login page pe redirect
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) {
+          window.location.href = '/admin/login';
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('Auth check error:', error);
+        window.location.href = '/admin/login';
+        return false;
+      }
+    }
+
+    // ⚙️ CONFIG - Order urgency ke liye time thresholds
+    const WARNING_MIN = 10; // 10 minutes ke baad warning (yellow)
+    const URGENT_MIN = 20;  // 20 minutes ke baad urgent (red)
+    
+    // 📦 STATE - Kitchen display ka current state
+    let orders = []; // Active orders list
+    let processedIds = new Set(); // Already processed order IDs (for new order alerts)
+
+    // 🕐 CLOCK - Live clock display (updates every second)
+    // Indian time zone (Asia/Kolkata) mein time dikhata hai
+    setInterval(() => {
+      document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit'});
+    }, 1000);
+
+    // 🔄 LOAD DATA - Server se active orders fetch karta hai
+    // Steps:
+    // 1) API call karke pending aur preparing orders lete hain
+    // 2) New orders check karte hain (jo pehle nahi the)
+    // 3) Agar new order hai → sound alert play karo
+    // 4) Orders list update karo aur render karo
+    async function loadData() {
+      try {
+        // 🌐 API call - Active orders fetch karo (pending + preparing)
+        const res = await fetch('/api/admin/orders?view_type=active&status=pending,preparing');
+        const data = await res.json();
+        
+        if(data.success) {
+          const currentIds = data.orders.map(o => o.order_id);
+          
+          // 🔔 NEW ORDER ALERT - Agar naya order aaya hai to sound play karo
+          const hasNew = currentIds.some(id => !processedIds.has(id));
+          if(hasNew && processedIds.size > 0) {
+             document.getElementById('alertSound').play().catch(()=>{}); // Sound play karo
+          }
+          
+          processedIds = new Set(currentIds); // Processed IDs update karo
+          orders = data.orders; // Orders list update karo
+          render(); // Screen pe dikhao
+        }
+      } catch(e) { console.error("Fetch error:", e); }
+    }
+
+    // 🎨 RENDER - Orders ko screen pe display karta hai
+    // Steps:
+    // 1) Active orders count update karo
+    // 2) Agar orders nahi hain → empty state dikhao
+    // 3) Orders ko oldest first sort karo (FIFO - First In First Out)
+    // 4) Har order ke liye card banao with:
+    //    - Urgency color (green/yellow/red)
+    //    - Table number
+    //    - Timer (elapsed time)
+    //    - Items list
+    //    - Mark Ready button
+    function render() {
+      const grid = document.getElementById('orderGrid');
+      const empty = document.getElementById('emptyState');
+      const counter = document.getElementById('activeCount');
+
+      // 🔢 Counter update - Kitne orders pending hain
+      counter.innerText = orders.length;
+
+      // 📭 Empty state - Agar koi order nahi hai
+      if(orders.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'flex';
+        return;
+      }
+
+      // 📋 Orders display karo
+      grid.style.display = 'grid';
+      empty.style.display = 'none';
+
+      // 🔄 Sort - Oldest orders first (jo pehle aaya usko pehle dikhao)
+      orders.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+      grid.innerHTML = orders.map(o => {
+        const startTime = new Date(o.created_at);
+        const elapsedMin = (new Date() - startTime) / 60000;
+        
+        let statusClass = '';
+        if(elapsedMin > URGENT_MIN) statusClass = 'urgent';
+        else if(elapsedMin > WARNING_MIN) statusClass = 'warning';
+
+        const tableNum = o.table_number.replace('T-', '');
+
+        return `
+          <div class="ticket ${statusClass}" id="ticket-${o.order_id}">
+            <div class="ticket-head">
+              <div class="table-badge">Table ${tableNum}</div>
+              <div class="timer-badge" data-start="${o.created_at}">00:00</div>
+            </div>
+            
+            <div class="ticket-body">
+              <div class="order-meta">
+                <span>#${o.order_id}</span>
+                <span>${startTime.toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata', hour:'2-digit', minute:'2-digit'})}</span>
+              </div>
+              
+              <div class="order-list">
+                ${o.items.map(i => `
+                  <div class="order-item">
+                    <div class="qty-circle">${i.quantity}</div>
+                    <div class="item-name">${i.item_name}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="ticket-footer">
+              <button class="btn-done" onclick="markReady(${o.order_id})">
+                <i class="fas fa-check me-2"></i> Mark Ready
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateTimers();
+    }
+
+    // ⏱️ UPDATE TIMERS - Har order ka elapsed time update karta hai
+    // Har second mein run hota hai
+    // Time format: MM:SS (e.g., 05:30 = 5 minutes 30 seconds)
+    function updateTimers() {
+      document.querySelectorAll('.timer-badge').forEach(el => {
+        const start = new Date(el.dataset.start); // Order ka start time
+        const diff = Math.floor((new Date() - start) / 1000); // Seconds mein difference
+        
+        // Minutes aur seconds calculate karo
+        const mm = Math.floor(diff / 60).toString().padStart(2, '0');
+        const ss = (diff % 60).toString().padStart(2, '0');
+        
+        el.innerText = `${mm}:${ss}`; // Timer display update karo
+      });
+    }
+
+    // ✅ MARK READY - Order ko "ready" status mein mark karta hai
+    // Steps:
+    // 1) Optimistic UI update - Card ko fade out karo (instant feedback)
+    // 2) Server ko PUT request bhejo status change ke liye
+    // 3) Success → orders refresh karo (card automatically remove ho jayega)
+    // 4) Error → orders refresh karo (card wapas aa jayega)
+    async function markReady(id) {
+      // 🎭 Optimistic UI - Pehle card ko fade out karo (smooth UX)
+      const card = document.getElementById(`ticket-${id}`);
+      if(card) {
+        card.style.transform = 'scale(0.95)';
+        card.style.opacity = '0.5';
+      }
+
+      try {
+        // 🌐 API call - Order status "ready" mein change karo
+        await fetch(`/api/admin/orders/${id}/status`, {
+          method: 'PUT', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({status: 'ready'})
+        });
+        loadData(); // Orders refresh karo
+      } catch(e) { 
+        console.error(e);
+        loadData(); // Error pe bhi refresh karo (revert UI)
+      }
+    }
+
+    // 🚀 INITIALIZATION - Kitchen display system start karta hai
+    // Steps:
+    // 1) Admin authentication check karo
+    // 2) Agar authenticated → data load karo
+    // 3) Auto-refresh setup karo:
+    //    - Har 5 seconds mein orders refresh (new orders detect karne ke liye)
+    //    - Har 1 second mein timers update (live timer ke liye)
+    async function initKitchen() {
+      const isAuthenticated = await checkAdminAuth();
+      if (isAuthenticated) {
+        loadData(); // Initial data load
+        setInterval(loadData, 5000); // 🔄 Har 5 seconds mein orders refresh
+        setInterval(updateTimers, 1000); // ⏱️ Har 1 second mein timers update
+      }
+    }
+
+    // 🎬 Start kitchen display system
+    initKitchen();
+  </script>
+</body>
+</html>

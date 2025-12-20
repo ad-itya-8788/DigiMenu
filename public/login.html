@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "f74b5208-81e8-4fb0-8083-8160a5665021",
+      safari_web_id: "web.onesignal.auto.4ed285de-faf5-4c6c-a346-3ff91e5aded6",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+</script>
+    <!-- Primary Meta Tags -->
+    <title>Customer Login - Hotel Aditya | Sign In to Order</title>
+    <meta name="title" content="Customer Login - Hotel Aditya | Sign In to Order">
+    <meta name="description" content="Login to Hotel Aditya to order delicious meals from your table. Quick OTP-based authentication for seamless dining experience.">
+    <meta name="keywords" content="Hotel Aditya login, customer login, restaurant login, order food, OTP login, mobile verification">
+    <meta name="author" content="Hotel Aditya">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.servhunt.in/login">
+    <meta property="og:title" content="Customer Login - Hotel Aditya">
+    <meta property="og:description" content="Login to Hotel Aditya to order delicious meals from your table.">
+    <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://www.servhunt.in/login">
+    <meta property="twitter:title" content="Customer Login - Hotel Aditya">
+    <meta property="twitter:description" content="Login to Hotel Aditya to order delicious meals from your table.">
+    <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.servhunt.in/login">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Hotel Aditya Login">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-color: #FFFFFF;
+            --card-border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Split Layout */
+        .auth-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Left Side - Image */
+        .auth-banner {
+            display: none;
+            width: 50%;
+            background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .auth-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(79, 70, 229, 0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            color: white;
+        }
+
+        .banner-content h1 { font-weight: 700; font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+        .banner-content p { font-size: 1.25rem; opacity: 0.9; max-width: 500px; line-height: 1.6; }
+
+        /* Right Side - Form */
+        .auth-form-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: white;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .page-title { font-weight: 700; font-size: 1.8rem; margin-bottom: 0.5rem; color: #111827; }
+        .page-subtitle { color: var(--text-muted); margin-bottom: 2.5rem; }
+
+        /* Tabs */
+        .nav-pills {
+            background: #f3f4f6;
+            padding: 0.3rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.6rem 1rem;
+            width: 50%;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: white;
+            color: var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Forms */
+        .form-floating > .form-control {
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            height: 3.5rem;
+            padding-top: 1.625rem;
+            padding-bottom: 0.625rem;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-floating > label {
+            padding: 1rem 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* OTP Inputs */
+        .otp-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-color);
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .otp-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (min-width: 992px) {
+            .auth-banner { display: block; }
+            .auth-form-container { width: 50%; }
+        }
+
+        @media (max-width: 576px) {
+            .auth-form-container { padding: 1.5rem; }
+            .otp-input { width: 40px; height: 50px; font-size: 1.2rem; }
+            .brand-logo { margin: 0 auto 1.5rem auto; }
+            .auth-card { text-align: center; }
+            .form-floating { text-align: left; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <!-- Left Side: Image Banner -->
+        <div class="auth-banner">
+            <div class="auth-overlay">
+                <div class="banner-content">
+                    <h1>Experience<br>Dining Redefined</h1>
+                    <p>Order delicious meals directly from your table. No waiting, just great food and seamless service at Hotel Aditya.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Forms -->
+        <div class="auth-form-container">
+            <div class="auth-card">
+                <div class="brand-logo"><i class="fas fa-utensils"></i></div>
+
+                <div id="forms-section">
+                    <h2 class="page-title">Welcome Back</h2>
+                    <p class="page-subtitle">Please enter your details to sign in</p>
+
+                    <!-- Custom Tabs -->
+                    <div class="nav nav-pills d-flex" role="tablist">
+                        <div class="nav-link active" id="tab-login" role="button">Login</div>
+                        <div class="nav-link" id="tab-register" role="button">Register</div>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-form-wrapper">
+                        <form id="loginInitForm" novalidate>
+                            <div class="form-floating mb-3">
+                                <input type="tel" class="form-control" id="loginMobile" placeholder="1234567890" pattern="[0-9]{10}" required>
+                                <label for="loginMobile"><i class="fas fa-mobile-alt me-2"></i>Mobile Number</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Send OTP <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="register-form-wrapper" style="display: none;">
+                        <form id="registerInitForm" novalidate>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="registerName" placeholder="John Doe" required>
+                                <label for="registerName"><i class="fas fa-user me-2"></i>Full Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="tel" class="form-control" id="registerMobile" placeholder="1234567890" pattern="[0-9]{10}" required>
+                                <label for="registerMobile"><i class="fas fa-mobile-alt me-2"></i>Mobile Number</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Get OTP <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- OTP Section -->
+                <div id="otp-verification" style="display: none; text-align: center;">
+                    <div class="mb-4">
+                        <div style="width:60px; height:60px; background:#eef2ff; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; color:var(--primary-color);">
+                            <i class="fas fa-shield-alt fa-2x"></i>
+                        </div>
+                        <h3 class="fw-bold">Verify OTP</h3>
+                        <p class="text-muted small">Code sent to <span id="otp-mobile-number" class="fw-bold text-dark"></span></p>
+                    </div>
+
+                    <form id="otpVerificationForm" novalidate>
+                        <div class="otp-group">
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                            <input type="tel" class="otp-input" maxlength="1" required>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+                             <a href="#" id="back-to-forms" class="text-decoration-none text-muted small hover-primary">
+                                <i class="fas fa-arrow-left me-1"></i> Change Number
+                             </a>
+                             <div class="small">
+                                <a href="#" id="resend-otp-btn" class="text-decoration-none fw-bold" style="color:var(--primary-color)">Resend</a>
+                                <span id="countdown" class="text-muted ms-1">(60s)</span>
+                             </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Verify & Continue</button>
+                    </form>
+                </div>
+
+                <div class="text-center mt-5">
+                    <p class="text-muted small">&copy; 2025 Hotel Aditya. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+    <script>
+    // 🔐 AUTHENTICATION LOGIC - Login/Register ke liye sab functions
+    
+    // 🔍 checkUserSession - User pehle se logged in hai ya nahi check karta hai
+    // Server se session-check API call karte hain
+    // Agar user already logged in hai → menu page pe redirect karo
+    // Agar logged out hai → login page pe hi rahne do
+    async function checkUserSession() {
+      try {
+        const response = await fetch('/api/auth/session-check');
+        const data = await response.json();
+        if (data.authenticated) window.location.href = '/menu';
+      } catch (error) { console.error(error); }
+    }
+    // 🚀 Page load hote hi check karo user logged in hai ya nahi
+    checkUserSession();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // 📦 DOM ELEMENTS - Page ke sab important elements ko select karte hain
+      // Tabs → Login aur Register tabs
+      // Wrappers → Login form aur Register form containers
+      // Sections → Forms section aur OTP verification section
+      // OTP elements → OTP inputs, resend button, countdown timer
+      const tabLogin = document.getElementById('tab-login');
+      const tabRegister = document.getElementById('tab-register');
+      const loginWrapper = document.getElementById('login-form-wrapper');
+      const registerWrapper = document.getElementById('register-form-wrapper');
+      const formsSection = document.getElementById('forms-section');
+      const otpSection = document.getElementById('otp-verification');
+      const otpMobileDisplay = document.getElementById('otp-mobile-number');
+      const otpInputs = document.querySelectorAll('.otp-input');
+      const resendBtn = document.getElementById('resend-otp-btn');
+      const countdownEl = document.getElementById('countdown');
+
+      // 🎯 STATE VARIABLES - Current state ko track karne ke liye
+      // currentPhone → user ka mobile number
+      // currentType → 'login' ya 'register'
+      // currentName → register ke liye user ka naam
+      // countdownTimer → resend OTP timer
+      let currentPhone = '', currentType = '', currentName = '', countdownTimer = null;
+      const API_BASE = '/api/auth';
+
+      // 🔄 TAB SWITCHING - Login aur Register tabs ke beech switch karta hai
+      // isLogin → true (Login tab) ya false (Register tab)
+      // Active tab ko highlight karta hai
+      // Corresponding form ko show/hide karta hai
+      function switchTab(isLogin) {
+        if(isLogin) {
+          tabLogin.classList.add('active'); tabRegister.classList.remove('active');
+          loginWrapper.style.display = 'block'; registerWrapper.style.display = 'none';
+        } else {
+          tabRegister.classList.add('active'); tabLogin.classList.remove('active');
+          registerWrapper.style.display = 'block'; loginWrapper.style.display = 'none';
+        }
+      }
+      // 👆 Tab click events - Login ya Register tab pe click karne par
+      tabLogin.addEventListener('click', () => switchTab(true));
+      tabRegister.addEventListener('click', () => switchTab(false));
+
+      // 📱 SHOW OTP SCREEN - OTP verification screen dikhata hai
+      // mobile → user ka phone number
+      // type → 'login' ya 'register'
+      // name → register ke liye user ka naam (optional)
+      // Steps:
+      // 1) Current state save karo (phone, type, name)
+      // 2) Mobile number display karo (+91 prefix ke sath)
+      // 3) Forms section ko fade out karo (smooth animation)
+      // 4) OTP section ko fade in karo
+      // 5) First OTP input pe focus karo
+      // 6) Countdown timer start karo (60 seconds)
+      const showOtpScreen = (mobile, type, name = '') => {
+        currentPhone = mobile; currentType = type; currentName = name;
+        otpMobileDisplay.textContent = '+91 ' + mobile;
+        // Animation - Forms ko hide karo aur OTP screen dikhao
+        formsSection.style.opacity = 0;
+        setTimeout(() => {
+            formsSection.style.display = 'none';
+            otpSection.style.display = 'block';
+            otpSection.style.opacity = 0;
+            // Fade in animation - OTP screen ko smoothly dikhao
+            let op = 0;
+            const timer = setInterval(function () {
+                if (op >= 1){ clearInterval(timer); }
+                otpSection.style.opacity = op;
+                otpSection.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                op += 0.1;
+            }, 10);
+            otpInputs[0].focus(); // First OTP box pe cursor rakho
+            startCountdown(); // 60 second countdown start karo
+        }, 200);
+      };
+
+      // Back Button
+      document.getElementById('back-to-forms').addEventListener('click', (e) => {
+        e.preventDefault();
+        otpSection.style.display = 'none';
+        formsSection.style.display = 'block';
+        formsSection.style.opacity = 1;
+        document.getElementById('otpVerificationForm').reset();
+        if (countdownTimer) clearInterval(countdownTimer);
+      });
+
+      // Login Submit
+      document.getElementById('loginInitForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const mobile = document.getElementById('loginMobile').value;
+        const btn = e.submitter;
+
+        if (mobile.length !== 10) return Swal.fire('Error', 'Invalid mobile number', 'error');
+
+        btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Sending...';
+
+        try {
+          const res = await fetch(`${API_BASE}/send-otp`, {
+             method: 'POST', headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify({ phone: mobile, type: 'login' })
+          });
+          const data = await res.json();
+          if (data.success) {
+             showOtpScreen(mobile, 'login');
+             const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 3000});
+             Toast.fire({icon: 'success', title: 'OTP Sent'});
+          } else {
+             Swal.fire('Error', data.message || 'Failed', 'error');
+          }
+        } catch (e) { Swal.fire('Error', 'Network error', 'error'); }
+        finally { btn.disabled = false; btn.innerHTML = 'Send OTP <i class="fas fa-arrow-right ms-2"></i>'; }
+      });
+
+      // Register Submit
+      document.getElementById('registerInitForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const mobile = document.getElementById('registerMobile').value;
+        const btn = e.submitter;
+
+        if (!name || mobile.length !== 10) return Swal.fire('Error', 'Check fields', 'error');
+
+        btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Sending...';
+
+        try {
+          const res = await fetch(`${API_BASE}/send-otp`, {
+             method: 'POST', headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify({ phone: mobile, type: 'register', name })
+          });
+          const data = await res.json();
+          if (data.success) {
+             showOtpScreen(mobile, 'register', name);
+             const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 3000});
+             Toast.fire({icon: 'success', title: 'OTP Sent'});
+          } else {
+             Swal.fire('Error', data.message || 'Failed', 'error');
+          }
+        } catch (e) { Swal.fire('Error', 'Network error', 'error'); }
+        finally { btn.disabled = false; btn.innerHTML = 'Get OTP <i class="fas fa-arrow-right ms-2"></i>'; }
+      });
+
+      // Verify OTP
+      document.getElementById('otpVerificationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const otp = Array.from(otpInputs).map(i => i.value).join('');
+        if (otp.length !== 6) return Swal.fire('Error', 'Enter complete OTP', 'warning');
+
+        const btn = e.submitter;
+        btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Verifying...';
+
+        try {
+           const res = await fetch(`${API_BASE}/verify-otp`, {
+              method: 'POST', headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ phone: currentPhone, otp, type: currentType })
+           });
+           const data = await res.json();
+           if (data.success) {
+              // Check if there's a redirect URL stored
+              const redirectTo = localStorage.getItem('redirectAfterLogin') || 'menu';
+              localStorage.removeItem('redirectAfterLogin');
+
+              Swal.fire({icon:'success', title:'Success', text:'Redirecting...', timer:1500, showConfirmButton:false})
+              .then(() => window.location.href = '/' + redirectTo);
+           } else {
+              Swal.fire('Error', data.message || 'Invalid OTP', 'error');
+              btn.disabled = false; btn.textContent = 'Verify & Continue';
+           }
+        } catch (e) {
+           Swal.fire('Error', 'Something went wrong', 'error');
+           btn.disabled = false; btn.textContent = 'Verify & Continue';
+        }
+      });
+
+      // OTP Input Logic
+      otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          e.target.value = e.target.value.replace(/[^0-9]/g, '');
+          if (e.target.value && index < otpInputs.length - 1) otpInputs[index + 1].focus();
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !e.target.value && index > 0) otpInputs[index - 1].focus();
+        });
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const paste = e.clipboardData.getData('text').slice(0, 6).split('');
+          paste.forEach((char, i) => { if (otpInputs[i]) otpInputs[i].value = char; });
+          if(paste.length === 6) otpInputs[5].focus();
+        });
+      });
+
+      // Resend OTP
+      resendBtn.addEventListener('click', async (e) => {
+         e.preventDefault();
+         if (resendBtn.style.pointerEvents === 'none') return;
+         try {
+           const res = await fetch(`${API_BASE}/send-otp`, {
+             method: 'POST', headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify({ phone: currentPhone, type: currentType, name: currentName })
+           });
+           if((await res.json()).success) {
+              const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 3000});
+              Toast.fire({icon: 'success', title: 'OTP Resent'});
+              startCountdown();
+           }
+         } catch(e){}
+      });
+
+      function startCountdown() {
+         let sec = 60;
+         resendBtn.style.pointerEvents = 'none'; resendBtn.style.opacity = '0.5';
+         countdownEl.style.display = 'inline';
+         if (countdownTimer) clearInterval(countdownTimer);
+         countdownTimer = setInterval(() => {
+            sec--;
+            countdownEl.textContent = `(${sec}s)`;
+            if (sec <= 0) {
+               clearInterval(countdownTimer);
+               resendBtn.style.pointerEvents = 'auto'; resendBtn.style.opacity = '1';
+               countdownEl.style.display = 'none';
+            }
+         }, 1000);
+      }
+    });
+    </script>
+</body>
+</html>

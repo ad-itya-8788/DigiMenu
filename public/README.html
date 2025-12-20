@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Menu Card - Complete Project Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        .content {
+            padding: 40px;
+        }
+        .section {
+            margin-bottom: 50px;
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .section h2 {
+            color: #667eea;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: #764ba2;
+        }
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.6rem;
+            margin: 25px 0 15px 0;
+        }
+        .section p, .section li {
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        .section ul, .section ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        .code-block {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        .feature-card h4 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+        }
+        .tech-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s;
+        }
+        .tech-badge:hover {
+            transform: scale(1.05);
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .flow-step {
+            background: white;
+            padding: 18px;
+            margin: 12px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+        .flow-step strong {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        table tr:hover {
+            background: #f8f9fa;
+        }
+        table tr:last-child td {
+            border-bottom: none;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        .footer p {
+            margin: 8px 0;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .section h2 { font-size: 1.8rem; }
+            .content { padding: 25px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Digital Menu Card System</h1>
+            <p>Complete Restaurant Management & Ordering Platform</p>
+            <div class="badge">✅ Production-Ready | 🔒 Secure | ⚡ Optimized | 📱 Mobile-First</div>
+        </div>
+
+        <div class="content">
+            <!-- PROJECT OVERVIEW -->
+            <div class="section">
+                <h2>📋 Project Overview</h2>
+                <p>A comprehensive digital menu card and restaurant management system built for <strong>Hotel Aditya</strong>. This platform enables customers to browse menus, place orders, make payments, and provide ratings, while giving administrators full control over menu management, order processing, and business analytics.</p>
+                
+                <div class="success-box">
+                    <strong>✅ Production Status:</strong> This project has been fully audited, optimized, and prepared for production hosting with security best practices, error handling, and performance optimizations. All unnecessary API calls and console logs have been removed to minimize hosting costs.
+                </div>
+
+                <h3>🎯 Key Highlights</h3>
+                <ul>
+                    <li><strong>Real-time Order Management:</strong> Live order tracking with auto-refresh</li>
+                    <li><strong>Secure OTP Authentication:</strong> Message Central SMS integration</li>
+                    <li><strong>Multiple Payment Options:</strong> Razorpay online payment + Pay at counter</li>
+                    <li><strong>Advanced Analytics:</strong> Sales reports, best sellers, peak hours analysis</li>
+                    <li><strong>Rating System:</strong> Customer reviews for items and orders</li>
+                    <li><strong>Kitchen Display:</strong> Dedicated screen for kitchen staff</li>
+                    <li><strong>Mobile Responsive:</strong> Works perfectly on all devices</li>
+                </ul>
+            </div>
+
+            <!-- FEATURES -->
+            <div class="section">
+                <h2>✨ Key Features</h2>
+                
+                <h3>👥 Customer Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🔐 OTP Authentication</h4>
+                        <p>Secure login/registration via Message Central OTP service. No password required - just mobile number verification.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📱 Digital Menu</h4>
+                        <p>Browse categorized menu items with high-quality images, prices, ratings, and detailed descriptions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🛒 Smart Cart</h4>
+                        <p>Add, update, remove items with real-time total calculation. Cart persists across sessions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>💳 Flexible Payments</h4>
+                        <p>Razorpay integration for online payments (UPI, Cards, Netbanking) or pay at counter option.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⭐ Rating & Reviews</h4>
+                        <p>Submit multiple reviews with 1-5 star ratings for both items and complete orders.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📜 Order History</h4>
+                        <p>View past orders, track current orders, download bills as PDF, and reorder favorite items.</p>
+                    </div>
+                </div>
+
+                <h3>👨‍💼 Admin Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>📊 Real-time Dashboard</h4>
+                        <p>Live stats showing revenue, orders, customers, and pending orders with auto-refresh.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🍕 Menu Management</h4>
+                        <p>Add, edit, delete menu items and categories. Upload images to Bunny CDN. Mark items as available/unavailable.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📦 Order Processing</h4>
+                        <p>Track and update order status: pending → preparing → ready → completed. Mark payments as received.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>👥 User Management</h4>
+                        <p>View customer details, order history, spending patterns, and customer reports.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📈 Sales Analytics</h4>
+                        <p>Revenue trends, best/worst sellers, category distribution, payment methods, peak hours analysis.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>⚙️ System Settings</h4>
+                        <p>Enable/disable orders, manage admin accounts, view ratings, and configure system settings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TECH STACK -->
+            <div class="section">
+                <h2>🛠️ Technology Stack</h2>
+                <div class="tech-stack">
+                    <span class="tech-badge">Node.js v14+</span>
+                    <span class="tech-badge">Express.js</span>
+                    <span class="tech-badge">PostgreSQL 12+</span>
+                    <span class="tech-badge">Bootstrap 5</span>
+                    <span class="tech-badge">Chart.js</span>
+                    <span class="tech-badge">SweetAlert2</span>
+                    <span class="tech-badge">Razorpay</span>
+                    <span class="tech-badge">Message Central</span>
+                    <span class="tech-badge">Bunny CDN</span>
+                    <span class="tech-badge">Multer</span>
+                    <span class="tech-badge">Font Awesome 6</span>
+                    <span class="tech-badge">jsPDF</span>
+                </div>
+            </div>
+
+
+            <!-- INSTALLATION -->
+            <div class="section">
+                <h2>⚙️ Installation & Setup</h2>
+                
+                <h3>📋 Prerequisites</h3>
+                <ul>
+                    <li><strong>Node.js:</strong> v14 or higher (<a href="https://nodejs.org/" target="_blank">Download</a>)</li>
+                    <li><strong>PostgreSQL:</strong> v12 or higher (<a href="https://www.postgresql.org/download/" target="_blank">Download</a>)</li>
+                    <li><strong>Message Central Account:</strong> For OTP service (<a href="https://www.messagecentral.com/" target="_blank">Sign up</a>)</li>
+                    <li><strong>Razorpay Account:</strong> For payment gateway (<a href="https://razorpay.com/" target="_blank">Sign up</a>)</li>
+                    <li><strong>Bunny CDN Account:</strong> For image hosting (<a href="https://bunny.net/" target="_blank">Sign up</a>)</li>
+                </ul>
+
+                <h3>🚀 Step-by-Step Installation</h3>
+                
+                <div class="flow-step">
+                    <strong>Step 1:</strong> Clone the Repository
+                    <div class="code-block" style="margin-top: 10px;">
+git clone &lt;repository-url&gt;<br>
+cd digital-menu-card
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <strong>Step 2:</strong> Install Dependencies
+                    <div class="code-block" style="margin-top: 10px;">
+npm install
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <strong>Step 3:</strong> Setup PostgreSQL Database
+                    <div class="code-block" style="margin-top: 10px;">
+# Login to PostgreSQL<br>
+psql -U postgres<br>
+<br>
+# Create database<br>
+CREATE DATABASE DigiMenu;<br>
+<br>
+# Connect to database<br>
+\c DigiMenu<br>
+<br>
+# Run schema file (if available)<br>
+\i routes/database.sql
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <strong>Step 4:</strong> Configure Environment Variables
+                    <div class="code-block" style="margin-top: 10px;">
+# Copy example file<br>
+cp .env.example .env<br>
+<br>
+# Edit .env file with your credentials<br>
+nano .env
+                    </div>
+                    <p style="margin-top: 10px;"><strong>Required Environment Variables:</strong></p>
+                    <div class="code-block" style="margin-top: 10px;">
+NODE_ENV=production<br>
+PORT=3000<br>
+<br>
+# Database Configuration<br>
+DB_HOST=localhost<br>
+DB_USER=postgres<br>
+DB_PASSWORD=your_secure_password<br>
+DB_NAME=DigiMenu<br>
+DB_PORT=5432<br>
+<br>
+# Message Central (OTP Service)<br>
+MESSAGE_CENTRAL_AUTH_KEY=your_auth_key<br>
+MESSAGE_CENTRAL_CUSTOMER_ID=your_customer_id<br>
+<br>
+# Razorpay (Payment Gateway)<br>
+RAZORPAY_KEY_ID=your_key_id<br>
+RAZORPAY_KEY_SECRET=your_key_secret<br>
+<br>
+# Bunny CDN (Image Hosting)<br>
+BUNNY_STORAGE_ZONE=your_storage_zone<br>
+BUNNY_ACCESS_KEY=your_access_key<br>
+BUNNY_CDN_URL=https://your-cdn-url.b-cdn.net
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Security Warning:</strong> Never commit the <code>.env</code> file to version control. It contains sensitive credentials. Always use <code>.env.example</code> as a template.
+                </div>
+
+                <div class="flow-step">
+                    <strong>Step 5:</strong> Run the Application
+                    <div class="code-block" style="margin-top: 10px;">
+# Development mode (with auto-reload)<br>
+npm run dev<br>
+<br>
+# Production mode<br>
+npm start
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Success!</strong> Server will start at <code>http://localhost:3000</code><br>
+                    <strong>Customer Portal:</strong> http://localhost:3000<br>
+                    <strong>Admin Portal:</strong> http://localhost:3000/admin
+                </div>
+            </div>
+
+            <!-- PROJECT STRUCTURE -->
+            <div class="section">
+                <h2>📁 Project Structure</h2>
+                <div class="code-block">
+digital-menu-card/<br>
+├── public/                  # Frontend HTML pages<br>
+│   ├── index.html           # Landing page<br>
+│   ├── login.html           # Customer login (OTP)<br>
+│   ├── menu.html            # Menu browsing & ordering<br>
+│   ├── profile.html         # Customer profile & order history<br>
+│   ├── admin-login.html     # Admin login<br>
+│   ├── admin.html           # Admin dashboard<br>
+│   ├── admin-users.html     # User management<br>
+│   ├── admin-ratings.html   # Ratings management<br>
+│   ├── adminsetting.html    # Admin settings<br>
+│   ├── oldorders.html       # Order archive<br>
+│   ├── kitchen.html         # Kitchen display system<br>
+│   ├── hotelreport.html     # Sales analytics & reports<br>
+│   ├── reportcustomer.html  # Customer reports<br>
+│   ├── README.html          # This documentation<br>
+│   └── favicon_io/          # Favicon files<br>
+├── routes/                  # Backend API routes<br>
+│   ├── auth.js              # Authentication (OTP, sessions)<br>
+│   ├── menu.js              # Menu operations<br>
+│   ├── orders.js            # Order management<br>
+│   ├── payments.js          # Payment processing (Razorpay)<br>
+│   ├── admin.js             # Admin operations<br>
+│   ├── sales.js             # Sales analytics<br>
+│   ├── ratings.js           # Rating system<br>
+│   ├── profile.js           # Customer profile<br>
+│   ├── database.js          # PostgreSQL connection pool<br>
+│   ├── bunnyCDN.js          # Image upload to Bunny CDN<br>
+│   └── messageCentral.js    # OTP service integration<br>
+├── .env                     # Environment variables (DO NOT COMMIT)<br>
+├── .env.example             # Environment template<br>
+├── .gitignore               # Git ignore rules<br>
+├── index.js                 # Main server file<br>
+├── package.json             # Dependencies & scripts<br>
+└── package-lock.json        # Dependency lock file
+                </div>
+            </div>
+
+            <!-- USER FLOWS -->
+            <div class="section">
+                <h2>👤 Customer User Flow</h2>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <strong>Step 1: Landing Page</strong><br>
+                        Visit homepage → Click "Get Started" button
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 2: Authentication</strong><br>
+                        Enter mobile number → Receive OTP via SMS → Verify OTP → Auto login/register
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 3: Browse Menu</strong><br>
+                        View categories (All, Starters, Main Course, etc.) → Browse items with images, prices, ratings
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 4: Add to Cart</strong><br>
+                        Click "ADD" button → Adjust quantities with +/- buttons → View cart summary
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 5: Place Order</strong><br>
+                        Click "Place Order" → Select table number → Choose payment method (Online/Cash)
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 6: Payment</strong><br>
+                        <strong>Online:</strong> Razorpay payment gateway (UPI/Cards/Netbanking)<br>
+                        <strong>Cash:</strong> Pay at counter after meal
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 7: Order Confirmation</strong><br>
+                        Order confirmed → Track status in profile → Receive food
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 8: Rate & Review</strong><br>
+                        After meal → Submit rating (1-5 stars) → Write review (optional)
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>👨‍💼 Admin User Flow</h2>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <strong>Step 1: Admin Login</strong><br>
+                        Visit /admin/login → Enter username & password → Access dashboard
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 2: Dashboard Overview</strong><br>
+                        View real-time stats: Total orders, Today's orders, Revenue, Pending orders, Customers
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 3: Manage Menu</strong><br>
+                        Add/Edit/Delete categories → Add/Edit/Delete menu items → Upload images → Set availability
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 4: Process Orders</strong><br>
+                        View active orders → Update status (Pending → Preparing → Ready → Completed) → Mark payments
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 5: View Analytics</strong><br>
+                        Sales reports → Revenue trends → Best/worst sellers → Peak hours → Customer insights
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 6: Manage Users</strong><br>
+                        View customer list → Check order history → View spending patterns
+                    </div>
+                    <div class="flow-step">
+                        <strong>Step 7: System Settings</strong><br>
+                        Enable/disable orders → Manage admin accounts → Configure system
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- DATABASE DESIGN & DATA DICTIONARY -->
+            <div class="section">
+                <h2>🗄️ Database Design & Data Dictionary</h2>
+                <p>Complete PostgreSQL database schema with detailed column descriptions and demo data examples.</p>
+                
+                <div class="success-box">
+                    <strong>✅ Database:</strong> PostgreSQL 12+ | <strong>Total Tables:</strong> 10 | <strong>Timezone:</strong> Asia/Kolkata (IST)
+                </div>
+
+                <!-- TABLE 1: CUSTOMERS -->
+                <div class="flow-diagram" style="margin-top: 30px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📋 Table 1: customers</h3>
+                    <p><strong>Purpose:</strong> Stores customer account information for authentication and profile management</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>customer_id</strong> 🔑</td>
+                            <td>SERIAL</td>
+                            <td>PRIMARY KEY</td>
+                            <td>Unique identifier for each customer</td>
+                        </tr>
+                        <tr>
+                            <td>name</td>
+                            <td>VARCHAR(100)</td>
+                            <td>NOT NULL</td>
+                            <td>Customer's full name</td>
+                        </tr>
+                        <tr>
+                            <td>phone</td>
+                            <td>VARCHAR(15)</td>
+                            <td>UNIQUE, NOT NULL</td>
+                            <td>Mobile number (used for OTP login)</td>
+                        </tr>
+                        <tr>
+                            <td>dob</td>
+                            <td>DATE</td>
+                            <td>NULL</td>
+                            <td>Date of birth (for birthday offers)</td>
+                        </tr>
+                        <tr>
+                            <td>created_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Account creation timestamp</td>
+                        </tr>
+                    </table>
+
+                    <div class="code-block" style="margin-top: 15px;">
+<strong>📊 Demo Data:</strong><br>
+customer_id: 1<br>
+name: "Demo User"<br>
+phone: "9000000000"<br>
+dob: "1995-05-15"<br>
+created_at: "2024-01-15 10:30:00"
+                    </div>
+                </div>
+
+                <!-- TABLE 2: ADMINS -->
+                <div class="flow-diagram">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">👨‍💼 Table 2: admins</h3>
+                    <p><strong>Purpose:</strong> Stores admin user credentials for dashboard access</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>admin_id</strong> 🔑</td>
+                            <td>SERIAL</td>
+                            <td>PRIMARY KEY</td>
+                            <td>Unique identifier for each admin</td>
+                        </tr>
+                        <tr>
+                            <td>name</td>
+                            <td>VARCHAR(100)</td>
+                            <td>NULL</td>
+                            <td>Admin's full name</td>
+                        </tr>
+                        <tr>
+                            <td>username</td>
+                            <td>VARCHAR(50)</td>
+                            <td>UNIQUE, NOT NULL</td>
+                            <td>Login username</td>
+                        </tr>
+                        <tr>
+                            <td>email</td>
+                            <td>VARCHAR(100)</td>
+                            <td>NULL</td>
+                            <td>Admin email address</td>
+                        </tr>
+                        <tr>
+                            <td>password</td>
+                            <td>VARCHAR(255)</td>
+                            <td>NOT NULL</td>
+                            <td>SHA-256 hashed password</td>
+                        </tr>
+                        <tr>
+                            <td>created_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Account creation timestamp</td>
+                        </tr>
+                    </table>
+
+                    <div class="code-block" style="margin-top: 15px;">
+<strong>📊 Demo Data:</strong><br>
+admin_id: 1<br>
+name: "Aditya Chavan"<br>
+username: "admin"<br>
+email: null<br>
+password: "[SHA-256 HASHED]"<br>
+created_at: "2024-01-01 09:00:00"
+                    </div>
+                </div>
+
+                <!-- TABLE 3: SESSIONS -->
+                <div class="flow-diagram">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🔐 Table 3: sessions</h3>
+                    <p><strong>Purpose:</strong> Manages customer login sessions with automatic expiry</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>session_id</strong> 🔑</td>
+                            <td>VARCHAR(255)</td>
+                            <td>PRIMARY KEY</td>
+                            <td>Unique session identifier (UUID)</td>
+                        </tr>
+                        <tr style="background: #d1ecf1;">
+                            <td><strong>customer_id</strong> 🔗</td>
+                            <td>INTEGER</td>
+                            <td>FOREIGN KEY</td>
+                            <td>References customers(customer_id)</td>
+                        </tr>
+                        <tr>
+                            <td>ip_address</td>
+                            <td>VARCHAR(45)</td>
+                            <td>NULL</td>
+                            <td>Client IP address</td>
+                        </tr>
+                        <tr>
+                            <td>user_agent</td>
+                            <td>TEXT</td>
+                            <td>NULL</td>
+                            <td>Browser/device information</td>
+                        </tr>
+                        <tr>
+                            <td>expires_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>NOT NULL</td>
+                            <td>Session expiration time (7 days)</td>
+                        </tr>
+                        <tr>
+                            <td>last_activity</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Last activity timestamp</td>
+                        </tr>
+                        <tr>
+                            <td>created_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Session creation timestamp</td>
+                        </tr>
+                    </table>
+
+                    <div class="code-block" style="margin-top: 15px;">
+<strong>📊 Demo Data:</strong><br>
+session_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"<br>
+customer_id: 1 (FK → customers)<br>
+ip_address: "192.168.1.100"<br>
+user_agent: "Mozilla/5.0..."<br>
+expires_at: "2024-01-22 10:30:00"<br>
+last_activity: "2024-01-15 14:25:00"
+                    </div>
+                </div>
+
+                <!-- TABLE 4: MENU_CATEGORY -->
+                <div class="flow-diagram">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🍽️ Table 4: menu_category</h3>
+                    <p><strong>Purpose:</strong> Organizes menu items into categories (Starters, Main Course, etc.)</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>category_id</strong> 🔑</td>
+                            <td>SERIAL</td>
+                            <td>PRIMARY KEY</td>
+                            <td>Unique identifier for each category</td>
+                        </tr>
+                        <tr>
+                            <td>category_name</td>
+                            <td>VARCHAR(100)</td>
+                            <td>NOT NULL</td>
+                            <td>Category display name</td>
+                        </tr>
+                        <tr>
+                            <td>created_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Category creation timestamp</td>
+                        </tr>
+                    </table>
+
+                    <div class="code-block" style="margin-top: 15px;">
+<strong>📊 Demo Data:</strong><br>
+category_id: 1 | category_name: "Starters"<br>
+category_id: 2 | category_name: "Main Course"<br>
+category_id: 3 | category_name: "Desserts"<br>
+category_id: 4 | category_name: "Beverages"
+                    </div>
+                </div>
+
+                <!-- TABLE 5: MENU_ITEMS -->
+                <div class="flow-diagram">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🍕 Table 5: menu_items</h3>
+                    <p><strong>Purpose:</strong> Stores all menu items with pricing, images, and availability</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Data Type</th>
+                            <th>Constraints</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>item_id</strong> 🔑</td>
+                            <td>SERIAL</td>
+                            <td>PRIMARY KEY</td>
+                            <td>Unique identifier for each menu item</td>
+                        </tr>
+                        <tr style="background: #d1ecf1;">
+                            <td><strong>category_id</strong> 🔗</td>
+                            <td>INTEGER</td>
+                            <td>FOREIGN KEY</td>
+                            <td>References menu_category(category_id)</td>
+                        </tr>
+                        <tr>
+                            <td>item_name</td>
+                            <td>VARCHAR(200)</td>
+                            <td>NOT NULL</td>
+                            <td>Item display name</td>
+                        </tr>
+                        <tr>
+                            <td>description</td>
+                            <td>TEXT</td>
+                            <td>NULL</td>
+                            <td>Item description</td>
+                        </tr>
+                        <tr>
+                            <td>price</td>
+                            <td>DECIMAL(10,2)</td>
+                            <td>NOT NULL</td>
+                            <td>Item price in rupees</td>
+                        </tr>
+                        <tr>
+                            <td>image_url</td>
+                            <td>TEXT</td>
+                            <td>NULL</td>
+                            <td>Bunny CDN image URL</td>
+                        </tr>
+                        <tr>
+                            <td>is_available</td>
+                            <td>BOOLEAN</td>
+                            <td>DEFAULT TRUE</td>
+                            <td>Item availability status</td>
+                        </tr>
+                        <tr>
+                            <td>created_at</td>
+                            <td>TIMESTAMP</td>
+                            <td>DEFAULT NOW()</td>
+                            <td>Item creation timestamp</td>
+                        </tr>
+                    </table>
+
+                    <div class="code-block" style="margin-top: 15px;">
+<strong>📊 Demo Data:</strong><br>
+item_id: 1<br>
+category_id: 1 (FK → menu_category: "Starters")<br>
+item_name: "Paneer Tikka"<br>
+description: "Grilled cottage cheese with spices"<br>
+price: 180.00<br>
+image_url: "https://cdn.example.com/paneer-tikka.jpg"<br>
+is_available: true<br>
+created_at: "2024-01-10 08:00:00"
+                    </div>
+                </div>
+

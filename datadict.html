@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Dictionary - Restaurant Ordering System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 20px;
+  }
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+    background: #fff;
+  }
+  th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background: #222;
+    color: #fff;
+  }
+  caption {
+    caption-side: top;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Data Dictionary</h2>
+
+<!-- ADMINS -->
+<table>
+<caption>Table: admins</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>admin_id</td><td>serial</td><td>PK</td><td>Unique admin identifier</td></tr>
+<tr><td>username</td><td>varchar(50)</td><td>UNIQUE</td><td>Admin login username</td></tr>
+<tr><td>password</td><td>varchar(200)</td><td>-</td><td>Encrypted admin password</td></tr>
+<tr><td>name</td><td>varchar(100)</td><td>-</td><td>Admin full name</td></tr>
+<tr><td>email</td><td>varchar(100)</td><td>UNIQUE</td><td>Admin email address</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Account creation time</td></tr>
+<tr><td>is_order_accept</td><td>boolean</td><td>-</td><td>Controls order acceptance</td></tr>
+</table>
+
+<!-- CUSTOMERS -->
+<table>
+<caption>Table: customers</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>customer_id</td><td>serial</td><td>PK</td><td>Unique customer identifier</td></tr>
+<tr><td>name</td><td>varchar(100)</td><td>-</td><td>Customer name</td></tr>
+<tr><td>phone</td><td>varchar(15)</td><td>-</td><td>Customer mobile number</td></tr>
+<tr><td>dob</td><td>date</td><td>-</td><td>Date of birth</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Registration date</td></tr>
+</table>
+
+<!-- MENU CATEGORY -->
+<table>
+<caption>Table: menu_category</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>category_id</td><td>serial</td><td>PK</td><td>Menu category ID</td></tr>
+<tr><td>category_name</td><td>varchar(100)</td><td>-</td><td>Category name</td></tr>
+</table>
+
+<!-- MENU ITEMS -->
+<table>
+<caption>Table: menu_items</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>item_id</td><td>serial</td><td>PK</td><td>Menu item ID</td></tr>
+<tr><td>item_name</td><td>varchar(150)</td><td>-</td><td>Name of menu item</td></tr>
+<tr><td>category_id</td><td>int</td><td>FK</td><td>Linked menu category</td></tr>
+<tr><td>price</td><td>numeric(10,2)</td><td>-</td><td>Item price</td></tr>
+<tr><td>image_url</td><td>text</td><td>-</td><td>Item image URL</td></tr>
+<tr><td>description</td><td>text</td><td>-</td><td>Item description</td></tr>
+<tr><td>is_available</td><td>boolean</td><td>-</td><td>Item availability</td></tr>
+</table>
+
+<!-- ORDERS -->
+<table>
+<caption>Table: orders</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>order_id</td><td>serial</td><td>PK</td><td>Order ID</td></tr>
+<tr><td>customer_id</td><td>int</td><td>FK</td><td>Customer who placed order</td></tr>
+<tr><td>table_number</td><td>varchar(20)</td><td>-</td><td>Restaurant table number</td></tr>
+<tr><td>total_amount</td><td>numeric(10,2)</td><td>-</td><td>Total bill amount</td></tr>
+<tr><td>status</td><td>varchar(20)</td><td>-</td><td>Order status</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Order date & time</td></tr>
+</table>
+
+<!-- ORDER ITEMS -->
+<table>
+<caption>Table: order_items</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>order_item_id</td><td>serial</td><td>PK</td><td>Order item ID</td></tr>
+<tr><td>order_id</td><td>int</td><td>FK</td><td>Linked order</td></tr>
+<tr><td>item_id</td><td>int</td><td>FK</td><td>Ordered menu item</td></tr>
+<tr><td>quantity</td><td>int</td><td>-</td><td>Quantity ordered</td></tr>
+<tr><td>price</td><td>numeric(10,2)</td><td>-</td><td>Item price at order time</td></tr>
+</table>
+
+<!-- PAYMENTS -->
+<table>
+<caption>Table: payments</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>payment_id</td><td>serial</td><td>PK</td><td>Payment ID</td></tr>
+<tr><td>order_id</td><td>int</td><td>FK</td><td>Related order</td></tr>
+<tr><td>amount</td><td>numeric(10,2)</td><td>-</td><td>Paid amount</td></tr>
+<tr><td>payment_status</td><td>varchar(20)</td><td>-</td><td>Payment status</td></tr>
+<tr><td>payment_method</td><td>varchar(50)</td><td>-</td><td>Mode of payment</td></tr>
+<tr><td>razorpay_payment_id</td><td>varchar(200)</td><td>-</td><td>Gateway transaction ID</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Payment date</td></tr>
+</table>
+
+<!-- RATINGS -->
+<table>
+<caption>Table: ratings</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>rating_id</td><td>serial</td><td>PK</td><td>Rating ID</td></tr>
+<tr><td>customer_id</td><td>int</td><td>FK</td><td>Customer who rated</td></tr>
+<tr><td>item_id</td><td>int</td><td>FK</td><td>Rated menu item</td></tr>
+<tr><td>order_id</td><td>int</td><td>FK</td><td>Related order</td></tr>
+<tr><td>rating_value</td><td>int</td><td>-</td><td>Rating (1 to 5)</td></tr>
+<tr><td>review_text</td><td>text</td><td>-</td><td>Customer review</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Review time</td></tr>
+<!-- SESSIONS -->
+<table>
+<caption>Table: sessions</caption>
+<tr>
+<th>Field Name</th><th>Data Type</th><th>Key</th><th>Description</th>
+</tr>
+<tr><td>id</td><td>serial</td><td>PK</td><td>Internal session record ID</td></tr>
+<tr><td>session_id</td><td>varchar(255)</td><td>UNIQUE</td><td>Session token / identifier</td></tr>
+<tr><td>customer_id</td><td>int</td><td>FK</td><td>Logged-in customer</td></tr>
+<tr><td>ip_address</td><td>varchar(45)</td><td>-</td><td>User IP address</td></tr>
+<tr><td>user_agent</td><td>text</td><td>-</td><td>Browser / device information</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>-</td><td>Session creation time</td></tr>
+<tr><td>expires_at</td><td>timestamp</td><td>-</td><td>Session expiry time</td></tr>
+<tr><td>last_activity</td><td>timestamp</td><td>-</td><td>Last user activity time</td></tr>
+</table>
+
+</table>
+
+</body>
+</html>

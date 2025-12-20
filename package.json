@@ -1,0 +1,38 @@
+{
+  "name": "digital-menu-card",
+  "version": "1.0.0",
+  "description": "Complete Restaurant Management & Ordering Platform for Hotel Aditya",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "restaurant",
+    "menu",
+    "ordering",
+    "management",
+    "hotel"
+  ],
+  "author": "Hotel Aditya",
+  "license": "ISC",
+  "engines": {
+    "node": "18.x",
+    "npm": "8.x"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

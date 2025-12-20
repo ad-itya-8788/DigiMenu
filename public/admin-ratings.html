@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Ratings & Reviews - Hotel Aditya Admin | Customer Feedback</title>
+  <meta name="title" content="Ratings & Reviews - Hotel Aditya Admin | Customer Feedback">
+  <meta name="description" content="Manage customer ratings and reviews for Hotel Aditya. View feedback, analyze ratings, and improve service quality.">
+  <meta name="keywords" content="Hotel Aditya ratings, customer reviews, feedback management, admin reviews, restaurant ratings">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/ratings">
+  <meta property="og:title" content="Ratings & Reviews - Hotel Aditya Admin">
+  <meta property="og:description" content="Manage customer ratings and reviews for Hotel Aditya.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/ratings">
+  <meta property="twitter:title" content="Ratings & Reviews - Hotel Aditya Admin">
+  <meta property="twitter:description" content="Manage customer ratings and reviews for Hotel Aditya.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/ratings">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-btn i {
+      width: 24px;
+      text-align: center;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .stat-icon-bg {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .bg-icon-primary { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .bg-icon-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .bg-icon-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .bg-icon-info { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .ratings-table-container {
+      background: var(--card-bg-custom);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .ratings-table {
+      width: 100%;
+      margin-bottom: 0;
+      border-collapse: collapse;
+    }
+
+    .ratings-table thead {
+      background: var(--primary-color);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .ratings-table thead th {
+      padding: 1rem;
+      font-weight: 600;
+      text-align: left;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .ratings-table tbody tr {
+      border-bottom: 1px solid var(--card-border);
+      transition: background-color 0.2s ease;
+    }
+
+    .ratings-table tbody tr:hover {
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .ratings-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .ratings-table tbody td {
+      padding: 1rem;
+      vertical-align: top;
+      border: none;
+    }
+
+    .stars {
+      color: #FFC107;
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
+
+    .table-responsive {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: var(--bs-tertiary-bg);
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-hover);
+    }
+
+    @media (max-width: 991px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+      }
+      .overlay.show { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <a href="/admin" class="nav-btn text-decoration-none">
+        <i class="fas fa-receipt"></i> Dashboard
+      </a>
+      <a href="/admin/ratings" class="nav-btn active text-decoration-none">
+        <i class="fas fa-star"></i> Ratings & Reviews
+      </a>
+      <a href="/admin/users" class="nav-btn text-decoration-none">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+      <a href="/admin/kitchen" class="nav-btn text-decoration-none" target="_blank">
+        <i class="fas fa-utensils"></i> Kitchen Display
+      </a>
+      <a href="/admin/oldorders" class="nav-btn text-decoration-none">
+        <i class="fas fa-history"></i> Old Orders
+      </a>
+      <a href="/admin/settings" class="nav-btn text-decoration-none">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 fw-semibold">Ratings & Reviews</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <!-- Admin Profile -->
+        <div class="d-flex align-items-center gap-2 ps-3 border-start">
+          <div class="text-end d-none d-sm-block">
+            <div class="fw-bold" style="font-size: 0.9rem;" id="adminUsername">Admin</div>
+            <div class="text-muted" style="font-size: 0.75rem;">Manager</div>
+          </div>
+          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-warning"><i class="fas fa-star"></i></div>
+          <div class="stat-value" id="totalRatings">0</div>
+          <div class="text-muted small">Total Ratings</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-success"><i class="fas fa-star-half-alt"></i></div>
+          <div class="stat-value" id="averageRating">0.0</div>
+          <div class="text-muted small">Average Rating</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-info"><i class="fas fa-calendar-day"></i></div>
+          <div class="stat-value" id="todayRatings">0</div>
+          <div class="text-muted small">Today's Ratings</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon-bg bg-icon-primary"><i class="fas fa-comment"></i></div>
+          <div class="stat-value" id="withReview">0</div>
+          <div class="text-muted small">With Reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters - REMOVED -->
+    <!-- All ratings displayed without filters -->
+
+    <!-- Ratings List -->
+    <div id="ratingsContainer">
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Loading ratings...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  
+  <script>
+    // Ratings data store karne ke liye
+    let ratings = [];
+
+    // Mobile mein sidebar show/hide karta hai
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('mobileOverlay').classList.toggle('show');
+    }
+
+    // Admin logged in hai ya nahi check karta hai
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        document.getElementById('adminUsername').textContent = data.admin.username;
+        loadRatings();
+      } catch (error) {
+        console.error('Auth error', error);
+        window.location.href = '/admin/login';
+      }
+    }
+
+    // Server se ratings data fetch karta hai - SIMPLE VERSION
+    async function loadRatings() {
+      try {
+        console.log('🔄 Loading ratings...');
+        
+        const response = await fetch('/api/admin/ratings');
+        const data = await response.json();
+        
+        console.log('📦 Response received:', data);
+        
+        if (data.success) {
+          ratings = data.ratings;
+          console.log('✅ Total ratings:', ratings.length);
+          
+          // Show all ratings in a table for easy debugging
+          console.table(ratings.map(r => ({
+            rating_id: r.rating_id,
+            order_id: r.order_id,
+            customer_name: r.customer_name,
+            rating_value: r.rating_value
+          })));
+          
+          if (ratings.length > 0) {
+            console.log('✅ First rating full object:', ratings[0]);
+          }
+          
+          displayRatings();
+          updateStats(data.stats);
+        } else {
+          console.error('❌ API returned error:', data.message);
+          document.getElementById('ratingsContainer').innerHTML = `
+            <div class="alert alert-danger">Error: ${data.message}</div>
+          `;
+        }
+      } catch (error) {
+        console.error('❌ Load ratings error:', error);
+        document.getElementById('ratingsContainer').innerHTML = `
+          <div class="alert alert-danger">Failed to load ratings. Please try again.</div>
+        `;
+      }
+    }
+
+    // Ratings ko table format mein dikhata hai - SIMPLIFIED
+    function displayRatings() {
+      const container = document.getElementById('ratingsContainer');
+      
+      console.log('🎨 Displaying', ratings.length, 'ratings');
+      
+      if (ratings.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-5">
+            <i class="fas fa-star fa-3x text-muted mb-3"></i>
+            <p class="text-muted">No ratings found</p>
+          </div>
+        `;
+        return;
+      }
+
+      const tableRows = ratings.map((rating, index) => {
+        // Log first rating for debugging
+        if (index === 0) {
+          console.log('🔍 Rendering first rating:', {
+            rating_id: rating.rating_id,
+            order_id: rating.order_id,
+            has_order_id: !!rating.order_id
+          });
+        }
+        
+        const stars = '★'.repeat(rating.rating_value) + '☆'.repeat(5 - rating.rating_value);
+        const date = new Date(rating.created_at).toLocaleString('en-IN', { 
+          timeZone: 'Asia/Kolkata',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        const ratingType = rating.item_id ? 
+          `<span class="badge bg-primary">Item Rating</span>` : 
+          `<span class="badge bg-secondary">Order Rating</span>`;
+        
+        const itemInfo = rating.item_id ? 
+          `<div class="mt-1">
+            <small class="text-muted">
+              <i class="fas fa-utensils"></i> ${rating.item_name || 'Unknown Item'}
+              ${rating.item_category ? `<span class="text-muted">• ${rating.item_category}</span>` : ''}
+            </small>
+          </div>` : '';
+        
+        // Order ID display - SIMPLE AND DIRECT WITH DEBUG
+        let orderIdDisplay = '-';
+        if (rating.order_id) {
+          orderIdDisplay = `<strong class="text-primary">#${rating.order_id}</strong>`;
+        } else {
+          // Debug: show what we actually have
+          orderIdDisplay = `<span class="text-muted small">- (${typeof rating.order_id}: ${rating.order_id})</span>`;
+        }
+        
+        return `
+          <tr>
+            <td><strong>#${rating.rating_id}</strong></td>
+            <td>
+              <div><strong>${rating.customer_name}</strong></div>
+              <small class="text-muted">${rating.customer_phone}</small>
+            </td>
+            <td style="text-align: center;">
+              ${orderIdDisplay}
+            </td>
+            <td>
+              <div>${ratingType}</div>
+              ${itemInfo}
+            </td>
+            <td>
+              <div class="stars">${stars}</div>
+              <small class="text-muted">(${rating.rating_value}/5)</small>
+            </td>
+            <td style="max-width: 400px;">
+              ${rating.review_text ? 
+                `<div>${rating.review_text}</div>` : 
+                '<em class="text-muted">No review text</em>'
+              }
+            </td>
+            <td style="white-space: nowrap;">
+              <small>${date}</small>
+            </td>
+            <td style="text-align: center;">
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteRating(${rating.rating_id})" title="Delete Rating">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="ratings-table-container">
+          <div class="table-responsive">
+            <table class="ratings-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Customer</th>
+                  <th style="text-align: center;">Order ID</th>
+                  <th>Type / Item</th>
+                  <th>Rating</th>
+                  <th>Review Text</th>
+                  <th>Date</th>
+                  <th style="text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRows}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      
+      console.log('✅ Table rendered successfully');
+    }
+
+    // Stats cards ko update karta hai
+    function updateStats(stats) {
+      document.getElementById('totalRatings').textContent = stats.totalRatings;
+      document.getElementById('averageRating').textContent = stats.averageRating;
+      document.getElementById('todayRatings').textContent = stats.todayRatings || 0;
+      document.getElementById('withReview').textContent = stats.withReview;
+    }
+
+    // Rating ko delete karta hai
+    async function deleteRating(ratingId) {
+      const result = await Swal.fire({
+        title: 'Delete Rating?',
+        text: 'This action cannot be undone',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, Delete',
+        cancelButtonText: 'Cancel'
+      });
+
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`/api/admin/ratings/${ratingId}`, {
+            method: 'DELETE'
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted',
+              text: 'Rating deleted successfully',
+              timer: 1500,
+              showConfirmButton: false
+            });
+            loadRatings();
+          } else {
+            Swal.fire('Error', data.message || 'Failed to delete rating', 'error');
+          }
+        } catch (error) {
+          console.error('Delete rating error:', error);
+          Swal.fire('Error', 'Failed to delete rating', 'error');
+        }
+      }
+    }
+
+    // Admin ko logout karta hai
+    async function logout() {
+      await fetch('/api/auth/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    }
+
+    // Page load hone par auth check aur data load karo
+    checkAdminAuth();
+  </script>
+</body>
+</html>

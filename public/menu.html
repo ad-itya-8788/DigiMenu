@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, private">
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "f74b5208-81e8-4fb0-8083-8160a5665021",
+      safari_web_id: "web.onesignal.auto.4ed285de-faf5-4c6c-a346-3ff91e5aded6",
+      notifyButton: {
+        enable: true,
+      },
+    });
+    
+    // Auto-show notification prompt after 2 seconds
+    setTimeout(async () => {
+      const permission = await OneSignal.Notifications.permission;
+      if (permission === 'default') {
+        await OneSignal.Slidedown.promptPush();
+      }
+    }, 2000);
+  });
+</script>
+  <!-- Primary Meta Tags -->
+  <title>Our Menu - Hotel Aditya | Browse & Order Delicious Food</title>
+  <meta name="title" content="Our Menu - Hotel Aditya | Browse & Order Delicious Food">
+  <meta name="description" content="Explore Hotel Aditya's diverse menu featuring fresh, locally-sourced dishes. Order directly from your table with our digital menu system. Starters, main courses, desserts & more.">
+  <meta name="keywords" content="Hotel Aditya menu, restaurant menu, food menu, order food online, digital menu, table ordering, fresh food, local cuisine, dine-in menu">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/menu">
+  <meta property="og:title" content="Our Menu - Hotel Aditya">
+  <meta property="og:description" content="Explore Hotel Aditya's diverse menu featuring fresh, locally-sourced dishes. Order directly from your table.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://www.servhunt.in/menu">
+  <meta property="twitter:title" content="Our Menu - Hotel Aditya">
+  <meta property="twitter:description" content="Explore Hotel Aditya's diverse menu featuring fresh, locally-sourced dishes.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/menu">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#4e2a84">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Menu">
+
+  <!-- Icons & Fonts -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Brand Colors - Modern Swiggy/Zomato inspired */
+      --primary: #4e2a84;
+      --primary-soft: #ede7f6;
+      --accent: #ff6d00;
+      --accent-light: #ffe8d1;
+      --success: #1fb881;
+      --warning: #ffc107;
+      --error: #ef4444;
+      --text-main: #1c1c1c;
+      --text-sub: #686b78;
+      --text-light: #9a9fa5;
+      --bg-body: #FFFFFF;
+      --bg-card: #ffffff;
+      --border: #e8e8e8;
+
+      /* Spacing & Layout */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-float: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Poppins', sans-serif; background-color: var(--bg-body); color: var(--text-main); font-size: 14px; line-height: 1.5; padding-bottom: 120px; }
+
+    /* Utilities */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    .d-flex { display: flex; }
+    .justify-content-between { justify-content: space-between; }
+    .align-items-center { align-items: center; }
+    .flex-column { flex-direction: column; }
+    .w-100 { width: 100%; }
+    .me-2 { margin-right: 0.5rem; }
+    .d-none { display: none !important; }
+    .d-md-none { display: flex; }
+    @media (min-width: 769px) { .d-md-none { display: none !important; } }
+
+    /* Navbar */
+    .navbar {
+      background: var(--bg-card);
+      padding: 0.8rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-brand { font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; }
+    .navbar-brand i { color: var(--primary); font-size: 1.4rem; }
+
+    .cart-icon-wrapper { position: relative; padding: 8px; cursor: pointer; }
+    .cart-icon { font-size: 1.4rem; color: var(--text-main); }
+    .cart-badge {
+      position: absolute; top: 0; right: 0;
+      background: var(--accent); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      height: 18px; width: 18px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--bg-card);
+    }
+
+    /* Category Tabs */
+    .category-container {
+      background: var(--bg-card);
+      position: sticky;
+      top: 60px;
+      z-index: 900;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .category-tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 1rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .category-tabs::-webkit-scrollbar { display: none; }
+
+    .category-tab {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-sub);
+      background: var(--bg-body);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .category-tab.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(78, 42, 132, 0.3);
+    }
+
+    /* Menu Grid */
+    .menu-container { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .menu-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    }
+
+    /* Menu Item Card */
+    .menu-item-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .menu-item-card:active { transform: scale(0.98); }
+
+    .menu-item-image-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 66.6%;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+    .menu-item-image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .menu-item-badge {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 0.65rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* Rating Badge - Zomato Style (Top-Right Corner) */
+    .rating-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #1fb881 0%, #17a06f 100%);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 2px 8px rgba(31, 184, 129, 0.4);
+      z-index: 10;
+      letter-spacing: 0.3px;
+    }
+
+    .rating-badge i {
+      font-size: 0.65rem;
+      color: #fff;
+    }
+
+    /* Rate Item Button - Menu Page - Attractive Design */
+    .rate-item-btn-menu {
+      background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 10px;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rate-item-btn-menu::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .rate-item-btn-menu:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+    }
+
+    .rate-item-btn-menu:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .rate-item-btn-menu:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .rate-item-btn-menu i {
+      font-size: 0.85rem;
+      animation: starPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes starPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* New Item Badge (when no ratings) */
+    .new-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #ff6d00 0%, #f55a00 100%);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(255, 109, 0, 0.4);
+      z-index: 10;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Sold Out Badge (higher z-index to show on top) */
+    .menu-item-badge.sold-out {
+      z-index: 11;
+    }
+
+    .menu-item-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .menu-item-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .menu-item-description {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    .menu-item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .menu-item-price {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Add Button */
+    .add-to-cart-btn {
+      background: var(--bg-card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 6px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .add-to-cart-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 10px rgba(255, 109, 0, 0.3);
+    }
+    .add-to-cart-btn:disabled {
+      background: #eee; color: #aaa; border-color: transparent; box-shadow: none;
+    }
+
+
+
+    /* Quantity Controls */
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 0;
+      box-shadow: 0 2px 8px rgba(255, 109, 0, 0.3);
+    }
+    .qty-btn {
+      background: transparent;
+      color: white;
+      border: none;
+      width: 28px; height: 28px;
+      font-size: 1rem; font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-value {
+      color: white;
+      font-size: 0.85rem; font-weight: 600;
+      min-width: 20px; text-align: center;
+    }
+
+    /* Floating Cart Bar */
+    .cart-bottom-bar {
+      position: fixed;
+      bottom: 80px;
+      left: 1rem; right: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-float);
+      padding: 12px 16px;
+      z-index: 990;
+      display: none;
+      border: 1px solid var(--primary-soft);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (min-width: 769px) { .cart-bottom-bar { bottom: 20px; } }
+
+    .cart-bottom-bar.active { display: block; }
+
+    .cart-summary { display: flex; justify-content: space-between; align-items: center; }
+
+    .cart-info-group { display: flex; flex-direction: column; }
+    .cart-count-text { font-size: 0.7rem; text-transform: uppercase; color: var(--text-sub); font-weight: 600; letter-spacing: 0.5px; }
+    .cart-total-amount { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+    .place-order-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 12px rgba(78, 42, 132, 0.4);
+      transition: transform 0.2s;
+    }
+    .place-order-btn:active { transform: scale(0.95); }
+
+    /* Mobile Footer - Consistent across pages */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      padding: 0.75rem 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-sub);
+      transition: all 0.3s ease;
+      flex: 1;
+      padding: 0.25rem;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-item span {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .nav-item.review {
+      background: linear-gradient(135deg, var(--primary) 0%, #6a4c9c 100%);
+      color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -10px 0.5rem 0;
+      box-shadow: 0 4px 12px rgba(78, 42, 132, 0.4);
+      flex: 0 0 auto;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-item.review i {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .nav-item.review span {
+      display: none;
+    }
+
+    @media (min-width: 769px) {
+      .bottom-nav { display: none; }
+    }
+
+
+
+    /* Enhanced Notification Banner */
+    .notification-banner {
+      position: fixed; top: -100px; left: 1rem; right: 1rem; margin: 0 auto;
+      max-width: 600px;
+      background: linear-gradient(135deg, #333 0%, #1c1c1c 100%);
+      color: white;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-float);
+      z-index: 2000;
+      display: flex; align-items: center; gap: 12px;
+      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-left: 4px solid var(--accent);
+    }
+    .notification-banner.show { top: 20px; }
+    .notification-banner.success { border-left-color: var(--success); background: linear-gradient(135deg, #1fb881 0%, #168f61 100%); }
+    .notification-banner.error { border-left-color: var(--error); background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+    .notification-banner.warning { border-left-color: var(--warning); background: linear-gradient(135deg, #ffc107 0%, #f59e0b 100%); color: #333; }
+
+    .notification-icon { color: white; font-size: 1.2rem; min-width: 20px; }
+    .notification-content { flex: 1; font-size: 0.85rem; }
+    .notification-title { font-weight: 700; display: block; margin-bottom: 2px; }
+    .notification-close { background: none; border: none; color: #aaa; cursor: pointer; padding: 4px; }
+
+    /* Loading & Empty States */
+    .loading-container { display: flex; justify-content: center; align-items: center; min-height: 200px; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .empty-state {
+      text-align: center; padding: 3rem 1rem;
+      color: var(--text-sub);
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+
+    /* Modern Table Selection Grid */
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      padding: 0 16px;
+    }
+
+    .table-btn {
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .table-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--primary-soft);
+      transition: left 0.2s;
+      z-index: -1;
+    }
+
+    .table-btn:hover:not(:disabled) { border-color: var(--primary); }
+    .table-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(78, 42, 132, 0.3);
+    }
+
+    .table-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #f5f5f5;
+    }
+
+    .table-icon { font-size: 1.5rem; }
+    .table-label { font-size: 0.9rem; }
+    .table-status { font-size: 0.65rem; opacity: 0.7; }
+
+    /* Modern Payment Method Cards */
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 0;
+    }
+
+    .payment-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .payment-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: -100%;
+      width: 100%; height: 100%;
+      background: var(--primary-soft);
+      transition: right 0.2s;
+      z-index: -1;
+      border-radius: var(--radius-md);
+    }
+
+    .payment-card:hover { border-color: var(--primary); }
+    .payment-card.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(78, 42, 132, 0.3);
+    }
+
+    .payment-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .payment-card.selected .payment-icon { animation: popIn 0.3s ease; }
+
+    .payment-content { flex: 1; }
+    .payment-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .payment-desc {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    .payment-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .payment-card.selected .payment-check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* SweetAlert Customization */
+    .swal2-popup { border-radius: 16px !important; font-family: 'Poppins', sans-serif !important; }
+    .swal2-title { font-size: 1.3rem !important; color: var(--text-main) !important; font-weight: 700 !important; }
+    .swal2-html-container { font-size: 0.9rem !important; }
+    .swal2-confirm { background: var(--primary) !important; border-radius: 8px !important; font-weight: 600 !important; }
+    .swal2-cancel { background: #eee !important; color: var(--text-main) !important; border-radius: 8px !important; font-weight: 600 !important; }
+
+    @keyframes popIn { 0% { transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  </style>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    "name": "Hotel Aditya Menu",
+    "description": "Explore Hotel Aditya's diverse menu featuring fresh, locally-sourced dishes. Order directly from your table with our digital menu system.",
+    "url": "https://www.servhunt.in/menu",
+    "inLanguage": "en",
+    "provider": {
+      "@type": "Restaurant",
+      "name": "Hotel Aditya",
+      "url": "https://www.servhunt.in"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Enhanced Notification with type support -->
+  <div class="notification-banner" id="notificationBanner">
+    <div class="notification-icon"><i class="fas fa-bell"></i></div>
+    <div class="notification-content">
+      <span class="notification-title">Update</span>
+      <span id="notificationText"></span>
+    </div>
+    <button class="notification-close" onclick="hideNotification()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="navbar-brand">
+        <i class="fas fa-utensils me-2"></i>
+        <span>Hotel Aditya</span>
+      </div>
+      <div class="cart-icon-wrapper" onclick="showCartModal()">
+        <i class="fas fa-shopping-bag cart-icon"></i>
+        <div class="cart-badge" id="cartCount">0</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Categories -->
+  <div class="category-container">
+    <div class="container">
+      <div class="category-tabs" id="categoryTabs">
+        <div class="category-tab active" data-category="all">All Items</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Grid -->
+  <div class="container menu-container">
+    <div id="menuItemsContainer">
+      <div class="loading-container">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Floating Bar -->
+  <div class="cart-bottom-bar" id="cartBottomBar">
+    <div class="cart-summary">
+      <div class="cart-info-group">
+        <span class="cart-count-text">Total</span>
+        <span class="cart-total-amount" id="cartTotal">₹0</span>
+      </div>
+      <button class="place-order-btn" onclick="placeOrder()">
+        <span>Place Order</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Footer -->
+  <div class="bottom-nav">
+    <a href="/menu" class="nav-item active">
+      <i class="fas fa-utensils"></i>
+      <span>Menu</span>
+    </a>
+    <a href="/profile" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <script>
+    // 📦 GLOBAL VARIABLES - Ye sab important data store karte hain
+    // customer → logged-in user ki details (name, phone, etc)
+    // categories → menu ke categories (Starters, Main Course, etc)
+    // menuItems → sab food items ki list
+    // cart → customer ne jo items add kiye hain
+    // tableAvailability → konse tables khali hain
+    // orderedItems → customer ne pehle jo items order kiye hain
+    // ratedItems → customer ne jinko rating de di hai
+    let customer = null;
+    let categories = [];
+    let menuItems = [];
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let tableAvailability = {};
+    let orderedItems = new Set();
+    let ratedItems = new Set();
+
+    // 🔔 NOTIFICATION FUNCTIONS - Screen pe message dikhane ke liye
+    // showNotification → top pe banner dikhata hai (success/error/warning)
+    // msg → jo message dikhana hai
+    // type → success (green), error (red), warning (yellow)
+    // 5 seconds baad automatically hide ho jata hai
+    function showNotification(msg, type = 'info') {
+      const banner = document.getElementById('notificationBanner');
+      document.getElementById('notificationText').innerText = msg;
+      banner.className = 'notification-banner ' + type + ' show';
+      setTimeout(() => banner.classList.remove('show'), 5000);
+    }
+    
+    // hideNotification → notification ko manually band karne ke liye
+    function hideNotification() { 
+      document.getElementById('notificationBanner').classList.remove('show'); 
+    }
+
+    // 🪑 TABLE AVAILABILITY - Konse tables khali hain ye check karta hai
+    // Server se API call karke table status lete hain
+    // true → table khali hai (available)
+    // false → table busy hai (occupied)
+    // Agar API fail ho jaye to sab tables ko available maan lete hain
+    async function loadTableAvailability() {
+      try {
+        const res = await fetch('/api/orders/table-availability');
+        const data = await res.json();
+        tableAvailability = data.success ? data.tableStatus : { 'T-1': true, 'T-2': true, 'T-3': true, 'T-4': true, 'T-5': true };
+      } catch (error) {
+        tableAvailability = { 'T-1': true, 'T-2': true, 'T-3': true, 'T-4': true, 'T-5': true };
+      }
+    }
+
+    // 🔐 AUTHENTICATION CHECK - User logged in hai ya nahi check karta hai
+    // Server se session check karte hain
+    // Agar logged in hai:
+    //   → customer details save karte hain
+    //   → agar birthday nahi di to popup dikhate hain
+    //   → ordered aur rated items load karte hain
+    // Agar logged out hai:
+    //   → sab data clear kar dete hain
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/session-check');
+        const data = await res.json();
+        if (data.authenticated) {
+          customer = data.customer;
+          if (!customer.hasDob) setTimeout(showDobPopup, 500);
+          await loadOrderedAndRatedItems();
+        } else {
+          customer = null;
+          orderedItems.clear();
+          ratedItems.clear();
+        }
+      } catch (error) {
+        customer = null;
+        orderedItems.clear();
+        ratedItems.clear();
+      }
+    }
+
+    // 📋 ORDERED & RATED ITEMS - Customer ne kya order kiya aur kya rate kiya
+    // Ye function 2 cheezein load karta hai:
+    // 1) orderedItems → customer ne pehle jo items order kiye (completed orders se)
+    // 2) ratedItems → customer ne jinko rating de di hai
+    // Dono API calls ek sath (parallel) chalate hain for speed
+    // Sirf logged-in users ke liye kaam karta hai
+    async function loadOrderedAndRatedItems() {
+      if (!customer) {
+        orderedItems.clear();
+        ratedItems.clear();
+        return;
+      }
+
+      try {
+        const [orderedRes, ratedRes] = await Promise.all([
+          fetch('/api/ratings/ordered-items'),
+          fetch('/api/ratings/my-ratings')
+        ]);
+        
+        const orderedData = await orderedRes.json();
+        const ratedData = await ratedRes.json();
+        
+        if (orderedData.success) {
+          orderedItems = new Set(orderedData.orderedItems.map(item => item.item_id));
+        }
+        if (ratedData.success) {
+          ratedItems = new Set(ratedData.ratings.filter(r => r.item_id).map(r => r.item_id));
+        }
+      } catch (error) {
+        console.error('Load error:', error);
+      }
+    }
+
+    // 🎂 BIRTHDAY POPUP - Customer se birthday date mangta hai
+    // Ye popup tab dikhta hai jab customer ne pehle birthday nahi di
+    // Birthday offers dene ke liye zaruri hai
+    // Date select karke Save button pe click karne par:
+    //   → Server ko POST request bhejte hain
+    //   → Success message dikhate hain
+    function showDobPopup() {
+      Swal.fire({
+        title: '🎂 Add Your Birthday',
+        html: `<p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Get exclusive birthday offers!</p>
+          <input type="date" id="dobInput" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" max="${new Date().toISOString().split('T')[0]}" />`,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        confirmButtonColor: '#4e2a84',
+        preConfirm: async () => {
+          const dob = document.getElementById('dobInput').value;
+          if (!dob) return Swal.showValidationMessage('Please select a date');
+          try {
+            const res = await fetch('/api/profile/dob', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ dob })
+            });
+            const data = await res.json();
+            if (!data.success) throw new Error(data.message);
+            return dob;
+          } catch (error) {
+            Swal.showValidationMessage(error.message || 'Failed to save');
+          }
+        }
+      }).then(result => {
+        if (result.isConfirmed) Swal.fire({ icon: 'success', title: 'Saved!', timer: 1500, showConfirmButton: false });
+      });
+    }
+
+    // 🍽️ MENU LOAD - Categories aur items ko server se load karta hai
+    // 2 API calls ek sath (parallel) chalate hain:
+    // 1) Categories API → Starters, Main Course, Desserts, etc
+    // 2) Items API → Sab food items ki list with price, image, rating
+    // Categories ko tabs mein dikhate hain (All, Starters, etc)
+    // Items ko grid mein dikhate hain (cards with image, price, add button)
+    async function loadMenu() {
+      try {
+        const [catRes, itemRes] = await Promise.all([
+          fetch('/api/menu/categories'),
+          fetch('/api/menu/items')
+        ]);
+        const catData = await catRes.json();
+        const itemData = await itemRes.json();
+
+        if (catData.success) {
+          categories = catData.categories;
+          const tabs = document.getElementById('categoryTabs');
+          tabs.innerHTML = '<div class="category-tab active" data-category="all" onclick="filterByCategory(\'all\')">All</div>';
+          categories.forEach(cat => {
+            tabs.innerHTML += `<div class="category-tab" data-category="${cat.category_id}" onclick="filterByCategory(${cat.category_id})">${cat.category_name}</div>`;
+          });
+        }
+
+        if (itemData.success) {
+          menuItems = itemData.items;
+          displayMenuItems(menuItems);
+        }
+      } catch (error) {
+        document.getElementById('menuItemsContainer').innerHTML = `<div class="empty-state"><i class="fas fa-wifi"></i><p>Could not load menu.</p></div>`;
+      }
+    }
+
+    // 🎨 DISPLAY MENU ITEMS - Items ko screen pe dikhata hai (cards mein)
+    // Har item ke liye ye check karta hai:
+    // 1) Cart mein hai ya nahi → qty dikhane ke liye
+    // 2) Rating kitni hai → badge dikhane ke liye
+    // 3) Customer ne order kiya hai → rate button dikhane ke liye
+    // 4) Available hai ya sold out → button enable/disable karne ke liye
+    // HTML banake container mein daal deta hai
+    function displayMenuItems(items) {
+      const container = document.getElementById('menuItemsContainer');
+      if (items.length === 0) {
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>No items found.</p></div>`;
+        return;
+      }
+
+      const itemsHtml = items.map(item => {
+        const cartItem = cart.find(c => c.itemId === item.item_id);
+        const qty = cartItem ? cartItem.quantity : 0;
+        const safeName = item.item_name.replace(/'/g, "\\'");
+        const rating = parseFloat(item.avg_rating) || 0;
+        const ratingCount = parseInt(item.rating_count) || 0;
+        const canRate = orderedItems.has(item.item_id) && !ratedItems.has(item.item_id);
+
+        const imageHtml = item.image_url ? 
+          `<img src="${item.image_url}" class="menu-item-image" alt="${item.item_name}" loading="lazy">` :
+          `<div class="menu-item-image" style="display:flex;align-items:center;justify-content:center;background:#eee;color:#ccc;font-size:2rem;"><i class="fas fa-utensils"></i></div>`;
+
+        const badgeHtml = !item.is_available ? `<div class="menu-item-badge sold-out">Sold Out</div>` : 
+          (rating > 0 ? `<div class="rating-badge" title="${ratingCount} rating${ratingCount !== 1 ? 's' : ''}"><i class="fas fa-star"></i>${rating.toFixed(1)}</div>` : 
+          `<div class="new-badge">New</div>`);
+
+        const buttonHtml = !item.is_available ? `<button class="add-to-cart-btn" disabled>N/A</button>` :
+          (qty > 0 ? `<div class="quantity-controls">
+            <button class="qty-btn" onclick="updateQuantity(${item.item_id}, -1)">−</button>
+            <span class="qty-value">${qty}</span>
+            <button class="qty-btn" onclick="updateQuantity(${item.item_id}, 1)">+</button>
+          </div>` : `<button class="add-to-cart-btn" onclick="addToCart(${item.item_id}, '${safeName}', ${item.price})">ADD</button>`);
+
+        const rateButtonHtml = canRate ? `<button class="rate-item-btn-menu" onclick="openItemRatingModal(${item.item_id}, '${safeName}')">
+          <i class="fas fa-star"></i> Rate Item
+        </button>` : '';
+
+        return `<div class="menu-item-card">
+          <div class="menu-item-image-wrapper">${imageHtml}${badgeHtml}</div>
+          <div class="menu-item-content">
+            <div class="menu-item-name">${item.item_name}</div>
+            <div class="menu-item-description">${item.description || 'Delicious freshly prepared dish'}</div>
+            <div class="menu-item-footer">
+              <div class="menu-item-price">₹${parseFloat(item.price).toFixed(0)}</div>
+              ${buttonHtml}
+            </div>
+            ${rateButtonHtml}
+          </div>
+        </div>`;
+      }).join('');
+
+      container.innerHTML = `<div class="menu-grid">${itemsHtml}</div>`;
+    }
+
+    // 🔍 FILTER BY CATEGORY - Category tab click karne par items filter karta hai
+    // "All" → sab items dikhao
+    // "Starters" → sirf starters dikhao
+    // Active tab ko highlight karta hai
+    function filterByCategory(catId) {
+      document.querySelectorAll('.category-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.category == catId);
+      });
+      const filtered = catId === 'all' ? menuItems : menuItems.filter(i => i.category_id == catId);
+      displayMenuItems(filtered);
+    }
+
+    // 🛒 ADD TO CART - Item ko cart mein add karta hai
+    // Agar item pehle se cart mein hai → quantity badhao
+    // Agar naya item hai → cart mein add karo
+    // localStorage mein save karte hain (page refresh ke baad bhi rahe)
+    // Success notification dikhate hain
+    // IMPORTANT: Menu items ko bhi refresh karo taaki ADD button quantity controls mein badal jaye
+    function addToCart(id, name, price) {
+      const item = cart.find(c => c.itemId === id);
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({ itemId: id, itemName: name, price: parseFloat(price), quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+      showNotification(`${name} added to cart`, 'success');
+      
+      // 🔥 FIX: Sirf us specific item card ko update karo (fast & smooth)
+      updateItemCard(id);
+    }
+
+    // ➕➖ UPDATE QUANTITY - Cart mein item ki quantity badhao ya ghatao
+    // delta → +1 (increase) ya -1 (decrease)
+    // Agar quantity 0 ho jaye → item ko cart se remove karo
+    // localStorage update karo aur UI refresh karo
+    // IMPORTANT: Menu items ko bhi refresh karo taaki quantity live update ho
+    function updateQuantity(id, delta) {
+      const item = cart.find(c => c.itemId === id);
+      if (!item) return;
+      
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        cart = cart.filter(c => c.itemId !== id);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+      
+      // 🔥 FIX: Sirf us specific item card ko update karo (fast & smooth)
+      updateItemCard(id);
+    }
+
+    // 🔄 UPDATE ITEM CARD - Sirf ek specific item card ko update karta hai
+    // Pura menu refresh karne ki zarurat nahi (fast & efficient)
+    // Item ke footer mein ADD button ya quantity controls dikhata hai
+    function updateItemCard(itemId) {
+      const item = menuItems.find(i => i.item_id === itemId);
+      if (!item) return;
+
+      const cartItem = cart.find(c => c.itemId === itemId);
+      const qty = cartItem ? cartItem.quantity : 0;
+      const safeName = item.item_name.replace(/'/g, "\\'");
+
+      // 🔥 BUG FIX: Sirf us specific item ka card find karo (itemId se match karo)
+      // Pehle sab cards ko loop kar rahe the, ab sirf correct card ko target karte hain
+      const cards = document.querySelectorAll('.menu-item-card');
+      cards.forEach(card => {
+        // Check karo ki ye card us specific item ka hai ya nahi
+        const addBtn = card.querySelector(`button[onclick*="addToCart(${itemId},"]`);
+        const qtyControls = card.querySelector(`button[onclick*="updateQuantity(${itemId},"]`);
+        
+        // Sirf agar ye card us item ka hai tabhi update karo
+        if (addBtn || qtyControls) {
+          const footer = card.querySelector('.menu-item-footer');
+          if (!footer) return;
+
+          // Footer ke andar sirf button part ko update karo
+          const priceDiv = footer.querySelector('.menu-item-price');
+          const priceHtml = priceDiv ? priceDiv.outerHTML : `<div class="menu-item-price">₹${parseFloat(item.price).toFixed(0)}</div>`;
+
+          const buttonHtml = !item.is_available ? `<button class="add-to-cart-btn" disabled>N/A</button>` :
+            (qty > 0 ? `<div class="quantity-controls">
+              <button class="qty-btn" onclick="updateQuantity(${item.item_id}, -1)">−</button>
+              <span class="qty-value">${qty}</span>
+              <button class="qty-btn" onclick="updateQuantity(${item.item_id}, 1)">+</button>
+            </div>` : `<button class="add-to-cart-btn" onclick="addToCart(${item.item_id}, '${safeName}', ${item.price})">ADD</button>`);
+
+          footer.innerHTML = priceHtml + buttonHtml;
+        }
+      });
+    }
+
+    // 🔄 UPDATE CART UI - Cart icon aur bottom bar ko update karta hai
+    // count → total items kitne hain
+    // total → total price kitna hai
+    // Agar cart khali hai → bottom bar hide karo
+    // Agar items hain → bottom bar show karo
+    function updateCartUI() {
+      const count = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+      document.getElementById('cartCount').textContent = count;
+      document.getElementById('cartTotal').textContent = `₹${total.toFixed(0)}`;
+      document.getElementById('cartBottomBar').classList.toggle('active', count > 0);
+    }
+
+    function showCartModal() {
+      if (cart.length === 0) {
+        return Swal.fire({
+          icon: 'info',
+          title: 'Cart is Empty',
+          text: 'Add some delicious items to your cart!',
+          confirmButtonColor: '#4e2a84'
+        });
+      }
+
+      const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+      const itemCount = cart.reduce((s, i) => s + i.quantity, 0);
+
+      const html = `
+        <div style="text-align: left;">
+          <div style="background: linear-gradient(135deg, #4e2a84 0%, #6a4c9c 100%); color: white; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-size: 0.75rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">Total Items</div>
+                <div style="font-size: 1.3rem; font-weight: 700;">${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.75rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">Total Amount</div>
+                <div style="font-size: 1.3rem; font-weight: 700;">₹${total.toFixed(0)}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="cartItemsContainer" style="max-height: 350px; overflow-y: auto; padding-right: 8px;">
+            ${cart.map((item, index) => `
+              <div class="cart-item-row" data-item-id="${item.itemId}" style="display: flex; gap: 12px; padding: 12px; background: #f9f9f9; border-radius: 12px; margin-bottom: 10px; transition: all 0.2s;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font-weight: 600; font-size: 0.95rem; color: #1c1c1c; margin-bottom: 4px;">${item.itemName}</div>
+                  <div style="font-size: 0.8rem; color: #686b78;">₹${item.price.toFixed(0)} each</div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                  <div style="font-weight: 700; font-size: 1rem; color: #4e2a84;">₹${(item.price * item.quantity).toFixed(0)}</div>
+                  
+                  <div style="display: flex; align-items: center; background: white; border-radius: 8px; border: 1px solid #e8e8e8; overflow: hidden;">
+                    <button class="cart-qty-btn" data-action="decrease" data-item-id="${item.itemId}" style="border: none; background: none; width: 32px; height: 32px; font-size: 1.1rem; font-weight: 700; color: #ef4444; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">
+                      ${item.quantity === 1 ? '<i class="fas fa-trash" style="font-size: 0.85rem;"></i>' : '−'}
+                    </button>
+                    <span style="font-size: 0.9rem; font-weight: 600; min-width: 28px; text-align: center; color: #1c1c1c;">${item.quantity}</span>
+                    <button class="cart-qty-btn" data-action="increase" data-item-id="${item.itemId}" style="border: none; background: none; width: 32px; height: 32px; font-size: 1.1rem; font-weight: 700; color: #1fb881; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">+</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      Swal.fire({
+        title: '<div style="display: flex; align-items: center; gap: 10px;"><i class="fas fa-shopping-bag" style="color: #4e2a84;"></i><span>Your Cart</span></div>',
+        html: html,
+        width: '500px',
+        showCancelButton: true,
+        confirmButtonText: `<i class="fas fa-arrow-right me-2"></i>Proceed to Pay ₹${total.toFixed(0)}`,
+        confirmButtonColor: '#4e2a84',
+        cancelButtonText: '<i class="fas fa-plus me-2"></i>Add More Items',
+        cancelButtonColor: '#6c757d',
+        customClass: {
+          confirmButton: 'swal-btn-confirm',
+          cancelButton: 'swal-btn-cancel'
+        },
+        didOpen: () => {
+          const popup = Swal.getPopup();
+
+          // Add hover effects
+          const style = document.createElement('style');
+          style.textContent = `
+            .cart-qty-btn:hover { background: #f0f0f0 !important; }
+            .cart-item-row:hover { background: #f0f0f0 !important; }
+            .swal-btn-confirm, .swal-btn-cancel { 
+              padding: 10px 24px !important; 
+              font-weight: 600 !important;
+              border-radius: 8px !important;
+            }
+          `;
+          popup.appendChild(style);
+
+          // Handle quantity buttons
+          popup.querySelectorAll('.cart-qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const itemId = parseInt(btn.dataset.itemId);
+              const action = btn.dataset.action;
+
+              if (action === 'increase') {
+                updateQuantity(itemId, 1);
+              } else if (action === 'decrease') {
+                updateQuantity(itemId, -1);
+              }
+
+              // Refresh the cart modal
+              Swal.close();
+              setTimeout(() => showCartModal(), 100);
+            });
+          });
+        }
+      }).then(res => {
+        if (res.isConfirmed) placeOrder();
+      });
+    }
+
+    async function placeOrder() {
+      if (!isOrderAccept) return Swal.fire({ icon:'warning', title:'Orders Closed', text:'We are not accepting orders right now.' });
+      if (cart.length === 0) return;
+
+      await checkAuth();
+      if (!customer) {
+        return Swal.fire({
+          title: 'Login Required',
+          text: 'Please login to place your order',
+          confirmButtonText: 'Login',
+          showCancelButton: true
+        }).then(res => {
+          if (res.isConfirmed) {
+            localStorage.setItem('redirectAfterLogin', 'menu');
+            window.location.href = '/login';
+          }
+        });
+      }
+
+      await loadTableAvailability();
+
+      const { value: table } = await Swal.fire({
+        title: '🍽️ Select Your Table',
+        html: `
+          <div style="text-align: left; margin-bottom: 8px;">
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">Choose an available table for your order:</p>
+          </div>
+          <div class="table-grid">
+            ${['T-1','T-2','T-3','T-4','T-5'].map((t, i) => {
+               const busy = tableAvailability[t] === false;
+               return `
+                 <button 
+                   class="table-btn ${busy ? 'disabled' : ''}" 
+                   data-t="${t}" 
+                   onclick="this.classList.toggle('selected'); document.getElementById('selTable').value = this.dataset.t;" 
+                   ${busy ? 'disabled' : ''}>
+                   <div class="table-icon"><i class="fas ${busy ? 'fa-ban' : 'fa-chair'}"></i></div>
+                   <div class="table-label">Table ${i+1}</div>
+                   <div class="table-status">${busy ? 'Busy' : 'Available'}</div>
+                 </button>
+               `;
+            }).join('')}
+          </div>
+          <input type="hidden" id="selTable">
+        `,
+        didOpen: () => {
+          document.querySelectorAll('.table-btn:not(:disabled)').forEach(b => {
+            b.onclick = function() {
+              document.querySelectorAll('.table-btn').forEach(btn => btn.classList.remove('selected'));
+              this.classList.add('selected');
+              document.getElementById('selTable').value = this.dataset.t;
+            }
+          });
+        },
+        preConfirm: () => document.getElementById('selTable').value || Swal.showValidationMessage('Please select a table')
+      });
+
+      if (!table) return;
+
+      const total = cart.reduce((s,i) => s + (i.price * i.quantity), 0);
+      const paymentResult = await Swal.fire({
+        title: '💳 Choose Payment Method',
+        html: `
+          <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 100%; overflow: hidden;">
+            <div class="payment-card" data-m="pay_now" style="display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid #e8e8e8; border-radius: 12px; background: white; cursor: pointer; transition: all 0.2s; width: 100%; box-sizing: border-box;">
+              <div style="font-size: 1.5rem; color: #4e2a84; flex-shrink: 0;">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div style="flex: 1; text-align: left; min-width: 0;">
+                <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 2px;">Pay Online</div>
+                <div style="font-size: 0.75rem; color: #666;">UPI • Cards • Netbanking</div>
+              </div>
+              <div class="payment-check-icon" style="width: 22px; height: 22px; border-radius: 50%; background: white; border: 2px solid #e8e8e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-check" style="font-size: 0.8rem; color: transparent;"></i>
+              </div>
+            </div>
+            <div class="payment-card" data-m="pay_later" style="display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid #e8e8e8; border-radius: 12px; background: white; cursor: pointer; transition: all 0.2s; width: 100%; box-sizing: border-box;">
+              <div style="font-size: 1.5rem; color: #1fb881; flex-shrink: 0;">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+              <div style="flex: 1; text-align: left; min-width: 0;">
+                <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 2px;">Pay at Counter</div>
+                <div style="font-size: 0.75rem; color: #666;">Cash or QR Code</div>
+              </div>
+              <div class="payment-check-icon" style="width: 22px; height: 22px; border-radius: 50%; background: white; border: 2px solid #e8e8e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fas fa-check" style="font-size: 0.8rem; color: transparent;"></i>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="selPay">
+        `,
+        width: '90%',
+        showCancelButton: true,
+        confirmButtonText: 'Continue',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#4e2a84',
+        didOpen: () => {
+          document.querySelectorAll('.payment-card').forEach(card => {
+            card.addEventListener('click', function() {
+              document.querySelectorAll('.payment-card').forEach(c => {
+                c.style.borderColor = '#e8e8e8';
+                c.style.background = 'white';
+                c.style.color = '#1c1c1c';
+                const check = c.querySelector('.payment-check-icon');
+                check.style.background = 'white';
+                check.style.borderColor = '#e8e8e8';
+                check.querySelector('i').style.color = 'transparent';
+              });
+              this.style.borderColor = '#4e2a84';
+              this.style.background = '#4e2a84';
+              this.style.color = 'white';
+              const check = this.querySelector('.payment-check-icon');
+              check.style.background = '#ff6d00';
+              check.style.borderColor = '#ff6d00';
+              check.querySelector('i').style.color = 'white';
+              document.getElementById('selPay').value = this.dataset.m;
+            });
+          });
+        },
+        preConfirm: () => document.getElementById('selPay').value || Swal.showValidationMessage('Please select a payment method')
+      });
+
+      // Check if user cancelled or dismissed the payment selection
+      if (!paymentResult.isConfirmed || !paymentResult.value) {
+        showNotification('Payment selection cancelled', 'info');
+        return;
+      }
+
+      const method = paymentResult.value;
+
+      if (method === 'pay_later') {
+        const confirmResult = await Swal.fire({
+          title: '⏱️ Confirm Order',
+          html: `
+            <div style="text-align: center; padding: 20px 0;">
+              <div style="font-size: 3rem; margin-bottom: 16px;">💵</div>
+              <p style="font-size: 1rem; color: #666; margin-bottom: 8px;">You selected <strong>Pay at Counter</strong></p>
+              <p style="font-size: 0.85rem; color: #999;">Your order will be placed in <span id="countdown" style="color: #4e2a84; font-weight: 700;">4</span> seconds</p>
+              <div style="margin-top: 20px; padding: 12px; background: #fff3e0; border-radius: 8px; border-left: 4px solid #ff6d00;">
+                <p style="font-size: 0.8rem; color: #666; margin: 0;">💡 Click "Cancel" if you changed your mind</p>
+              </div>
+            </div>
+          `,
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonText: 'Cancel Order',
+          cancelButtonColor: '#ef4444',
+          allowOutsideClick: false,
+          timer: 4000,
+          timerProgressBar: true,
+          didOpen: () => {
+            let timeLeft = 4;
+            const countdownEl = document.getElementById('countdown');
+            const interval = setInterval(() => {
+              timeLeft--;
+              if (countdownEl && timeLeft > 0) {
+                countdownEl.textContent = timeLeft;
+              } else {
+                clearInterval(interval);
+              }
+            }, 1000);
+          }
+        });
+
+        // Only place order if timer expired (dismiss.timer), NOT if user cancelled
+        if (confirmResult.dismiss === Swal.DismissReason.timer) {
+          createOrderAndPay(cart.map(i => ({item_id: i.itemId, quantity: i.quantity, price: i.price})), table, total, method);
+        } else {
+          showNotification('Order cancelled', 'warning');
+          return;
+        }
+      } else {
+        createOrderAndPay(cart.map(i => ({item_id: i.itemId, quantity: i.quantity, price: i.price})), table, total, method);
+      }
+    }
+
+
+
+    async function createOrderAndPay(items, table, total, method) {
+      try {
+        if (method === 'pay_now') {
+          // 🔑 Razorpay key backend se lete hain (secure way - hardcoded nahi)
+          const keyRes = await fetch('/api/payments/razorpay-key');
+          const keyData = await keyRes.json();
+          if (!keyData.success) throw new Error('Failed to load payment gateway');
+
+          const rzpRes = await fetch('/api/payments/create-razorpay-order', {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ amount: total, items, table_number: table })
+          });
+          const rzpData = await rzpRes.json();
+          if (!rzpData.success) throw new Error(rzpData.message);
+
+          const rzp = new Razorpay({
+            key: keyData.key,
+            amount: rzpData.razorpay_order.amount,
+            currency: rzpData.razorpay_order.currency,
+            order_id: rzpData.razorpay_order.id,
+            name: 'Hotel Aditya',
+            description: `Table ${table}`,
+            handler: async (response) => {
+              const orderRes = await fetch('/api/orders/create-after-payment', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ items, table_number: table, razorpay_order_id: response.razorpay_order_id, razorpay_payment_id: response.razorpay_payment_id, razorpay_signature: response.razorpay_signature, amount: total })
+              });
+              const orderData = await orderRes.json();
+              if (orderData.success) {
+                cart = []; localStorage.removeItem('cart'); updateCartUI();
+                Swal.fire({
+                  icon: 'success',
+                  title: '🎉 Thank You!',
+                  html: `
+                    <div style="text-align: center; padding: 10px 0;">
+                      <p style="font-size: 1.1rem; font-weight: 600; color: #1fb881; margin: 10px 0;">Payment Successful!</p>
+                      <p style="font-size: 0.95rem; color: #666; margin: 15px 0;">Your delicious food will be ready shortly 🍽️</p>
+                      <p style="font-size: 0.85rem; color: #999; margin-top: 10px;">We appreciate your order!</p>
+                    </div>
+                  `,
+                  confirmButtonText: 'View Order',
+                  confirmButtonColor: '#4e2a84',
+                  timer: 3000,
+                  timerProgressBar: true
+                }).then(() => {
+                  window.location.href='/profile';
+                });
+              }
+            },
+            theme: { color: '#4e2a84' }
+          });
+          rzp.open();
+        } else {
+           const res = await fetch('/api/orders/create', {
+             method: 'POST', headers: {'Content-Type': 'application/json'},
+             body: JSON.stringify({ items, table_number: table })
+           });
+           const data = await res.json();
+           if(data.success) {
+             cart = []; localStorage.removeItem('cart'); updateCartUI();
+             Swal.fire({
+               icon: 'success',
+               title: '✅ Thank You Sir!',
+               html: `
+                 <div style="text-align: center; padding: 10px 0;">
+                   <p style="font-size: 1.1rem; font-weight: 600; color: #1fb881; margin: 10px 0;">Your Order is Confirmed! 🎉</p>
+                   <p style="font-size: 0.95rem; color: #666; margin: 15px 0;">Your delicious food will come shortly 🍽️</p>
+                   <div style="margin-top: 15px; padding: 12px; background: #fff3e0; border-radius: 8px; border-left: 4px solid #ff6d00;">
+                     <p style="font-size: 0.85rem; color: #666; margin: 0;">💵 Please pay <strong>₹${total.toFixed(0)}</strong> at the counter</p>
+                   </div>
+                   <p style="font-size: 0.85rem; color: #999; margin-top: 15px;">We appreciate your order! 🙏</p>
+                 </div>
+               `,
+               confirmButtonText: 'View Order',
+               confirmButtonColor: '#4e2a84',
+               timer: 4000,
+               timerProgressBar: true
+             }).then(() => {
+               window.location.href='/profile';
+             });
+           } else {
+             Swal.fire({
+               icon: 'error',
+               title: 'Order Failed',
+               text: data.message || 'Failed to place order. Please try again.',
+               confirmButtonColor: '#ef4444'
+             });
+           }
+        }
+      } catch (err) {
+        showNotification('Something went wrong. Please try again.', 'error');
+      }
+    }
+
+
+
+    // 🚦 ORDER ACCEPT STATUS - Restaurant orders accept kar raha hai ya nahi
+    // isOrderAccept → true (orders chal rahe hain) ya false (band hain)
+    // Admin panel se control hota hai
+    // Agar orders band hain → Place Order button disable ho jata hai
+    let isOrderAccept = true;
+
+    async function loadOrderStatus() {
+      try {
+        const res = await fetch('/api/admin/order-accept-status');
+        const data = await res.json();
+        if (data.success) {
+          isOrderAccept = data.isOrderAccept;
+          const btn = document.querySelector('.place-order-btn');
+          if (btn) {
+            btn.disabled = !isOrderAccept;
+            btn.style.opacity = isOrderAccept ? '1' : '0.5';
+            btn.style.cursor = isOrderAccept ? 'pointer' : 'not-allowed';
+          }
+        }
+      } catch(e) {}
+    }
+
+
+
+    // Open item rating modal
+    async function openItemRatingModal(itemId, itemName) {
+      if (!customer) {
+        return Swal.fire({
+          icon: 'info',
+          title: 'Login Required',
+          text: 'Please login to rate items',
+          confirmButtonColor: '#4e2a84',
+          confirmButtonText: 'Go to Login'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = '/login';
+          }
+        });
+      }
+
+      const { value: formValues } = await Swal.fire({
+        title: `<div style="display: flex; align-items: center; gap: 6px; justify-content: center; font-size: 0.95rem;"><i class="fas fa-star" style="color: #1fb881; font-size: 1rem;"></i><span>Rate: ${itemName}</span></div>`,
+        html: `
+          <div style="text-align: center; padding: 8px 6px;">
+            <p style="font-size: 0.8rem; color: #686b78; margin-bottom: 12px;">How would you rate this item?</p>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 16px;">
+              <span class="rating-star" data-rating="1" onclick="selectRating(1)" style="cursor: pointer; color: #e8e8e8; font-size: 1.8rem; transition: all 0.2s;">★</span>
+              <span class="rating-star" data-rating="2" onclick="selectRating(2)" style="cursor: pointer; color: #e8e8e8; font-size: 1.8rem; transition: all 0.2s;">★</span>
+              <span class="rating-star" data-rating="3" onclick="selectRating(3)" style="cursor: pointer; color: #e8e8e8; font-size: 1.8rem; transition: all 0.2s;">★</span>
+              <span class="rating-star" data-rating="4" onclick="selectRating(4)" style="cursor: pointer; color: #e8e8e8; font-size: 1.8rem; transition: all 0.2s;">★</span>
+              <span class="rating-star" data-rating="5" onclick="selectRating(5)" style="cursor: pointer; color: #e8e8e8; font-size: 1.8rem; transition: all 0.2s;">★</span>
+            </div>
+            
+            <input type="hidden" id="selectedRating" value="0">
+            
+            <div style="text-align: left;">
+              <label style="display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.8rem; color: #1c1c1c;">Review (Optional)</label>
+              <textarea id="reviewText" placeholder="Share your thoughts..." style="width: 100%; min-height: 60px; padding: 8px; border: 1.5px solid #e8e8e8; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 0.8rem; resize: none; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#1fb881'" onblur="this.style.borderColor='#e8e8e8'"></textarea>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: '<i class="fas fa-check" style="margin-right: 4px;"></i>Submit',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#1fb881',
+        cancelButtonColor: '#e8e8e8',
+        width: '340px',
+        didOpen: () => {
+          window.selectRating = function(rating) {
+            document.getElementById('selectedRating').value = rating;
+            document.querySelectorAll('.rating-star').forEach((star, index) => {
+              star.style.color = index < rating ? '#FFC107' : '#e8e8e8';
+              star.style.transform = index < rating ? 'scale(1.15)' : 'scale(1)';
+            });
+          };
+        },
+        preConfirm: () => {
+          const rating = parseInt(document.getElementById('selectedRating').value);
+          const reviewText = document.getElementById('reviewText').value.trim();
+          
+          if (rating === 0) {
+            Swal.showValidationMessage('Please select a rating by clicking on the stars');
+            return false;
+          }
+          
+          return { rating, reviewText };
+        }
+      });
+
+      if (formValues) {
+        await submitItemRating(itemId, formValues.rating, formValues.reviewText);
+      }
+    }
+
+    // Toast notification helper
+    // 🍞 TOAST NOTIFICATION - Chhota popup message dikhata hai (corner mein)
+    // icon → success, error, warning, info
+    // 3 seconds ke liye dikhta hai fir automatically gayab ho jata hai
+    function showToast(icon, title, text) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: icon,
+        title: title,
+        text: text,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+      });
+    }
+
+    // ⭐ SUBMIT ITEM RATING - Item ko rating dene ke liye
+    // itemId → konse item ko rate kar rahe hain
+    // rating → 1 to 5 stars
+    // reviewText → optional comment (customer ki feedback)
+    // Server ko POST request bhejte hain
+    // Success hone par:
+    //   → ratedItems mein add karte hain (dobara rate na ho)
+    //   → menu refresh karte hain (rate button hide ho jaye)
+    //   → success toast dikhate hain
+    async function submitItemRating(itemId, rating, reviewText) {
+      try {
+        const res = await fetch('/api/ratings/submit-item', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ item_id: itemId, rating: rating, review_text: reviewText || null })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          ratedItems.add(itemId);
+          const activeCat = document.querySelector('.category-tab.active')?.dataset.category || 'all';
+          filterByCategory(activeCat);
+          showToast('success', 'Thank You!', data.message || 'Rating submitted successfully');
+        } else {
+          showToast('error', 'Oops...', data.message || 'Failed to submit rating');
+        }
+      } catch (error) {
+        showToast('error', 'Error', 'Failed to submit rating. Please try again.');
+      }
+    }
+
+    // 🚀 PAGE LOAD - Jab page load hota hai ye sab kaam karta hai
+    // 1) checkAuth → user logged in hai ya nahi check karo
+    // 2) loadOrderStatus → orders accept ho rahe hain ya nahi
+    // 3) loadMenu → categories aur items load karo
+    // 4) updateCartUI → cart icon update karo
+    // 5) setInterval → har 30 seconds mein order status check karo
+    (async function() {
+      await checkAuth();
+      await loadOrderStatus();
+      await loadMenu();
+      updateCartUI();
+      setInterval(loadOrderStatus, 30000);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Customer Report - Hotel Aditya Admin | Individual Customer Analytics</title>
+  <meta name="title" content="Customer Report - Hotel Aditya Admin | Individual Customer Analytics">
+  <meta name="description" content="View detailed customer reports for Hotel Aditya. Analyze individual customer order history, spending patterns, and preferences.">
+  <meta name="keywords" content="Hotel Aditya customer report, customer analytics, order history, customer insights, spending analysis">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/report">
+  <meta property="og:title" content="Customer Report - Hotel Aditya Admin">
+  <meta property="og:description" content="View detailed customer reports and analytics for Hotel Aditya.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/report">
+  <meta property="twitter:title" content="Customer Report - Hotel Aditya Admin">
+  <meta property="twitter:description" content="View detailed customer reports and analytics for Hotel Aditya.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/report">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+    }
+
+    :root {
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-btn i { width: 24px; text-align: center; }
+
+    /* --- Main Content --- */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- Profile Card --- */
+    .profile-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 2rem;
+      text-align: center;
+      height: 100%;
+    }
+
+    .avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .info-pill {
+      background: var(--body-bg-custom);
+      border: 1px solid var(--card-border);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.25rem;
+      color: var(--text-muted-custom);
+    }
+
+    /* --- Stats --- */
+    .stat-card {
+      background: var(--card-bg-custom);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      transition: transform 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-5px); border-color: rgba(99, 102, 241, 0.3); }
+
+    .stat-icon {
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    /* --- Order History --- */
+    .order-history-card {
+      background: var(--card-bg-custom);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+    .order-history-card:hover { border-color: var(--primary-color); }
+    
+    .order-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .order-body { padding: 1rem; }
+
+    /* --- Status Badges --- */
+    .badge-status-completed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    
+    /* --- Responsive --- */
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5); z-index: 999; display: none;
+      }
+      .overlay.show { display: block; }
+    }
+    
+    /* Spinner */
+    .spinner-container {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <a href="/admin" class="nav-btn">
+        <i class="fas fa-arrow-left"></i> Dashboard
+      </a>
+      <a href="/admin/users" class="nav-btn active">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger bg-transparent border-0 w-100 justify-content-start" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 fw-semibold">Customer Report</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="/admin/users" class="btn btn-sm btn-outline-secondary border-secondary-subtle">
+           <i class="fas fa-arrow-left me-1"></i> Back
+        </a>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingContainer" class="spinner-container">
+       <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+    </div>
+
+    <!-- Content -->
+    <div id="contentContainer" style="display: none;">
+      
+      <div class="row g-4 mb-4">
+        <!-- Profile Section -->
+        <div class="col-lg-4">
+           <div class="profile-card">
+              <div class="avatar-circle" id="customerAvatar">--</div>
+              <h4 class="fw-bold mb-1" id="customerName">Loading...</h4>
+              <p class="text-primary small mb-3">Valued Customer</p>
+              
+              <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                 <div class="info-pill">
+                    <i class="fas fa-phone text-primary"></i> <span id="customerPhone">-</span>
+                 </div>
+                 <div class="info-pill">
+                    <i class="fas fa-calendar text-info"></i> <span id="joinDate">-</span>
+                 </div>
+                 <div class="info-pill" id="dobInfo" style="display:none;">
+                    <i class="fas fa-birthday-cake text-danger"></i> <span id="customerDob">-</span>
+                 </div>
+              </div>
+
+              <div class="d-grid">
+                <a href="#" id="waLink" target="_blank" class="btn btn-success text-white">
+                   <i class="fab fa-whatsapp me-2"></i> Message on WhatsApp
+                </a>
+              </div>
+           </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="col-lg-8">
+           <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                 <div class="stat-card">
+                    <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                       <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div>
+                       <h3 class="fw-bold mb-0" id="statOrders">0</h3>
+                       <span class="text-muted small">Total Orders</span>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-sm-6">
+                 <div class="stat-card">
+                    <div class="stat-icon bg-success bg-opacity-10 text-success">
+                       <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div>
+                       <h3 class="fw-bold mb-0" id="statSpent">₹0</h3>
+                       <span class="text-muted small">Lifetime Value</span>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-sm-6">
+                 <div class="stat-card">
+                    <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                       <i class="fas fa-history"></i>
+                    </div>
+                    <div>
+                       <h5 class="fw-bold mb-0" id="statLastOrder">-</h5>
+                       <span class="text-muted small">Last Order</span>
+                    </div>
+                 </div>
+              </div>
+              <div class="col-sm-6">
+                 <div class="stat-card">
+                    <div class="stat-icon bg-info bg-opacity-10 text-info">
+                       <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                       <h3 class="fw-bold mb-0" id="statAvg">₹0</h3>
+                       <span class="text-muted small">Avg. Order Value</span>
+                    </div>
+                 </div>
+              </div>
+           </div>
+
+           <!-- Order History with Inline Reviews -->
+           <h5 class="mb-3 fw-bold">
+              <i class="fas fa-receipt me-2 text-muted"></i>Order History & Reviews
+           </h5>
+           <div id="ordersContainer">
+              <!-- Orders with inline reviews injected here -->
+           </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script>
+    // 🎨 THEME MANAGEMENT - Light/Dark mode toggle
+    
+    // 📱 toggleSidebar - Mobile sidebar toggle
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('mobileOverlay').classList.toggle('show');
+    }
+
+    // 🔍 GET CUSTOMER ID - URL se customer ID nikalta hai
+    // URL format: /admin/report/123 ya /admin/report?id=123
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = window.location.pathname.split('/').pop() || urlParams.get('id');
+
+    // 🔐 AUTH CHECK - Admin authentication verify karta hai
+    // Agar logged out → login page
+    // Agar customer ID nahi hai → users page
+    // Agar sab theek hai → customer report load karo
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) { window.location.href = '/admin/login'; return; }
+        
+        // Customer ID check karo
+        if (customerId) { loadCustomerReport(customerId); } 
+        else { window.location.href = '/admin/users'; } // ID nahi hai to users page pe jao
+      } catch (error) { window.location.href = '/admin/login'; }
+    }
+
+    // 📊 LOAD CUSTOMER REPORT - Specific customer ka detailed report fetch karta hai
+    // Server se customer details, orders aur reviews data lete hain
+    // Success → customer info, orders aur reviews display karo
+    // Error → error message dikhao with back button
+    async function loadCustomerReport(id) {
+      try {
+        // 🌐 API call - Customer data fetch karo
+        const response = await fetch(`/api/admin/users/${id}`);
+        const data = await response.json();
+        
+        if (!data.success) throw new Error(data.message);
+
+        // 🎨 Display functions call karo
+        displayCustomerInfo(data.user, data.orders); // Profile section
+        displayOrders(data.orders); // Orders only (no reviews)
+
+        // ✅ Loading hide karo aur content dikhao
+        document.getElementById('loadingContainer').style.display = 'none';
+        document.getElementById('contentContainer').style.display = 'block';
+      } catch (error) {
+        // ❌ Error state - Error message with back button
+        document.getElementById('loadingContainer').innerHTML = `
+          <div class="text-center text-danger">
+            <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+            <h5>Error Loading Report</h5>
+            <p class="text-muted">${error.message}</p>
+            <a href="/admin/users" class="btn btn-outline-secondary">Go Back</a>
+          </div>`;
+      }
+    }
+
+    // 👤 DISPLAY CUSTOMER INFO - Customer ki profile details dikhata hai
+    // Profile section mein:
+    // - Avatar with initials
+    // - Name, phone, join date
+    // - Birthday (agar di hai to)
+    // - WhatsApp link
+    // Stats section mein:
+    // - Total orders count
+    // - Total spent amount
+    // - Average order value
+    // - Last order date
+    function displayCustomerInfo(customer, orders) {
+       // 🎭 Avatar - Customer ke naam se initials nikalo (e.g., "John Doe" → "JD")
+       const initials = customer.name.split(' ').map(n=>n[0]).join('').toUpperCase().substring(0,2);
+       document.getElementById('customerAvatar').textContent = initials;
+       document.getElementById('customerName').textContent = customer.name;
+       document.getElementById('customerPhone').textContent = customer.phone || '-';
+       
+       // 📅 Dates - Join date aur birthday
+       const joinDate = new Date(customer.created_at).toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', month:'short', year:'numeric'});
+       document.getElementById('joinDate').textContent = joinDate;
+       
+       // 🎂 Birthday - Agar customer ne birthday di hai to dikhao
+       if(customer.dob) {
+         const dob = new Date(customer.dob).toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', day:'numeric', month:'short'});
+         document.getElementById('customerDob').textContent = dob;
+         document.getElementById('dobInfo').style.display = 'inline-flex';
+       }
+
+       // 💬 WhatsApp link - Direct message bhejne ke liye
+       document.getElementById('waLink').href = `https://wa.me/91${customer.phone}`;
+
+       // 📊 STATS CALCULATION - Customer ke order statistics
+       const totalOrders = orders.length; // Total orders count
+       // Total spent - Sirf completed orders ka amount
+       const totalSpent = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + parseFloat(o.total_amount||0), 0);
+       const avg = totalOrders > 0 ? totalSpent / totalOrders : 0; // Average order value
+       const lastOrder = orders.length > 0 ? new Date(orders[0].created_at) : null; // Last order date
+
+       // 🎨 Stats display karo
+       document.getElementById('statOrders').textContent = totalOrders;
+       document.getElementById('statSpent').textContent = `₹${totalSpent.toFixed(0)}`;
+       document.getElementById('statAvg').textContent = `₹${avg.toFixed(0)}`;
+       document.getElementById('statLastOrder').textContent = lastOrder ? lastOrder.toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', day:'numeric', month:'short'}) : '-';
+    }
+
+    // 📦 DISPLAY ORDERS - Simple order display without reviews
+    function displayOrders(orders) {
+       const container = document.getElementById('ordersContainer');
+       
+       if(!orders || orders.length === 0) {
+          container.innerHTML = '<div class="text-center py-5 text-muted"><i class="fas fa-receipt fa-2x mb-3 opacity-50"></i><p>No order history</p></div>';
+          return;
+       }
+
+       container.innerHTML = orders.map(order => {
+         const date = new Date(order.created_at).toLocaleDateString('en-IN', {
+           timeZone: 'Asia/Kolkata', 
+           day:'numeric', 
+           month:'short', 
+           year:'numeric', 
+           hour:'2-digit', 
+           minute:'2-digit'
+         });
+         
+         const statusClass = order.status === 'completed' ? 'badge-status-completed' : 
+                             order.status === 'cancelled' ? 'badge-status-cancelled' : 'badge-status-pending';
+         
+         const itemsHtml = order.items && order.items.length > 0 
+           ? order.items.map(i => `
+             <div class="d-flex justify-content-between small mb-1 border-bottom border-opacity-10 pb-1" style="border-color: var(--card-border) !important;">
+                <span>${i.quantity}x ${i.item_name}</span>
+                <span class="fw-bold">₹${(i.quantity * parseFloat(i.price)).toFixed(2)}</span>
+             </div>
+           `).join('')
+           : '<div class="text-muted small">No items</div>';
+
+         return `
+           <div class="order-history-card">
+              <div class="order-header">
+                 <div>
+                    <span class="badge ${statusClass} rounded-pill mb-1 text-uppercase">${order.status}</span>
+                    <div class="fw-bold">Order #${order.order_id}</div>
+                 </div>
+                 <div class="text-end text-muted small">
+                    <div><i class="fas fa-calendar me-1"></i>${date}</div>
+                    <div><i class="fas fa-chair me-1"></i>Table ${order.table_number}</div>
+                 </div>
+              </div>
+              <div class="order-body">
+                 <div class="mb-3">${itemsHtml}</div>
+                 <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><i class="fas ${order.payment_method === 'online' ? 'fa-credit-card' : 'fa-money-bill'} me-1"></i>${order.payment_method || 'Cash'}</small>
+                    <span class="text-primary fw-bold fs-5">₹${parseFloat(order.total_amount).toFixed(2)}</span>
+                 </div>
+              </div>
+           </div>
+         `;
+       }).join('');
+    }
+
+    async function logout() { await fetch('/api/auth/admin/logout', {method: 'POST'}); window.location.href = '/admin/login'; }
+
+    checkAdminAuth();
+  </script>
+</body>
+</html>

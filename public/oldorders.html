@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Order History - Hotel Aditya Admin | Archived Orders</title>
+  <meta name="title" content="Order History - Hotel Aditya Admin | Archived Orders">
+  <meta name="description" content="View archived order history for Hotel Aditya. Access completed and cancelled orders, track historical data and revenue.">
+  <meta name="keywords" content="Hotel Aditya order history, archived orders, completed orders, order archive, historical data">
+  <meta name="author" content="Hotel Aditya">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.servhunt.in/admin/oldorders">
+  <meta property="og:title" content="Order History - Hotel Aditya Admin">
+  <meta property="og:description" content="View archived order history for Hotel Aditya.">
+  <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://www.servhunt.in/admin/oldorders">
+  <meta property="twitter:title" content="Order History - Hotel Aditya Admin">
+  <meta property="twitter:description" content="View archived order history for Hotel Aditya.">
+  <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+  
+  <!-- Canonical Link -->
+  <link rel="canonical" href="https://www.servhunt.in/admin/oldorders">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/favicon_io/site.webmanifest">
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome 6.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --primary-color: #6366f1;
+      --primary-hover: #4f46e5;
+      --transition-speed: 0.3s;
+    }
+
+    :root {
+      --sidebar-bg: #FFFFFF;
+      --sidebar-border: #e5e7eb;
+      --sidebar-link-color: #4b5563;
+      --sidebar-link-hover-bg: #f3f4f6;
+      --sidebar-link-active-color: #6366f1;
+      --navbar-bg: rgba(255, 255, 255, 0.95);
+      --card-bg-custom: #FFFFFF;
+      --card-border: #e5e7eb;
+      --body-bg-custom: #FFFFFF;
+      --text-muted-custom: #6c757d;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--body-bg-custom);
+      color: var(--bs-body-color);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      transition: transform var(--transition-speed) ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--bs-body-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      color: var(--sidebar-link-color);
+      padding: 0.8rem 1.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .nav-btn:hover {
+      color: var(--bs-body-color);
+      background: var(--sidebar-link-hover-bg);
+    }
+
+    .nav-btn.active {
+      color: var(--sidebar-link-active-color);
+      background: var(--sidebar-link-hover-bg);
+      border-left-color: var(--primary-color);
+    }
+
+    /* --- Main Content --- */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 20px;
+      transition: margin-left var(--transition-speed) ease;
+    }
+
+    .top-navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      margin-bottom: 30px;
+      border: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- History Card --- */
+    .history-card {
+      background: var(--card-bg-custom);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .history-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .card-header-custom {
+      padding: 1rem;
+      border-bottom: 1px solid var(--sidebar-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-body-custom {
+      padding: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-footer-custom {
+      padding: 1rem;
+      border-top: 1px solid var(--sidebar-border);
+      background: rgba(0,0,0,0.02);
+      border-radius: 0 0 12px 12px;
+    }
+
+    .badge-soft { padding: 0.35em 0.65em; font-weight: 600; font-size: 0.75rem; border-radius: 6px; }
+    .badge-soft-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .badge-soft-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .badge-soft-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    /* Summary Bar */
+    .summary-card {
+      background: var(--card-bg-custom);
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .spinner-container {
+      min-height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5); z-index: 999; display: none;
+      }
+      .overlay.show { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Overlay -->
+  <div class="overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+          <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
+        </div>
+        <span>Hotel Aditya</span>
+      </a>
+    </div>
+    <div class="d-flex flex-column flex-grow-1 p-3 gap-2">
+      <a href="/admin" class="nav-btn text-decoration-none">
+        <i class="fas fa-receipt"></i> Dashboard
+      </a>
+      <a href="/admin/ratings" class="nav-btn text-decoration-none">
+        <i class="fas fa-star"></i> Ratings & Reviews
+      </a>
+      <a href="/admin/users" class="nav-btn text-decoration-none">
+        <i class="fas fa-users-cog"></i> Users & Reports
+      </a>
+      <a href="/admin/sales-report" class="nav-btn text-decoration-none">
+        <i class="fas fa-chart-line"></i> Sales & Analytics
+      </a>
+      <a href="/admin/kitchen" class="nav-btn text-decoration-none" target="_blank">
+        <i class="fas fa-utensils"></i> Kitchen Display
+      </a>
+      <a href="/admin/oldorders" class="nav-btn active text-decoration-none">
+        <i class="fas fa-history"></i> Old Orders
+      </a>
+      <a href="/admin/settings" class="nav-btn text-decoration-none">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <div class="mt-auto pt-3 border-top" style="border-color: var(--sidebar-border) !important;">
+        <button class="nav-btn text-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-body d-lg-none me-3 p-0" onclick="toggleSidebar()">
+          <i class="fas fa-bars fs-4"></i>
+        </button>
+        <h5 class="m-0 fw-semibold">Order Archive</h5>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="/admin" class="btn btn-sm btn-outline-secondary border-secondary-subtle">
+           Back to Active Orders
+        </a>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row g-4 mb-4" id="statsRow" style="display:none;">
+      <div class="col-md-6 col-xl-3">
+        <div class="summary-card">
+           <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; font-size: 1.2rem;">
+              <i class="fas fa-archive"></i>
+           </div>
+           <div>
+              <h4 class="fw-bold mb-0" id="totalArchived">0</h4>
+              <span class="text-muted small">Total Archived</span>
+           </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="summary-card">
+           <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; font-size: 1.2rem;">
+              <i class="fas fa-rupee-sign"></i>
+           </div>
+           <div>
+              <h4 class="fw-bold mb-0" id="revenueArchived">₹0</h4>
+              <span class="text-muted small">Archived Revenue</span>
+           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div id="ordersCardsContainer" class="row g-3">
+       <div class="col-12 spinner-container">
+          <div class="spinner-border text-primary" role="status"></div>
+       </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+  <script>
+    // 🎨 UI FUNCTIONS
+    // toggleSidebar → mobile pe sidebar open/close karta hai
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('mobileOverlay').classList.toggle('show');
+    }
+
+    // 📦 GLOBAL VARIABLES - Old orders page ke liye
+    // orders → archived orders ki list (completed/cancelled)
+    let orders = [];
+
+    // 🔐 CHECK ADMIN AUTH - Admin logged in hai ya nahi check karta hai
+    // Server se session check API call karte hain
+    // Agar authenticated nahi hai → login page pe redirect karo
+    // Agar authenticated hai → orders load karo
+    async function checkAdminAuth() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (!data.authenticated) { window.location.href = '/admin/login'; return; }
+        loadOrders();
+      } catch (error) { window.location.href = '/admin/login'; }
+    }
+
+    // 📋 LOAD ORDERS - Archived orders ko server se load karta hai
+    // API call → /api/admin/orders?view_type=old
+    // Sirf completed aur cancelled orders aate hain (purane orders)
+    // Success hone par:
+    //   → orders array mein save karo
+    //   → stats calculate karo (total count, revenue)
+    //   → orders display karo (cards mein)
+    async function loadOrders() {
+      try {
+        const response = await fetch('/api/admin/orders?view_type=old');
+        const data = await response.json();
+        if (data.success) {
+          orders = data.orders;
+          calculateStats();
+          displayOrders();
+        }
+      } catch (error) { console.error(error); }
+    }
+
+    // 📊 CALCULATE STATS - Summary stats calculate karta hai
+    // count → total archived orders kitne hain
+    // revenue → sirf completed orders ka total revenue
+    //   (cancelled orders ka revenue count nahi hota)
+    // Stats cards mein values update karta hai
+    // Stats row ko visible karta hai
+    function calculateStats() {
+      const count = orders.length;
+      const revenue = orders.reduce((sum, order) => {
+         return (order.status === 'completed') ? sum + parseFloat(order.total_amount || 0) : sum;
+      }, 0);
+      
+      document.getElementById('totalArchived').textContent = count;
+      document.getElementById('revenueArchived').textContent = `₹${revenue.toFixed(2)}`;
+      document.getElementById('statsRow').style.display = 'flex';
+    }
+
+    // 🎴 DISPLAY ORDERS - Orders ko cards mein dikhata hai
+    // Agar orders nahi hain → empty state message dikhao
+    // Har order ke liye card banate hain with:
+    //   → Order ID, date, time
+    //   → Customer name, phone
+    //   → Table number
+    //   → Items list with quantities
+    //   → Payment method aur status
+    //   → Total amount
+    //   → Delete button (permanent delete)
+    function displayOrders() {
+      const container = document.getElementById('ordersCardsContainer');
+      if (orders.length === 0) {
+        container.innerHTML = '<div class="col-12 text-center py-5 text-muted"><i class="fas fa-history fa-2x mb-3 opacity-50"></i><p>No archived orders found</p></div>';
+        return;
+      }
+
+      container.innerHTML = orders.map(order => {
+        const date = new Date(order.created_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const tableNumber = order.table_number.replace('T-', '');
+        
+        let statusBadge = 'badge-soft-warning';
+        if(order.status === 'completed') statusBadge = 'badge-soft-success';
+        if(order.status === 'cancelled') statusBadge = 'badge-soft-danger';
+
+        const isPaid = order.payment_status === 'completed' || (order.payment_method && order.payment_method !== 'cash');
+        const payIcon = order.payment_method === 'online' ? 'fa-credit-card' : 'fa-money-bill-wave';
+
+        // Items List
+        const itemsHtml = (order.items || []).map(item => `
+            <div class="d-flex justify-content-between small mb-1 border-bottom border-opacity-10 pb-1" style="border-color: var(--card-border) !important;">
+               <span>${item.quantity}x ${item.item_name}</span>
+               <span class="fw-bold">₹${(item.price * item.quantity).toFixed(2)}</span>
+            </div>
+        `).join('');
+
+        return `
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="history-card">
+               <div class="card-header-custom">
+                  <div>
+                     <span class="badge ${statusBadge} text-uppercase mb-1">${order.status}</span>
+                     <h6 class="mb-0 fw-bold">#${order.order_id}</h6>
+                  </div>
+                  <div class="text-end text-muted small">
+                     <div><i class="fas fa-calendar me-1"></i>${date.split(',')[0]}</div>
+                     <div><i class="fas fa-clock me-1"></i>${date.split(',')[1]}</div>
+                  </div>
+               </div>
+               
+               <div class="card-body-custom">
+                  <div class="d-flex align-items-center mb-3">
+                      <div class="rounded-circle bg-body-tertiary d-flex align-items-center justify-content-center me-2" style="width:32px; height:32px;">
+                         <i class="fas fa-user text-muted small"></i>
+                      </div>
+                      <div style="line-height:1.2">
+                         <div class="fw-bold small">${order.customer_name}</div>
+                         <small class="text-muted" style="font-size:0.75rem">${order.customer_phone}</small>
+                      </div>
+                      <div class="ms-auto fw-bold text-primary small bg-primary bg-opacity-10 px-2 py-1 rounded">
+                         T-${tableNumber}
+                      </div>
+                  </div>
+
+                  <div class="bg-body-tertiary p-2 rounded mb-3" style="max-height: 100px; overflow-y: auto;">
+                     ${itemsHtml}
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted"><i class="fas ${payIcon} me-1"></i>${order.payment_method || 'Cash'}</small>
+                      ${isPaid ? '<small class="text-success fw-bold"><i class="fas fa-check-circle"></i> Paid</small>' : '<small class="text-warning fw-bold">Pending</small>'}
+                  </div>
+               </div>
+
+               <div class="card-footer-custom d-flex justify-content-between align-items-center">
+                  <span class="fs-5 fw-bold text-primary-custom">₹${parseFloat(order.total_amount).toFixed(2)}</span>
+                  <button class="btn btn-sm btn-outline-danger border-0" onclick="deleteOrder(${order.order_id})" title="Delete Record">
+                     <i class="fas fa-trash"></i>
+                  </button>
+               </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 🗑️ DELETE ORDER - Order ko permanently delete karta hai
+    // orderId → konse order ko delete karna hai
+    // Pehle confirmation popup dikhate hain (SweetAlert)
+    // Agar user confirm kare:
+    //   → Server ko DELETE request bhejte hain
+    //   → Success hone par orders reload karte hain
+    //   → Success toast dikhate hain
+    // IMPORTANT: Ye permanent delete hai, undo nahi ho sakta
+    async function deleteOrder(orderId) {
+      if((await Swal.fire({title: 'Delete Order?', text: 'Permanent action.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc3545'})).isConfirmed) {
+        try {
+          const res = await fetch(`/api/admin/orders/${orderId}`, { method: 'DELETE' });
+          if ((await res.json()).success) {
+            Swal.fire({ icon: 'success', title: 'Deleted', timer: 1000, showConfirmButton: false });
+            loadOrders();
+          }
+        } catch (e) { Swal.fire('Error', 'Failed', 'error'); }
+      }
+    }
+
+    // 🚪 LOGOUT - Admin ko logout karta hai
+    // Server ko logout request bhejte hain
+    // Login page pe redirect karte hain
+    async function logout() { await fetch('/api/auth/admin/logout', { method: 'POST' }); window.location.href = '/admin/login'; }
+
+    // 🚀 INIT - Page load hone par ye functions call hote hain
+    // checkAdminAuth → admin logged in hai ya nahi check karo
+    checkAdminAuth();
+  </script>
+</body>
+</html>

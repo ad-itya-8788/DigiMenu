@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Admin Login - Hotel Aditya | Management Portal</title>
+    <meta name="title" content="Admin Login - Hotel Aditya | Management Portal">
+    <meta name="description" content="Secure admin login portal for Hotel Aditya management. Access dashboard, manage orders, menu, and restaurant operations.">
+    <meta name="keywords" content="Hotel Aditya admin, admin login, restaurant management, admin portal, secure login">
+    <meta name="author" content="Hotel Aditya">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.servhunt.in/admin/login">
+    <meta property="og:title" content="Admin Login - Hotel Aditya">
+    <meta property="og:description" content="Secure admin login portal for Hotel Aditya management.">
+    <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://www.servhunt.in/admin/login">
+    <meta property="twitter:title" content="Admin Login - Hotel Aditya">
+    <meta property="twitter:description" content="Secure admin login portal for Hotel Aditya management.">
+    <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.servhunt.in/admin/login">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+  
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-color: #f9fafb;
+            --card-border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Split Layout */
+        .auth-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Left Side - Image */
+        .auth-banner {
+            display: none;
+            width: 50%;
+            background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .auth-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(49, 46, 129, 0.85) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            color: white;
+        }
+
+        .banner-content h1 { font-weight: 700; font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+        .banner-content p { font-size: 1.25rem; opacity: 0.9; max-width: 500px; line-height: 1.6; }
+        
+        /* Right Side - Form */
+        .auth-form-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: white;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            font-weight: bold;
+        }
+
+        .page-title { font-weight: 700; font-size: 1.8rem; margin-bottom: 0.5rem; color: #111827; }
+        .page-subtitle { color: var(--text-muted); margin-bottom: 2.5rem; }
+
+        /* Tabs */
+        .nav-pills {
+            background: #f3f4f6;
+            padding: 0.3rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.6rem 1rem;
+            width: 50%;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: white;
+            color: var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Forms */
+        .form-floating > .form-control {
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            height: 3.5rem;
+            padding-top: 1.625rem;
+            padding-bottom: 0.625rem;
+        }
+        
+        .form-floating > .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .form-floating > label {
+            padding: 1rem 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .back-link a:hover { color: var(--primary-color); }
+
+        /* Responsive */
+        @media (min-width: 992px) {
+            .auth-banner { display: block; }
+            .auth-form-container { width: 50%; }
+        }
+        
+        @media (max-width: 576px) {
+            .auth-form-container { padding: 1.5rem; }
+            .brand-logo { margin: 0 auto 1.5rem auto; }
+            .auth-card { text-align: center; }
+            .form-floating { text-align: left; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <!-- Left Side: Banner -->
+        <div class="auth-banner">
+            <div class="auth-overlay">
+                <div class="banner-content">
+                    <h1>Admin<br>Dashboard</h1>
+                    <p>Manage orders, track revenue, and oversee operations with the comprehensive Hotel Aditya management suite.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Forms -->
+        <div class="auth-form-container">
+            <div class="auth-card">
+                <div class="brand-logo">🔐</div>
+                
+                <h2 class="page-title">Admin Access</h2>
+                <p class="page-subtitle">Login to manage your restaurant</p>
+
+                <!-- Login Form Only -->
+                <div id="login-form-wrapper">
+                    <form id="adminLoginForm" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" placeholder="Username" required>
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Login to Dashboard
+                        </button>
+                    </form>
+                </div>
+
+                <div class="back-link">
+                    <a href="/">← Back to Website</a>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted small">&copy; 2025 Hotel Aditya. Restricted Access.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+    <script>
+    // 🔐 ADMIN AUTHENTICATION - Admin login ke liye sab functions
+    
+    // 🔍 checkAdminSession - Admin pehle se logged in hai ya nahi check karta hai
+    // Server se session-check API call karte hain
+    // Agar admin already logged in hai → dashboard pe redirect karo
+    // Agar logged out hai → login page pe hi rahne do
+    async function checkAdminSession() {
+      try {
+        const response = await fetch('/api/auth/admin/session-check');
+        const data = await response.json();
+        if (data.authenticated) window.location.href = '/admin';
+      } catch (error) { console.error('Session check error:', error); }
+    }
+    // 🚀 Page load hote hi check karo admin logged in hai ya nahi
+    checkAdminSession();
+
+    // 📝 LOGIN HANDLER - Admin login form submit hone par
+    // Steps:
+    // 1) Form submit event ko prevent karo (page reload na ho)
+    // 2) Username aur password ko form se uthao
+    // 3) Validation karo (dono fields filled hain ya nahi)
+    // 4) Button disable karo aur loading spinner dikhao
+    // 5) Server ko POST request bhejo with credentials
+    // 6) Success → Welcome message dikhao aur dashboard pe redirect karo
+    // 7) Failure → Error message dikhao aur button enable karo
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => 
+    {
+      e.preventDefault(); // Page reload rokne ke liye
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const btn = e.submitter;
+
+      // ✅ Validation - Dono fields filled hain ya nahi
+      if (!username || !password) return Swal.fire('Error', 'Credentials required', 'error');
+
+      // ⏳ Loading state - Button disable karo aur spinner dikhao
+      btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
+
+      try {
+        // 🌐 API Call - Server ko login request bhejo
+        const response = await fetch('/api/auth/admin/login',
+         {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ username, password })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          // ✅ Success - Welcome message dikhao aur redirect karo
+          Swal.fire({icon: 'success', title: 'Welcome Back', text: 'Redirecting...', timer: 1500, showConfirmButton: false})
+          .then(() => window.location.href = '/admin');
+        } else {
+          // ❌ Failure - Error message dikhao aur button reset karo
+          Swal.fire('Login Failed', data.message || 'Invalid credentials', 'error');
+          btn.disabled = false; btn.innerHTML = 'Login to Dashboard';
+        }
+      } catch (error) {
+        // 🔥 Network Error - Connection fail hone par
+        Swal.fire('Error', 'Connection failed', 'error');
+        btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Login to Dashboard';
+      }
+    });
+
+    </script>
+</body>
+</html>
