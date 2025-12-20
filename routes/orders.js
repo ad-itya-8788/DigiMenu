@@ -77,13 +77,19 @@ router.post("/create-after-payment", requireAuth, async (req, res) => {
 
       const order = orderResult.rows[0];
 
-      for (const item of items) {
-        await db.query(
-          `INSERT INTO order_items (order_id, item_id, quantity, price) 
-           VALUES ($1, $2, $3, $4)`,
-          [order.order_id, item.item_id, item.quantity, item.price]
-        );
-      }
+      const orderItemsValues = items.map((item, index) => 
+        `($1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4})`
+      ).join(', ');
+      
+      const orderItemsParams = [order.order_id];
+      items.forEach(item => {
+        orderItemsParams.push(item.item_id, item.quantity, item.price);
+      });
+
+      await db.query(
+        `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES ${orderItemsValues}`,
+        orderItemsParams
+      );
 
       await db.query(
         `INSERT INTO payments (order_id, amount, payment_status, payment_method, razorpay_payment_id) 
@@ -191,13 +197,19 @@ router.post("/create", requireAuth, async (req, res) => {
 
       const order = orderResult.rows[0];
 
-      for (const item of items) {
-        await db.query(
-          `INSERT INTO order_items (order_id, item_id, quantity, price) 
-           VALUES ($1, $2, $3, $4)`,
-          [order.order_id, item.item_id, item.quantity, item.price]
-        );
-      }
+      const orderItemsValues = items.map((item, index) => 
+        `($1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4})`
+      ).join(', ');
+      
+      const orderItemsParams = [order.order_id];
+      items.forEach(item => {
+        orderItemsParams.push(item.item_id, item.quantity, item.price);
+      });
+
+      await db.query(
+        `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES ${orderItemsValues}`,
+        orderItemsParams
+      );
 
       await db.query(
         `INSERT INTO payments (order_id, amount, payment_status, payment_method) 

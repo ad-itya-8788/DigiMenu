@@ -62,54 +62,51 @@ router.get("/orders", requireAuth, async (req, res) => {
         o.created_at,
         p.payment_status,
         p.payment_method,
-        p.razorpay_payment_id
+        p.razorpay_payment_id,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'order_item_id', oi.order_item_id,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'item_name', mi.item_name,
+              'image_url', mi.image_url
+            ) ORDER BY mi.item_name
+          ) FILTER (WHERE oi.order_item_id IS NOT NULL),
+          '[]'::json
+        ) as items
       FROM orders o
       LEFT JOIN payments p ON o.order_id = p.order_id
+      LEFT JOIN order_items oi ON o.order_id = oi.order_id
+      LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
       WHERE o.customer_id = $1
+      GROUP BY o.order_id, o.table_number, o.total_amount, o.status, o.created_at,
+               p.payment_status, p.payment_method, p.razorpay_payment_id
       ORDER BY o.created_at DESC
       LIMIT $2 OFFSET $3`,
       [customerId, limit, offset]
     );
 
-    const orders = ordersResult.rows;
-
-    const ordersWithItems = await Promise.all(
-      orders.map(async (order) => {
-        const itemsResult = await db.query(
-          `SELECT 
-            oi.order_item_id,
-            oi.quantity,
-            oi.price,
-            mi.item_name,
-            mi.image_url
-          FROM order_items oi
-          INNER JOIN menu_items mi ON oi.item_id = mi.item_id
-          WHERE oi.order_id = $1`,
-          [order.order_id]
-        );
-
-        return {
-          orderId: order.order_id,
-          tableNumber: order.table_number,
-          totalAmount: parseFloat(order.total_amount),
-          status: order.status,
-          createdAt: order.created_at,
-          paymentStatus: order.payment_status,
-          paymentMethod: order.payment_method,
-          items: itemsResult.rows.map((item) => ({
-            name: item.item_name,
-            quantity: item.quantity,
-            price: parseFloat(item.price),
-            imageUrl: item.image_url,
-          })),
-        };
-      })
-    );
+    const ordersWithItems = ordersResult.rows.map(order => ({
+      orderId: order.order_id,
+      tableNumber: order.table_number,
+      totalAmount: parseFloat(order.total_amount),
+      status: order.status,
+      createdAt: order.created_at,
+      paymentStatus: order.payment_status,
+      paymentMethod: order.payment_method,
+      items: (order.items || []).map((item) => ({
+        name: item.item_name,
+        quantity: item.quantity,
+        price: parseFloat(item.price),
+        imageUrl: item.image_url,
+      })),
+    }));
 
     return res.json({
       success: true,
       orders: ordersWithItems,
-      total: orders.length,
+      total: ordersWithItems.length,
     });
   } catch (error) {
     console.error("Get orders error:", error);

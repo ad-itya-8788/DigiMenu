@@ -352,10 +352,23 @@ router.get("/orders", requireAdmin, async (req, res) => {
         p.payment_status,
         p.payment_method,
         p.created_at as payment_date,
-        p.razorpay_payment_id
+        p.razorpay_payment_id,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'order_item_id', oi.order_item_id,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'item_name', mi.item_name
+            ) ORDER BY mi.item_name
+          ) FILTER (WHERE oi.order_item_id IS NOT NULL),
+          '[]'::json
+        ) as items
       FROM orders o
       INNER JOIN customers c ON o.customer_id = c.customer_id
       LEFT JOIN payments p ON o.order_id = p.order_id
+      LEFT JOIN order_items oi ON o.order_id = oi.order_id
+      LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
     `;
 
     const params = [];
@@ -404,32 +417,21 @@ router.get("/orders", requireAdmin, async (req, res) => {
       query += " WHERE " + conditions.join(" AND ");
     }
 
-    query += " ORDER BY o.created_at DESC LIMIT $" + (params.length + 1) + " OFFSET $" + (params.length + 2);
+    query += ` 
+      GROUP BY o.order_id, o.customer_id, c.name, c.phone, o.table_number, 
+               o.total_amount, o.status, o.created_at, p.payment_status, 
+               p.payment_method, p.created_at, p.razorpay_payment_id
+      ORDER BY o.created_at DESC 
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+    `;
     params.push(parseInt(limit), parseInt(offset));
 
     const result = await db.query(query, params);
 
-    // Get order items for each order
-    const ordersWithItems = await Promise.all(
-      result.rows.map(async (order) => {
-        const itemsResult = await db.query(
-          `SELECT 
-            oi.order_item_id,
-            oi.quantity,
-            oi.price,
-            mi.item_name
-          FROM order_items oi
-          INNER JOIN menu_items mi ON oi.item_id = mi.item_id
-          WHERE oi.order_id = $1`,
-          [order.order_id]
-        );
-
-        return {
-          ...order,
-          items: itemsResult.rows,
-        };
-      })
-    );
+    const ordersWithItems = result.rows.map(order => ({
+      ...order,
+      items: order.items || []
+    }));
 
     return res.json({ success: true, orders: ordersWithItems });
   } catch (error) {
@@ -670,7 +672,7 @@ router.get("/users/:id", requireAdmin, async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // Get user orders
+    // Get user orders with items in single query
     const ordersResult = await db.query(
       `SELECT 
         o.order_id,
@@ -679,35 +681,30 @@ router.get("/users/:id", requireAdmin, async (req, res) => {
         o.status,
         o.created_at,
         p.payment_status,
-        p.payment_method
+        p.payment_method,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'order_item_id', oi.order_item_id,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'item_name', mi.item_name
+            ) ORDER BY mi.item_name
+          ) FILTER (WHERE oi.order_item_id IS NOT NULL),
+          '[]'::json
+        ) as items
       FROM orders o
       LEFT JOIN payments p ON o.order_id = p.order_id
+      LEFT JOIN order_items oi ON o.order_id = oi.order_id
+      LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
       WHERE o.customer_id = $1
+      GROUP BY o.order_id, o.table_number, o.total_amount, o.status, o.created_at, 
+               p.payment_status, p.payment_method
       ORDER BY o.created_at DESC`,
       [id]
     );
 
-    // Get order items for each order
-    const ordersWithItems = await Promise.all(
-      ordersResult.rows.map(async (order) => {
-        const itemsResult = await db.query(
-          `SELECT 
-            oi.order_item_id,
-            oi.quantity,
-            oi.price,
-            mi.item_name
-          FROM order_items oi
-          INNER JOIN menu_items mi ON oi.item_id = mi.item_id
-          WHERE oi.order_id = $1`,
-          [order.order_id]
-        );
-
-        return {
-          ...order,
-          items: itemsResult.rows,
-        };
-      })
-    );
+    const ordersWithItems = ordersResult.rows;
 
     // Get user reviews (both order and item reviews)
     const reviewsResult = await db.query(

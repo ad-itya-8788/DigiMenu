@@ -16,9 +16,10 @@ const pool = new Pool({
     database: process.env.DB_NAME || "DigiMenu",
     password: process.env.DB_PASSWORD || "1234",
     port: parseInt(process.env.DB_PORT) || 5432,
-    max: 20,
+    max: 30,
+    min: 5,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    connectionTimeoutMillis: 5000,
     options: '-c timezone=Asia/Kolkata'
 });
 
