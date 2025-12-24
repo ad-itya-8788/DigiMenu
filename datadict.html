@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Structure / Data Dictionary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h2 {
+            margin-top: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>2.3 Table Structure / Data Dictionary</h1>
+
+<h2>ADMINS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>admin_id</td><td>SERIAL (PK)</td><td>Unique admin ID</td></tr>
+    <tr><td>username</td><td>VARCHAR(50)</td><td>Admin login username</td></tr>
+    <tr><td>password</td><td>VARCHAR(200)</td><td>Encrypted password</td></tr>
+    <tr><td>name</td><td>VARCHAR(100)</td><td>Admin name</td></tr>
+    <tr><td>email</td><td>VARCHAR(100)</td><td>Admin email</td></tr>
+    <tr><td>is_order_accept</td><td>BOOLEAN</td><td>Order acceptance status</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>Created date</td></tr>
+</table>
+
+<h2>CUSTOMERS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>customer_id</td><td>SERIAL (PK)</td><td>Customer ID</td></tr>
+    <tr><td>name</td><td>VARCHAR(100)</td><td>Customer name</td></tr>
+    <tr><td>phone</td><td>VARCHAR(15)</td><td>Phone number</td></tr>
+    <tr><td>dob</td><td>DATE</td><td>Date of birth</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>Account created date</td></tr>
+</table>
+
+<h2>MENU_CATEGORY</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>category_id</td><td>SERIAL (PK)</td><td>Category ID</td></tr>
+    <tr><td>category_name</td><td>VARCHAR(100)</td><td>Category name</td></tr>
+</table>
+
+<h2>MENU_ITEMS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>item_id</td><td>SERIAL (PK)</td><td>Item ID</td></tr>
+    <tr><td>item_name</td><td>VARCHAR(150)</td><td>Item name</td></tr>
+    <tr><td>category_id</td><td>INTEGER (FK)</td><td>Category reference</td></tr>
+    <tr><td>price</td><td>NUMERIC(10,2)</td><td>Item price</td></tr>
+    <tr><td>image_url</td><td>TEXT</td><td>Item image</td></tr>
+    <tr><td>description</td><td>TEXT</td><td>Item description</td></tr>
+    <tr><td>is_available</td><td>BOOLEAN</td><td>Availability status</td></tr>
+</table>
+
+<h2>ORDERS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>order_id</td><td>SERIAL (PK)</td><td>Order ID</td></tr>
+    <tr><td>customer_id</td><td>INTEGER (FK)</td><td>Customer reference</td></tr>
+    <tr><td>table_number</td><td>VARCHAR(20)</td><td>Table number</td></tr>
+    <tr><td>total_amount</td><td>NUMERIC(10,2)</td><td>Total bill</td></tr>
+    <tr><td>status</td><td>VARCHAR(20)</td><td>Order status</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>Order date</td></tr>
+</table>
+
+<h2>ORDER_ITEMS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>order_item_id</td><td>SERIAL (PK)</td><td>Order item ID</td></tr>
+    <tr><td>order_id</td><td>INTEGER (FK)</td><td>Order reference</td></tr>
+    <tr><td>item_id</td><td>INTEGER (FK)</td><td>Item reference</td></tr>
+    <tr><td>quantity</td><td>INTEGER</td><td>Item quantity</td></tr>
+    <tr><td>price</td><td>NUMERIC(10,2)</td><td>Item price</td></tr>
+</table>
+
+<h2>PAYMENTS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>payment_id</td><td>SERIAL (PK)</td><td>Payment ID</td></tr>
+    <tr><td>order_id</td><td>INTEGER (FK)</td><td>Order reference</td></tr>
+    <tr><td>amount</td><td>NUMERIC(10,2)</td><td>Paid amount</td></tr>
+    <tr><td>payment_status</td><td>VARCHAR(20)</td><td>Status</td></tr>
+    <tr><td>payment_method</td><td>VARCHAR(50)</td><td>Payment mode</td></tr>
+    <tr><td>razorpay_payment_id</td><td>VARCHAR(200)</td><td>Online payment ID</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>Payment date</td></tr>
+</table>
+
+<h2>RATINGS</h2>
+<table>
+    <tr>
+        <th>Field Name</th>
+        <th>Data Type</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>rating_id</td><td>SERIAL (PK)</td><td>Rating ID</td></tr>
+    <tr><td>customer_id</td><td>INTEGER (FK)</td><td>Customer reference</td></tr>
+    <tr><td>item_id</td><td>INTEGER (FK)</td><td>Item reference</td></tr>
+    <tr><td>order_id</td><td>INTEGER (FK)</td><td>Order reference</td></tr>
+    <tr><td>rating_value</td><td>INTEGER</td><td>Rating (1–5)</td></tr>
+    <tr><td>review_text</td><td>TEXT</td><td>Review</td></tr>
+    <tr><td>created_at</td><td>TIMESTAMP</td><td>Rating date</td></tr>
+</table>
+
+</body>
+</html>

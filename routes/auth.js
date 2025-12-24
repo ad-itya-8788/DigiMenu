@@ -262,14 +262,13 @@ const requireAuth = async (req, res, next) => {
 const createAdminSession = async (adminId, req) => {
   const sessionId = generateSessionId();
   const expiresAt = new Date(Date.now() + ADMIN_SESSION_EXPIRY_HOURS * 60 * 60 * 1000);
-  const ipAddress = getClientIp(req);
   const userAgent = req.headers["user-agent"] || "";
   
   await db.query("DELETE FROM sessions WHERE admin_id = $1", [adminId]);
   
   await db.query(
-    "INSERT INTO sessions (session_id, admin_id, ip_address, user_agent, expires_at) VALUES ($1, $2, $3, $4, $5)",
-    [sessionId, adminId, ipAddress, userAgent, expiresAt]
+    "INSERT INTO sessions (session_id, admin_id, user_agent, expires_at) VALUES ($1, $2, $3, $4)",
+    [sessionId, adminId, userAgent, expiresAt]
   );
   
   await db.query("DELETE FROM sessions WHERE expires_at < NOW()");
@@ -280,11 +279,10 @@ const createAdminSession = async (adminId, req) => {
 const verifyAdminSession = async (sessionId, req) => {
   if (!sessionId) return null;
   
-  const currentIp = getClientIp(req);
   const currentUserAgent = req.headers["user-agent"] || "";
   
   const result = await db.query(
-    `SELECT s.admin_id, s.ip_address, s.user_agent, a.username 
+    `SELECT s.admin_id, s.user_agent, a.username 
      FROM sessions s 
      INNER JOIN admins a ON s.admin_id = a.admin_id 
      WHERE s.session_id = $1 AND s.expires_at > NOW() AND s.admin_id IS NOT NULL`,
@@ -295,16 +293,9 @@ const verifyAdminSession = async (sessionId, req) => {
   
   const session = result.rows[0];
   
-  if (session.ip_address !== currentIp) {
-    console.warn(`Admin session hijacking attempt - IP mismatch`);
-    await db.query("DELETE FROM sessions WHERE session_id = $1", [sessionId]);
-    return null;
-  }
-  
-  if (session.user_agent !== currentUserAgent) {
-    console.warn(`Admin session hijacking attempt - User-Agent mismatch`);
-    await db.query("DELETE FROM sessions WHERE session_id = $1", [sessionId]);
-    return null;
+  // Soft check: User-Agent mismatch warning only (no logout)
+  if (session.user_agent && currentUserAgent && session.user_agent !== currentUserAgent) {
+    console.warn(`Admin session User-Agent changed - Session: ${sessionId.substring(0, 8)}...`);
   }
   
   await db.query("UPDATE sessions SET last_activity = NOW() WHERE session_id = $1", [sessionId]);
@@ -388,7 +379,7 @@ router.post("/admin/login", async (req, res) => {
       path: "/"
     });
     
-    console.log(`Admin login: ${admin.username} from IP: ${getClientIp(req)}`);
+    console.log(`Admin login: ${admin.username}`);
     
     return res.json({
       success: true,
