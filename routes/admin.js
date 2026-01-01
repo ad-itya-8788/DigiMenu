@@ -572,17 +572,18 @@ router.get("/dashboard/stats", requireAdmin, async (req, res) => {
     ] = await Promise.all([
       db.query("SELECT COUNT(*) as count FROM orders"),
       db.query("SELECT COUNT(*) as count FROM orders WHERE created_at >= $1", [today]),
+      // Total revenue from completed orders only
       db.query(`
-        SELECT COALESCE(SUM(o.total_amount), 0) as total 
-        FROM orders o 
-        INNER JOIN payments p ON o.order_id = p.order_id 
-        WHERE p.payment_status = 'completed'
+        SELECT COALESCE(SUM(total_amount), 0) as total 
+        FROM orders 
+        WHERE status = 'completed'
       `),
+      // Today's revenue from completed orders only
       db.query(`
-        SELECT COALESCE(SUM(o.total_amount), 0) as total 
-        FROM orders o 
-        INNER JOIN payments p ON o.order_id = p.order_id 
-        WHERE p.payment_status = 'completed' AND o.created_at >= $1
+        SELECT COALESCE(SUM(total_amount), 0) as total 
+        FROM orders 
+        WHERE status = 'completed' 
+        AND created_at >= $1
       `, [today]),
       db.query("SELECT COUNT(*) as count FROM orders WHERE status IN ('pending', 'preparing', 'ready')"),
       db.query("SELECT COUNT(*) as count FROM customers"),

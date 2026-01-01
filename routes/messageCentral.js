@@ -1,30 +1,40 @@
-// MessageCentral OTP service for sending and verifying SMS OTP
+// ============================================
+// 📱 MESSAGE CENTRAL OTP SERVICE
+// ============================================
+// Ye service SMS OTP bhejti hai aur verify karti hai
+// MessageCentral API use karti hai
 
 const axios = require("axios");
 require("dotenv").config();
 
 class MessageCentralOTP {
   constructor() {
+    // Environment variables se configuration load karo
     this.sendOtpUrl = process.env.MESSAGE_CENTRAL_SEND_OTP_URL;
     this.validateOtpUrl = process.env.MESSAGE_CENTRAL_VALIDATE_OTP_URL;
-    this.countryCode = process.env.MESSAGE_CENTRAL_COUNTRY_CODE || "91";
+    this.countryCode = process.env.MESSAGE_CENTRAL_COUNTRY_CODE || "91"; // Default India
     this.customerId = process.env.MESSAGE_CENTRAL_CUSTOMER_ID || "C-121EB742317B4AB";
     this.authToken = process.env.MESSAGE_CENTRAL_AUTH_TOKEN;
 
+    // Country code override (agar environment variable set hai)
     if (process.env.MESSAGE_CENTRAL_COUNTRY_CODE) {
       this.countryCode = process.env.MESSAGE_CENTRAL_COUNTRY_CODE;
     }
   }
 
+  // 📤 OTP bhejta hai customer ke mobile number pe
   async sendOTP(mobileNumber) {
     try {
+      // Mobile number clean karo (sirf digits rakho)
       const cleanedMobile = String(mobileNumber).replace(/\D/g, "");
 
+      // Configuration check karo
       if (!this.sendOtpUrl || !this.authToken) {
-        console.error("Message Central not configured");
+        console.error("❌ Message Central not configured properly");
         throw new Error("SMS service not configured");
       }
 
+      // MessageCentral API call karo
       const response = await axios.post(
         `${this.sendOtpUrl}?countryCode=${this.countryCode}&customerId=${this.customerId}&flowType=SMS&mobileNumber=${cleanedMobile}&otpLength=6`,
         {},
@@ -33,10 +43,11 @@ class MessageCentralOTP {
             authToken: this.authToken,
             "Content-Type": "application/json",
           },
-          timeout: 15000,
+          timeout: 15000, // 15 seconds timeout
         },
       );
 
+      // Response se verification ID nikalo
       if (response.data) {
         const verificationId =
           response.data.verificationId ||
@@ -50,6 +61,7 @@ class MessageCentralOTP {
             verificationId: verificationId,
           };
         } else {
+          // Fallback verification ID generate karo
           return {
             success: true,
             verificationId: `fallback_${cleanedMobile}_${Date.now()}`,
@@ -59,8 +71,9 @@ class MessageCentralOTP {
         throw new Error("Empty response from Message Central");
       }
     } catch (error) {
-      console.error("Message Central Send OTP Error:", error.response?.data || error.message);
+      console.error("❌ Message Central Send OTP Error:", error.response?.data || error.message);
 
+      // Error type ke basis pe appropriate message bhejo
       if (error.response?.status === 401) {
         throw new Error("Authentication failed with Message Central");
       } else if (error.response?.status === 429) {
@@ -73,10 +86,13 @@ class MessageCentralOTP {
     }
   }
 
+  // ✅ OTP verify karta hai
   async verifyOTP(mobileNumber, otp, verificationId) {
     try {
       const cleanedMobile = String(mobileNumber).replace(/\D/g, "");
       
+      // 🔓 Development bypass - Testing ke liye
+      // Specific number aur OTP se direct login ho jaye
       if (cleanedMobile === "8788200189" && otp === "878820") {
         return {
           success: true,
@@ -84,6 +100,7 @@ class MessageCentralOTP {
         };
       }
 
+      // OTP format validate karo (6 digits hone chahiye)
       if (!/^\d{6}$/.test(otp)) {
         return {
           success: false,
@@ -91,24 +108,27 @@ class MessageCentralOTP {
         };
       }
 
+      // Configuration check karo
       if (!this.validateOtpUrl || !this.authToken) {
-        console.error("Message Central not configured");
+        console.error("❌ Message Central not configured properly");
         return {
           success: false,
           verified: false,
         };
       }
 
+      // MessageCentral API call karo OTP verify karne ke liye
       const response = await axios.get(
         `${this.validateOtpUrl}?countryCode=${this.countryCode}&mobileNumber=${cleanedMobile}&verificationId=${verificationId}&customerId=${this.customerId}&code=${otp}`,
         {
           headers: {
             authToken: this.authToken,
           },
-          timeout: 15000,
+          timeout: 15000, // 15 seconds timeout
         },
       );
 
+      // Response check karo - OTP sahi hai ya nahi
       if (response.data) {
         const isSuccess =
           response.data.responseCode === 200 ||
@@ -135,7 +155,7 @@ class MessageCentralOTP {
         };
       }
     } catch (error) {
-      console.error("Message Central Verify OTP Error:", error.response?.data || error.message);
+      console.error("❌ Message Central Verify OTP Error:", error.response?.data || error.message);
 
       return {
         success: false,
@@ -145,4 +165,5 @@ class MessageCentralOTP {
   }
 }
 
+// Export karo taaki dusri files use kar sakein
 module.exports = new MessageCentralOTP();
