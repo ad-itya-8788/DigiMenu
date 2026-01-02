@@ -1,5 +1,4 @@
 // Authentication routes for customers and admins
-
 const express = require("express");
 const router = express.Router();
 const db = require("./database");
@@ -276,30 +275,26 @@ const createAdminSession = async (adminId, req) => {
   return { sessionId, expiresAt };
 };
 
+
 const verifyAdminSession = async (sessionId, req) => {
   if (!sessionId) return null;
-  
+
   const currentUserAgent = req.headers["user-agent"] || "";
-  
+
   const result = await db.query(
-    `SELECT s.admin_id, s.user_agent, a.username 
-     FROM sessions s 
-     INNER JOIN admins a ON s.admin_id = a.admin_id 
-     WHERE s.session_id = $1 AND s.expires_at > NOW() AND s.admin_id IS NOT NULL`,
+    `SELECT s.admin_id, a.username
+     FROM sessions s
+     JOIN admins a ON a.admin_id = s.admin_id
+     WHERE s.session_id = $1
+       AND s.expires_at > NOW()
+       AND s.admin_id IS NOT NULL`,
     [sessionId]
   );
-  
+
   if (result.rows.length === 0) return null;
-  
+
   const session = result.rows[0];
-  
-  // Soft check: User-Agent mismatch warning only (no logout)
-  if (session.user_agent && currentUserAgent && session.user_agent !== currentUserAgent) {
-    console.warn(`Admin session User-Agent changed - Session: ${sessionId.substring(0, 8)}...`);
-  }
-  
-  await db.query("UPDATE sessions SET last_activity = NOW() WHERE session_id = $1", [sessionId]);
-  
+
   return {
     adminId: session.admin_id,
     username: session.username

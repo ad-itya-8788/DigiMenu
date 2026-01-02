@@ -345,28 +345,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
     <script>
-    // 🔐 AUTHENTICATION LOGIC - Login/Register ke liye sab functions
-    
-    // 🔍 checkUserSession - User pehle se logged in hai ya nahi check karta hai
-    // Server se session-check API call karte hain
-    // Agar user already logged in hai → menu page pe redirect karo
-    // Agar logged out hai → login page pe hi rahne do
     async function checkUserSession() {
       try {
         const response = await fetch('/api/auth/session-check');
         const data = await response.json();
         if (data.authenticated) window.location.href = '/menu';
-      } catch (error) { console.error(error); }
+      } catch (error) {}
     }
-    // 🚀 Page load hote hi check karo user logged in hai ya nahi
     checkUserSession();
 
     document.addEventListener('DOMContentLoaded', function () {
-      // 📦 DOM ELEMENTS - Page ke sab important elements ko select karte hain
-      // Tabs → Login aur Register tabs
-      // Wrappers → Login form aur Register form containers
-      // Sections → Forms section aur OTP verification section
-      // OTP elements → OTP inputs, resend button, countdown timer
       const tabLogin = document.getElementById('tab-login');
       const tabRegister = document.getElementById('tab-register');
       const loginWrapper = document.getElementById('login-form-wrapper');
@@ -378,18 +366,9 @@
       const resendBtn = document.getElementById('resend-otp-btn');
       const countdownEl = document.getElementById('countdown');
 
-      // 🎯 STATE VARIABLES - Current state ko track karne ke liye
-      // currentPhone → user ka mobile number
-      // currentType → 'login' ya 'register'
-      // currentName → register ke liye user ka naam
-      // countdownTimer → resend OTP timer
       let currentPhone = '', currentType = '', currentName = '', countdownTimer = null;
       const API_BASE = '/api/auth';
 
-      // 🔄 TAB SWITCHING - Login aur Register tabs ke beech switch karta hai
-      // isLogin → true (Login tab) ya false (Register tab)
-      // Active tab ko highlight karta hai
-      // Corresponding form ko show/hide karta hai
       function switchTab(isLogin) {
         if(isLogin) {
           tabLogin.classList.add('active'); tabRegister.classList.remove('active');
@@ -399,31 +378,17 @@
           registerWrapper.style.display = 'block'; loginWrapper.style.display = 'none';
         }
       }
-      // 👆 Tab click events - Login ya Register tab pe click karne par
       tabLogin.addEventListener('click', () => switchTab(true));
       tabRegister.addEventListener('click', () => switchTab(false));
 
-      // 📱 SHOW OTP SCREEN - OTP verification screen dikhata hai
-      // mobile → user ka phone number
-      // type → 'login' ya 'register'
-      // name → register ke liye user ka naam (optional)
-      // Steps:
-      // 1) Current state save karo (phone, type, name)
-      // 2) Mobile number display karo (+91 prefix ke sath)
-      // 3) Forms section ko fade out karo (smooth animation)
-      // 4) OTP section ko fade in karo
-      // 5) First OTP input pe focus karo
-      // 6) Countdown timer start karo (60 seconds)
       const showOtpScreen = (mobile, type, name = '') => {
         currentPhone = mobile; currentType = type; currentName = name;
         otpMobileDisplay.textContent = '+91 ' + mobile;
-        // Animation - Forms ko hide karo aur OTP screen dikhao
         formsSection.style.opacity = 0;
         setTimeout(() => {
             formsSection.style.display = 'none';
             otpSection.style.display = 'block';
             otpSection.style.opacity = 0;
-            // Fade in animation - OTP screen ko smoothly dikhao
             let op = 0;
             const timer = setInterval(function () {
                 if (op >= 1){ clearInterval(timer); }
@@ -431,8 +396,8 @@
                 otpSection.style.filter = 'alpha(opacity=' + op * 100 + ")";
                 op += 0.1;
             }, 10);
-            otpInputs[0].focus(); // First OTP box pe cursor rakho
-            startCountdown(); // 60 second countdown start karo
+            otpInputs[0].focus();
+            startCountdown();
         }, 200);
       };
 

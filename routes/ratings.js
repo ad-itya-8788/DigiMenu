@@ -1,24 +1,15 @@
-// 📌 Ratings Routes - Customer ratings aur reviews manage karta hai
-// Authentication required hai (requireAuth middleware)
+// Ratings Routes - Customer ratings manage karta hai
 const express = require("express");
 const router = express.Router();
 const db = require("./database");
 const { requireAuth } = require("./auth");
 
-// ========== CUSTOMER RATINGS ENDPOINTS ==========
-
-// ⭐ Menu ITEM ko rate karta hai (authentication required)
-// IMPORTANT: Customer sirf un items ko rate kar sakta hai jo usne order kiya ho
-// Step 1: Rating validate karo (1-5 ke beech)
-// Step 2: Check karo customer ne item order kiya hai ya nahi
-// Step 3: Check karo customer ne pehle se rate kiya hai ya nahi
-// Step 4: Rating database me save karo
+// Submit item rating
 router.post("/submit-item", requireAuth, async (req, res) => {
   try {
     const { rating, review_text, item_id } = req.body;
     const customerId = req.customer.customerId;
 
-    // Validate rating value
     if (!rating || rating < 1 || rating > 5) {
       return res.status(400).json({ 
         success: false, 
@@ -26,7 +17,6 @@ router.post("/submit-item", requireAuth, async (req, res) => {
       });
     }
 
-    // STRICT VALIDATION: item_id is REQUIRED
     if (!item_id) {
       return res.status(400).json({
         success: false,
@@ -47,7 +37,7 @@ router.post("/submit-item", requireAuth, async (req, res) => {
       });
     }
 
-    // CRITICAL VALIDATION: Check if customer has ORDERED this item in a COMPLETED order
+    // Check if customer has ordered this item
     const hasOrdered = await db.query(
       `SELECT EXISTS (
         SELECT 1
@@ -67,7 +57,7 @@ router.post("/submit-item", requireAuth, async (req, res) => {
       });
     }
 
-    // Check if customer already rated this item
+    // Check if already rated
     const existingRating = await db.query(
       `SELECT rating_id FROM ratings WHERE customer_id = $1 AND item_id = $2`,
       [customerId, item_id]
@@ -80,7 +70,7 @@ router.post("/submit-item", requireAuth, async (req, res) => {
       });
     }
 
-    // Insert rating (all validations passed)
+    // Insert rating
     const result = await db.query(
       `INSERT INTO ratings (customer_id, rating_value, review_text, item_id) 
        VALUES ($1, $2, $3, $4) 
@@ -96,7 +86,6 @@ router.post("/submit-item", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("Submit item rating error:", error);
     
-    // Handle unique constraint violation
     if (error.code === '23505') {
       return res.status(400).json({
         success: false,
@@ -111,14 +100,12 @@ router.post("/submit-item", requireAuth, async (req, res) => {
   }
 });
 
-// Submit ORDER rating (requires authentication)
-// STRICT RULE: Customer can ONLY rate their own completed orders
+// Submit order rating
 router.post("/submit-order", requireAuth, async (req, res) => {
   try {
     const { rating, review_text, order_id } = req.body;
     const customerId = req.customer.customerId;
 
-    // Validate rating value
     if (!rating || rating < 1 || rating > 5) {
       return res.status(400).json({ 
         success: false, 
@@ -126,7 +113,6 @@ router.post("/submit-order", requireAuth, async (req, res) => {
       });
     }
 
-    // STRICT VALIDATION: order_id is REQUIRED
     if (!order_id) {
       return res.status(400).json({
         success: false,
@@ -134,7 +120,7 @@ router.post("/submit-order", requireAuth, async (req, res) => {
       });
     }
 
-    // CRITICAL VALIDATION: Verify order belongs to customer and is completed
+    // Verify order belongs to customer
     const orderCheck = await db.query(
       `SELECT order_id, status FROM orders 
        WHERE order_id = $1 AND customer_id = $2`,
@@ -155,7 +141,7 @@ router.post("/submit-order", requireAuth, async (req, res) => {
       });
     }
 
-    // Check if customer already rated this order
+    // Check if already rated
     const existingRating = await db.query(
       `SELECT rating_id FROM ratings 
        WHERE customer_id = $1 AND order_id = $2`,
@@ -169,7 +155,7 @@ router.post("/submit-order", requireAuth, async (req, res) => {
       });
     }
 
-    // Insert order rating (item_id is NULL for order ratings)
+    // Insert order rating
     const result = await db.query(
       `INSERT INTO ratings (customer_id, rating_value, review_text, order_id) 
        VALUES ($1, $2, $3, $4) 
@@ -185,7 +171,6 @@ router.post("/submit-order", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("Submit order rating error:", error);
     
-    // Handle unique constraint violation
     if (error.code === '23505') {
       return res.status(400).json({
         success: false,
@@ -200,7 +185,7 @@ router.post("/submit-order", requireAuth, async (req, res) => {
   }
 });
 
-// Get customer's own ratings - ALL REVIEWS (requires authentication)
+// Get customer's own ratings
 router.get("/my-ratings", requireAuth, async (req, res) => {
   try {
     const customerId = req.customer.customerId;
@@ -237,14 +222,12 @@ router.get("/my-ratings", requireAuth, async (req, res) => {
   }
 });
 
-// 🍽️ Customer ke ordered items fetch karta hai (rating ke liye eligible items)
-// Sirf completed orders ke items dikhte hain
-// Har item ke saath ye info hoti hai: kitni baar order kiya, already rated hai ya nahi
+// Get ordered items (eligible for rating)
 router.get("/ordered-items", requireAuth, async (req, res) => {
   try {
     const customerId = req.customer.customerId;
 
-    // Customer ke completed orders ke items fetch karo
+    // Fetch completed order items
     const result = await db.query(
       `SELECT DISTINCT
         oi.item_id,
@@ -285,8 +268,7 @@ router.get("/ordered-items", requireAuth, async (req, res) => {
   }
 });
 
-// 📊 Average rating aur distribution fetch karta hai (PUBLIC - No auth)
-// Restaurant ka overall rating dikhane ke liye
+// Get average rating (PUBLIC)
 router.get("/average", async (req, res) => {
   try {
     const result = await db.query(
@@ -326,12 +308,12 @@ router.get("/average", async (req, res) => {
   }
 });
 
-// Get recent ratings with customer info via JOIN (PUBLIC - No auth required, limited info)
+// Get recent ratings (PUBLIC)
 router.get("/recent", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
-    const item_id = req.query.item_id; // Optional: filter by specific item
+    const item_id = req.query.item_id;
 
     let query = `
       SELECT 
@@ -353,7 +335,6 @@ router.get("/recent", async (req, res) => {
 
     const params = [];
     
-    // Filter by item_id if provided
     if (item_id) {
       query += ` AND r.item_id = $${params.length + 1}`;
       params.push(item_id);

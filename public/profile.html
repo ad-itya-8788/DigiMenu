@@ -784,18 +784,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    // 📦 GLOBAL VARIABLES - Profile page ke liye important data
-    // customer → logged-in user ki details
-    // selectedRating → rating modal mein kitne stars select kiye (1-5)
-    // currentRatingOrderId → konse order ko rate kar rahe hain
-    // ratedOrders → customer ne jinko rating de di hai (Set for fast lookup)
     let customer = null;
     let selectedRating = 0;
     let currentRatingOrderId = null;
     let ratedOrders = new Set();
 
-    // 🍞 TOAST NOTIFICATION - Chhota popup message corner mein dikhata hai
-    // 3 seconds ke liye dikhta hai fir automatically gayab ho jata hai
     function showToast(icon, title, text) {
       Swal.fire({
         toast: true,
@@ -809,11 +802,6 @@
       });
     }
 
-    // 🔐 AUTHENTICATION CHECK - User logged in hai ya nahi check karta hai
-    // Agar logged out hai → login page pe redirect karo
-    // Agar logged in hai:
-    //   → customer details save karo
-    //   → profile, ratings, aur orders load karo
     async function checkAuth() {
       try {
         const res = await fetch('/api/auth/session-check');
@@ -831,12 +819,6 @@
       }
     }
 
-    // 👤 LOAD PROFILE - Customer ki profile details load karta hai
-    // Server se API call karke ye data lete hain:
-    //   → name, phone → header mein dikhate hain
-    //   → joinDate → member since kab se hai
-    //   → totalOrders → kitne orders place kiye
-    //   → totalSpent → total kitna paisa kharch kiya
     async function loadProfile() {
       try {
         const res = await fetch('/api/profile');
@@ -849,7 +831,6 @@
 
         const joinDate = new Date(profile.joinDate);
         const formattedDate = joinDate.toLocaleDateString('en-IN', {
-          timeZone: 'Asia/Kolkata',
           year: 'numeric',
           month: 'short',
           day: 'numeric'
@@ -860,7 +841,6 @@
       } catch (error) {}
     }
 
-    // Load orders history with ratings
     async function loadOrders() {
       try {
         const [ordersResponse, ratingsResponse] = await Promise.all([
@@ -875,7 +855,6 @@
           const orders = ordersData.orders;
           const container = document.getElementById('ordersContainer');
 
-          // Create a map of order ratings for quick lookup
           const orderRatingsMap = new Map();
           if (ratingsData.success && ratingsData.ratings) {
             ratingsData.ratings.forEach(rating => {
@@ -898,13 +877,11 @@
             return;
           }
 
-          // Make orderRatingsMap available to the map function
           window.orderRatingsMap = orderRatingsMap;
           
           container.innerHTML = orders.map(order => {
             const orderDate = new Date(order.createdAt);
             const formattedDate = orderDate.toLocaleDateString('en-IN', {
-              timeZone: 'Asia/Kolkata',
               year: 'numeric',
               month: 'short',
               day: 'numeric',
@@ -916,7 +893,6 @@
             const statusText = order.status.charAt(0).toUpperCase() + order.status.slice(1);
             const isCompleted = order.status === 'completed';
 
-            // Get rating for this order
             const orderRating = orderRatingsMap.get(order.orderId);
             const isOrderRated = orderRating !== undefined;
 
@@ -940,13 +916,11 @@
             const isPaid = order.paymentStatus === 'completed' || order.paymentStatus === 'paid';
             const isPayAtCounter = (order.paymentMethod === 'cash' || !order.paymentMethod) && !isPaid && order.paymentStatus !== 'completed';
 
-            // Build rating display HTML
             let ratingDisplayHtml = '';
             if (isOrderRated && orderRating) {
               const stars = '⭐'.repeat(orderRating.rating_value);
               const ratingDate = new Date(orderRating.created_at);
               const formattedRatingDate = ratingDate.toLocaleDateString('en-IN', {
-                timeZone: 'Asia/Kolkata',
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric'
@@ -1017,7 +991,6 @@
           }).join('');
         }
       } catch (error) {
-        console.error('Load orders error:', error);
         document.getElementById('ordersContainer').innerHTML = `
           <div class="empty-state">
             <i class="fas fa-exclamation-triangle"></i>
@@ -1028,16 +1001,6 @@
       }
     }
 
-    // ⭐ LOAD MY RATINGS - Customer ki sab ratings dikhata hai
-    // Server se API call karke ratings lete hain
-    // 2 types ki ratings hoti hain:
-    //   1) Item ratings → specific item ko rate kiya (Paneer Tikka, etc)
-    //   2) Order ratings → pura order rate kiya (Order #123)
-    // Har rating mein ye dikhate hain:
-    //   → stars (⭐⭐⭐⭐⭐)
-    //   → review text (agar di hai to)
-    //   → date & time
-    // ratedOrders Set mein save karte hain (order history mein button hide karne ke liye)
     async function loadMyRatings() {
       try {
         const res = await fetch('/api/ratings/my-ratings');
@@ -1058,7 +1021,6 @@
         container.innerHTML = data.ratings.map(rating => {
           const date = new Date(rating.created_at);
           const formattedDate = date.toLocaleDateString('en-IN', {
-            timeZone: 'Asia/Kolkata',
             year: 'numeric',
             month: 'short',
             day: 'numeric',
@@ -1095,10 +1057,6 @@
       }
     }
 
-    // 🚪 LOGOUT - User ko logout karta hai
-    // Server ko logout request bhejte hain
-    // localStorage se cart clear karte hain
-    // Login page pe redirect karte hain
     async function logout() {
       try {
         await fetch('/api/auth/logout', { method: 'POST' });
@@ -1109,12 +1067,8 @@
       }
     }
 
-
-
-    // Download Bill as PDF
     async function downloadBill(orderId) {
       try {
-        // Get order details from already loaded data
         const response = await fetch('/api/orders');
         const data = await response.json();
 
@@ -1128,21 +1082,17 @@
           return;
         }
 
-        // Get customer profile
         const profileResponse = await fetch('/api/profile');
         const profileData = await profileResponse.json();
         const customerData = profileData.success ? profileData.profile : null;
 
-        // Generate PDF - Clean Hotel Bill Design
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        // Page setup
         const leftMargin = 15;
         const rightMargin = 195;
         const pageWidth = 210;
 
-        // Column positions for better spacing
         const colItem = leftMargin;
         const colQty = 125;
         const colRate = 155;
@@ -1150,7 +1100,6 @@
 
         let yPos = 18;
 
-        // ========== HEADER ==========
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.text('HOTEL ADITYA', pageWidth / 2, yPos, { align: 'center' });
@@ -1168,7 +1117,6 @@
         doc.line(leftMargin, yPos, rightMargin, yPos);
         yPos += 6;
 
-        // ========== BILL TITLE ==========
         doc.setFontSize(11);
         doc.setFont('helvetica', 'bold');
         doc.text('TAX INVOICE', pageWidth / 2, yPos, { align: 'center' });
@@ -1177,8 +1125,6 @@
         doc.setLineWidth(0.3);
         doc.line(leftMargin, yPos, rightMargin, yPos);
         yPos += 6;
-
-        // ========== ORDER INFO ==========
         const orderDate = new Date(order.createdAt);
         const formattedDate = orderDate.toLocaleDateString('en-IN', {
           timeZone: 'Asia/Kolkata',
@@ -1196,17 +1142,14 @@
         doc.setFontSize(8);
         doc.setFont('helvetica', 'normal');
         
-        // Left column
         doc.text(`Bill No: ${order.orderId}`, leftMargin, yPos);
         yPos += 4;
         doc.text(`Date: ${formattedDate}`, leftMargin, yPos);
         yPos += 4;
         doc.text(`Time: ${formattedTime}`, leftMargin, yPos);
         
-        // Reset yPos for right column
         yPos -= 8;
         
-        // Right column
         if (customerData) {
           doc.text(`Guest: ${customerData.name}`, 110, yPos);
           yPos += 4;
@@ -1239,23 +1182,13 @@
         
         order.items.forEach((item) => {
           const itemTotal = item.price * item.quantity;
-          
-          // Item name
           const itemName = item.name.length > 40 ? item.name.substring(0, 40) + '...' : item.name;
           doc.text(itemName, colItem, yPos);
-          
-          // Quantity (centered)
           doc.text(String(item.quantity), colQty, yPos);
-          
-          // Rate (no rupee symbol to avoid overlap)
           doc.text(item.price.toFixed(2), colRate, yPos);
-          
-          // Amount (right aligned)
           doc.text(itemTotal.toFixed(2), colAmount, yPos, { align: 'right' });
-          
           yPos += 5;
 
-          // Check if we need a new page
           if (yPos > 260) {
             doc.addPage();
             yPos = 20;
@@ -1267,7 +1200,6 @@
         doc.line(leftMargin, yPos, rightMargin, yPos);
         yPos += 5;
 
-        // ========== TOTAL ==========
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
         doc.text('TOTAL', leftMargin, yPos);
@@ -1278,7 +1210,6 @@
         doc.line(leftMargin, yPos, rightMargin, yPos);
         yPos += 6;
 
-        // ========== PAYMENT INFO ==========
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         const paymentMethod = order.paymentMethod === 'online' ? 'Online' : 'Cash';
@@ -1292,7 +1223,6 @@
         doc.line(leftMargin, yPos, rightMargin, yPos);
         yPos += 6;
 
-        // ========== FOOTER ==========
         doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
@@ -1304,25 +1234,16 @@
         doc.setTextColor(80, 80, 80);
         doc.text('We appreciate your business', pageWidth / 2, yPos, { align: 'center' });
 
-        // Save PDF
         const fileName = `Bill_Order_${order.orderId}_${orderDate.getTime()}.pdf`;
         doc.save(fileName);
 
         showToast('success', 'Bill Downloaded!', 'Your bill has been downloaded successfully');
       } catch (error) {
-        console.error('Download bill error:', error);
         showToast('error', 'Error', 'Failed to generate bill. Please try again.');
       }
     }
 
-    // 🌟 OPEN ORDER RATING MODAL - Order ko rate karne ke liye popup kholta hai
-    // orderId → konse order ko rate kar rahe hain
-    // Modal mein ye dikhate hain:
-    //   → 5 stars (click karke select karo)
-    //   → review text box (optional feedback)
-    //   → submit button
     function openOrderRatingModal(orderId) {
-      // Check if already rated
       if (ratedOrders.has(orderId)) {
         showToast('info', 'Already Rated', 'You have already rated this order');
         return;
@@ -1336,27 +1257,18 @@
       document.getElementById('ratingText').value = '';
     }
 
-    // ❌ CLOSE RATING MODAL - Rating popup ko band karta hai
-    // Sab values reset kar dete hain
     function closeRatingModal() {
       document.getElementById('ratingModal').classList.remove('active');
       currentRatingOrderId = null;
       selectedRating = 0;
     }
 
-    // ⭐ UPDATE STARS - Stars ko highlight/unhighlight karta hai
-    // rating → kitne stars select hain (1-5)
-    // Selected stars ko yellow color dete hain
     function updateStars(rating) {
       document.querySelectorAll('.star').forEach((star, index) => {
         star.classList.toggle('active', index < rating);
       });
     }
 
-    // 🎯 STAR RATING HANDLERS - Stars pe click aur hover events
-    // Click → star select ho jata hai
-    // Hover → preview dikhata hai (agar abhi koi select nahi hai)
-    // Modal ke bahar click → modal band ho jata hai
     document.addEventListener('DOMContentLoaded', () => {
       const stars = document.querySelectorAll('.star');
       stars.forEach((star, index) => {
@@ -1378,18 +1290,6 @@
       });
     });
 
-    // 📤 SUBMIT ITEM RATING - Order rating ko server pe bhejta hai
-    // Pehle validation karte hain:
-    //   → stars select kiye hain ya nahi
-    //   → order ID valid hai ya nahi
-    // Fir server ko POST request bhejte hain with:
-    //   → order_id
-    //   → rating (1-5)
-    //   → review_text (optional)
-    // Success hone par:
-    //   → modal band karo
-    //   → ratedOrders mein add karo (button hide ho jaye)
-    //   → ratings aur orders refresh karo
     async function submitItemRating() {
       const reviewText = document.getElementById('ratingText').value.trim();
 
@@ -1424,18 +1324,12 @@
       }
     }
 
-    // 🚀 PAGE LOAD - Jab page load hota hai
-    // Authentication check karte hain
     checkAuth();
 
-    // 🔄 PAGE CACHE PREVENTION - Back button se aane par page reload karo
-    // Logout ke baad back button se wapas na aa sake
     window.onpageshow = function(event) {
       if (event.persisted) window.location.reload();
     };
 
-    // 👁️ VISIBILITY CHANGE - Tab switch karke wapas aane par
-    // Session check karte hain (logout ho gaya to redirect karo)
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) checkAuth();
     });

@@ -396,8 +396,7 @@
       </div>
     </div>
 
-    <!-- Filters - REMOVED -->
-    <!-- All ratings displayed without filters -->
+    <!-- Filters Removed - All ratings displayed -->
 
     <!-- Ratings List -->
     <div id="ratingsContainer">
@@ -414,16 +413,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   
   <script>
-    // Ratings data store karne ke liye
     let ratings = [];
 
-    // Mobile mein sidebar show/hide karta hai
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('show');
       document.getElementById('mobileOverlay').classList.toggle('show');
     }
 
-    // Admin logged in hai ya nahi check karta hai
     async function checkAdminAuth() {
       try {
         const response = await fetch('/api/auth/admin/session-check');
@@ -435,58 +431,33 @@
         document.getElementById('adminUsername').textContent = data.admin.username;
         loadRatings();
       } catch (error) {
-        console.error('Auth error', error);
         window.location.href = '/admin/login';
       }
     }
 
-    // Server se ratings data fetch karta hai - SIMPLE VERSION
     async function loadRatings() {
       try {
-        console.log('🔄 Loading ratings...');
-        
         const response = await fetch('/api/admin/ratings');
         const data = await response.json();
         
-        console.log('📦 Response received:', data);
-        
         if (data.success) {
           ratings = data.ratings;
-          console.log('✅ Total ratings:', ratings.length);
-          
-          // Show all ratings in a table for easy debugging
-          console.table(ratings.map(r => ({
-            rating_id: r.rating_id,
-            order_id: r.order_id,
-            customer_name: r.customer_name,
-            rating_value: r.rating_value
-          })));
-          
-          if (ratings.length > 0) {
-            console.log('✅ First rating full object:', ratings[0]);
-          }
-          
           displayRatings();
           updateStats(data.stats);
         } else {
-          console.error('❌ API returned error:', data.message);
           document.getElementById('ratingsContainer').innerHTML = `
             <div class="alert alert-danger">Error: ${data.message}</div>
           `;
         }
       } catch (error) {
-        console.error('❌ Load ratings error:', error);
         document.getElementById('ratingsContainer').innerHTML = `
           <div class="alert alert-danger">Failed to load ratings. Please try again.</div>
         `;
       }
     }
 
-    // Ratings ko table format mein dikhata hai - SIMPLIFIED
     function displayRatings() {
       const container = document.getElementById('ratingsContainer');
-      
-      console.log('🎨 Displaying', ratings.length, 'ratings');
       
       if (ratings.length === 0) {
         container.innerHTML = `
@@ -498,16 +469,7 @@
         return;
       }
 
-      const tableRows = ratings.map((rating, index) => {
-        // Log first rating for debugging
-        if (index === 0) {
-          console.log('🔍 Rendering first rating:', {
-            rating_id: rating.rating_id,
-            order_id: rating.order_id,
-            has_order_id: !!rating.order_id
-          });
-        }
-        
+      const tableRows = ratings.map(rating => {
         const stars = '★'.repeat(rating.rating_value) + '☆'.repeat(5 - rating.rating_value);
         const date = new Date(rating.created_at).toLocaleString('en-IN', { 
           timeZone: 'Asia/Kolkata',
@@ -530,14 +492,9 @@
             </small>
           </div>` : '';
         
-        // Order ID display - SIMPLE AND DIRECT WITH DEBUG
-        let orderIdDisplay = '-';
-        if (rating.order_id) {
-          orderIdDisplay = `<strong class="text-primary">#${rating.order_id}</strong>`;
-        } else {
-          // Debug: show what we actually have
-          orderIdDisplay = `<span class="text-muted small">- (${typeof rating.order_id}: ${rating.order_id})</span>`;
-        }
+        const orderIdDisplay = rating.order_id ? 
+          `<strong class="text-primary">#${rating.order_id}</strong>` : 
+          `<span class="text-muted">-</span>`;
         
         return `
           <tr>
@@ -598,11 +555,8 @@
           </div>
         </div>
       `;
-      
-      console.log('✅ Table rendered successfully');
     }
 
-    // Stats cards ko update karta hai
     function updateStats(stats) {
       document.getElementById('totalRatings').textContent = stats.totalRatings;
       document.getElementById('averageRating').textContent = stats.averageRating;
@@ -610,7 +564,6 @@
       document.getElementById('withReview').textContent = stats.withReview;
     }
 
-    // Rating ko delete karta hai
     async function deleteRating(ratingId) {
       const result = await Swal.fire({
         title: 'Delete Rating?',
@@ -644,19 +597,16 @@
             Swal.fire('Error', data.message || 'Failed to delete rating', 'error');
           }
         } catch (error) {
-          console.error('Delete rating error:', error);
           Swal.fire('Error', 'Failed to delete rating', 'error');
         }
       }
     }
 
-    // Admin ko logout karta hai
     async function logout() {
       await fetch('/api/auth/admin/logout', { method: 'POST' });
       window.location.href = '/admin/login';
     }
 
-    // Page load hone par auth check aur data load karo
     checkAdminAuth();
   </script>
 </body>

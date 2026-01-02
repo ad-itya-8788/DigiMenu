@@ -498,41 +498,28 @@
       }
     }
 
-    // 👥 LOAD ADMINS - Sab admin accounts ki list fetch karta hai
-    // Server se admins data lete hain
-    // Global admins array mein save karte hain
-    // Table mein display karte hain
     async function loadAdmins() {
       try {
         const response = await fetch('/api/admin/admins');
         const data = await response.json();
         
         if (data.success) {
-          admins = data.admins; // Global state update karo
-          displayAdmins(); // Table mein dikhao
+          admins = data.admins;
+          displayAdmins();
         }
-      } catch (error) {
-        console.error('Load admins error', error);
-      }
+      } catch (error) {}
     }
 
-    // 🎨 DISPLAY ADMINS - Admins ko table format mein dikhata hai
-    // Har admin ke liye:
-    // - ID, Name, Username, Email
-    // - Created date
-    // - Edit aur Delete buttons
-    // Current user ko "You" badge dikhata hai
     function displayAdmins() {
       const tbody = document.getElementById('adminsTableBody');
       
-      // 📭 Empty state - Agar koi admin nahi hai
       if (admins.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No admins found</td></tr>';
         return;
       }
 
       tbody.innerHTML = admins.map(admin => {
-        const createdDate = new Date(admin.created_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
+        const createdDate = new Date(admin.created_at).toLocaleDateString('en-IN');
         const isCurrentUser = admin.admin_id === currentAdminId;
         
         return `
@@ -560,34 +547,23 @@
       }).join('');
     }
 
-    // ➕ CREATE NEW ADMIN - Naya admin account banata hai
-    // Form submit hone par:
-    // 1) Form data validate karo (sab fields filled hain)
-    // 2) Password length check karo (minimum 6 characters)
-    // 3) Password match check karo (password === confirmPassword)
-    // 4) Server ko POST request bhejo
-    // 5) Success → form reset karo aur admins list reload karo
     document.getElementById('newAdminForm').addEventListener('submit', async (e) => {
-      e.preventDefault(); // Page reload rokne ke liye
+      e.preventDefault();
       
-      // 📝 Form data uthao
       const name = document.getElementById('newAdminName').value.trim();
       const username = document.getElementById('newAdminUsername').value.trim();
       const email = document.getElementById('newAdminEmail').value.trim();
       const password = document.getElementById('newAdminPassword').value;
       const confirmPassword = document.getElementById('newAdminConfirmPassword').value;
 
-      // ✅ VALIDATION - Sab fields filled hain ya nahi
       if (!name || !username || !email || !password || !confirmPassword) {
         return Swal.fire('Error', 'All fields are required', 'error');
       }
 
-      // 🔒 Password length check - Minimum 6 characters
       if (password.length < 6) {
         return Swal.fire('Error', 'Password must be at least 6 characters', 'warning');
       }
 
-      // 🔐 Password match check - Dono passwords same hain ya nahi
       if (password !== confirmPassword) {
         return Swal.fire('Error', 'Passwords do not match', 'error');
       }
@@ -615,40 +591,28 @@
           Swal.fire('Error', data.message || 'Failed to create admin', 'error');
         }
       } catch (error) {
-        console.error('Create admin error', error);
         Swal.fire('Error', 'Failed to create admin', 'error');
       }
     });
 
-    // ✏️ OPEN EDIT MODAL - Admin edit karne ke liye modal kholta hai
-    // adminId se admin ko find karta hai
-    // Form fields mein current data fill karta hai
-    // Modal show karta hai
     function openEditModal(adminId) {
       const admin = admins.find(a => a.admin_id === adminId);
       if (!admin) return;
 
-      // 📝 Form fields mein current data fill karo
       document.getElementById('editAdminId').value = admin.admin_id;
       document.getElementById('editAdminName').value = admin.name || '';
       document.getElementById('editAdminUsername').value = admin.username;
       document.getElementById('editAdminEmail').value = admin.email || '';
 
-      // 🎭 Modal show karo
       new bootstrap.Modal(document.getElementById('editAdminModal')).show();
     }
 
-    // 💾 SAVE ADMIN EDIT - Admin details update karta hai
-    // Form data validate karta hai
-    // Server ko PUT request bhejta hai
-    // Success → modal close karo aur list reload karo
     async function saveAdminEdit() {
       const adminId = document.getElementById('editAdminId').value;
       const name = document.getElementById('editAdminName').value.trim();
       const username = document.getElementById('editAdminUsername').value.trim();
       const email = document.getElementById('editAdminEmail').value.trim();
 
-      // ✅ Validation - Sab fields filled hain ya nahi
       if (!name || !username || !email) {
         return Swal.fire('Error', 'All fields are required', 'error');
       }
@@ -676,19 +640,11 @@
           Swal.fire('Error', data.message || 'Failed to update admin', 'error');
         }
       } catch (error) {
-        console.error('Update admin error', error);
         Swal.fire('Error', 'Failed to update admin', 'error');
       }
     }
 
-    // 🗑️ DELETE ADMIN - Admin account delete karta hai
-    // Steps:
-    // 1) Confirmation popup dikhao
-    // 2) User confirm kare → server ko DELETE request bhejo
-    // 3) Success → success message aur list reload
-    // 4) Error → error message dikhao
     async function deleteAdmin(adminId) {
-      // ⚠️ Confirmation - User se confirm karo
       const result = await Swal.fire({
         title: 'Delete Admin?',
         text: 'This action cannot be undone',
@@ -702,7 +658,6 @@
 
       if (result.isConfirmed) {
         try {
-          // 🌐 API call - Server ko delete request bhejo
           const response = await fetch(`/api/admin/admins/${adminId}`, {
             method: 'DELETE'
           });
@@ -710,7 +665,6 @@
           const data = await response.json();
 
           if (data.success) {
-            // ✅ Success - Success message aur reload
             Swal.fire({
               icon: 'success',
               title: 'Deleted',
@@ -718,44 +672,31 @@
               timer: 1500,
               showConfirmButton: false
             });
-            loadAdmins(); // Admins list reload karo
+            loadAdmins();
           } else {
-            // ❌ Error - Error message dikhao
             Swal.fire('Error', data.message || 'Failed to delete admin', 'error');
           }
         } catch (error) {
-          console.error('Delete admin error', error);
           Swal.fire('Error', 'Failed to delete admin', 'error');
         }
       }
     }
 
-    // 🔐 CHANGE PASSWORD - Admin ka password change karta hai
-    // Form submit hone par:
-    // 1) Sab fields validate karo
-    // 2) New password length check karo (min 6 chars)
-    // 3) New passwords match check karo
-    // 4) Server ko PUT request bhejo
-    // 5) Success → form reset aur success message
     document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
-      e.preventDefault(); // Page reload rokne ke liye
+      e.preventDefault();
 
-      // 📝 Form data uthao
       const currentPassword = document.getElementById('currentPassword').value;
       const newPassword = document.getElementById('newPassword').value;
       const confirmNewPassword = document.getElementById('confirmNewPassword').value;
 
-      // ✅ Validation - Sab fields filled hain ya nahi
       if (!currentPassword || !newPassword || !confirmNewPassword) {
         return Swal.fire('Error', 'All fields are required', 'error');
       }
 
-      // 🔒 Password length check - Minimum 6 characters
       if (newPassword.length < 6) {
         return Swal.fire('Error', 'New password must be at least 6 characters', 'warning');
       }
 
-      // 🔐 Password match check - Dono new passwords same hain ya nahi
       if (newPassword !== confirmNewPassword) {
         return Swal.fire('Error', 'New passwords do not match', 'error');
       }
@@ -782,7 +723,6 @@
           Swal.fire('Error', data.message || 'Failed to change password', 'error');
         }
       } catch (error) {
-        console.error('Change password error', error);
         Swal.fire('Error', 'Failed to change password', 'error');
       }
     });

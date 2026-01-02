@@ -312,11 +312,6 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    // 🍳 KITCHEN DISPLAY SYSTEM - Real-time order management for kitchen staff
-    
-    // 🔐 ADMIN AUTHENTICATION CHECK - Kitchen access sirf admins ke liye
-    // Session verify karta hai
-    // Agar logged out → login page pe redirect
     async function checkAdminAuth() {
       try {
         const response = await fetch('/api/auth/admin/session-check');
@@ -327,85 +322,56 @@
         }
         return true;
       } catch (error) {
-        console.error('Auth check error:', error);
         window.location.href = '/admin/login';
         return false;
       }
     }
 
-    // ⚙️ CONFIG - Order urgency ke liye time thresholds
-    const WARNING_MIN = 10; // 10 minutes ke baad warning (yellow)
-    const URGENT_MIN = 20;  // 20 minutes ke baad urgent (red)
+    const WARNING_MIN = 10;
+    const URGENT_MIN = 20;
     
-    // 📦 STATE - Kitchen display ka current state
-    let orders = []; // Active orders list
-    let processedIds = new Set(); // Already processed order IDs (for new order alerts)
+    let orders = [];
+    let processedIds = new Set();
 
-    // 🕐 CLOCK - Live clock display (updates every second)
-    // Indian time zone (Asia/Kolkata) mein time dikhata hai
     setInterval(() => {
-      document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit'});
+      document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'});
     }, 1000);
 
-    // 🔄 LOAD DATA - Server se active orders fetch karta hai
-    // Steps:
-    // 1) API call karke pending aur preparing orders lete hain
-    // 2) New orders check karte hain (jo pehle nahi the)
-    // 3) Agar new order hai → sound alert play karo
-    // 4) Orders list update karo aur render karo
     async function loadData() {
       try {
-        // 🌐 API call - Active orders fetch karo (pending + preparing)
         const res = await fetch('/api/admin/orders?view_type=active&status=pending,preparing');
         const data = await res.json();
         
         if(data.success) {
           const currentIds = data.orders.map(o => o.order_id);
-          
-          // 🔔 NEW ORDER ALERT - Agar naya order aaya hai to sound play karo
           const hasNew = currentIds.some(id => !processedIds.has(id));
           if(hasNew && processedIds.size > 0) {
-             document.getElementById('alertSound').play().catch(()=>{}); // Sound play karo
+             document.getElementById('alertSound').play().catch(()=>{});
           }
           
-          processedIds = new Set(currentIds); // Processed IDs update karo
-          orders = data.orders; // Orders list update karo
-          render(); // Screen pe dikhao
+          processedIds = new Set(currentIds);
+          orders = data.orders;
+          render();
         }
-      } catch(e) { console.error("Fetch error:", e); }
+      } catch(e) {}
     }
 
-    // 🎨 RENDER - Orders ko screen pe display karta hai
-    // Steps:
-    // 1) Active orders count update karo
-    // 2) Agar orders nahi hain → empty state dikhao
-    // 3) Orders ko oldest first sort karo (FIFO - First In First Out)
-    // 4) Har order ke liye card banao with:
-    //    - Urgency color (green/yellow/red)
-    //    - Table number
-    //    - Timer (elapsed time)
-    //    - Items list
-    //    - Mark Ready button
     function render() {
       const grid = document.getElementById('orderGrid');
       const empty = document.getElementById('emptyState');
       const counter = document.getElementById('activeCount');
 
-      // 🔢 Counter update - Kitne orders pending hain
       counter.innerText = orders.length;
 
-      // 📭 Empty state - Agar koi order nahi hai
       if(orders.length === 0) {
         grid.style.display = 'none';
         empty.style.display = 'flex';
         return;
       }
 
-      // 📋 Orders display karo
       grid.style.display = 'grid';
       empty.style.display = 'none';
 
-      // 🔄 Sort - Oldest orders first (jo pehle aaya usko pehle dikhao)
       orders.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
       grid.innerHTML = orders.map(o => {
@@ -428,7 +394,7 @@
             <div class="ticket-body">
               <div class="order-meta">
                 <span>#${o.order_id}</span>
-                <span>${startTime.toLocaleTimeString('en-IN', {timeZone: 'Asia/Kolkata', hour:'2-digit', minute:'2-digit'})}</span>
+                <span>${startTime.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'})}</span>
               </div>
               
               <div class="order-list">
@@ -453,30 +419,17 @@
       updateTimers();
     }
 
-    // ⏱️ UPDATE TIMERS - Har order ka elapsed time update karta hai
-    // Har second mein run hota hai
-    // Time format: MM:SS (e.g., 05:30 = 5 minutes 30 seconds)
     function updateTimers() {
       document.querySelectorAll('.timer-badge').forEach(el => {
-        const start = new Date(el.dataset.start); // Order ka start time
-        const diff = Math.floor((new Date() - start) / 1000); // Seconds mein difference
-        
-        // Minutes aur seconds calculate karo
+        const start = new Date(el.dataset.start);
+        const diff = Math.floor((new Date() - start) / 1000);
         const mm = Math.floor(diff / 60).toString().padStart(2, '0');
         const ss = (diff % 60).toString().padStart(2, '0');
-        
-        el.innerText = `${mm}:${ss}`; // Timer display update karo
+        el.innerText = `${mm}:${ss}`;
       });
     }
 
-    // ✅ MARK READY - Order ko "ready" status mein mark karta hai
-    // Steps:
-    // 1) Optimistic UI update - Card ko fade out karo (instant feedback)
-    // 2) Server ko PUT request bhejo status change ke liye
-    // 3) Success → orders refresh karo (card automatically remove ho jayega)
-    // 4) Error → orders refresh karo (card wapas aa jayega)
     async function markReady(id) {
-      // 🎭 Optimistic UI - Pehle card ko fade out karo (smooth UX)
       const card = document.getElementById(`ticket-${id}`);
       if(card) {
         card.style.transform = 'scale(0.95)';
@@ -484,35 +437,25 @@
       }
 
       try {
-        // 🌐 API call - Order status "ready" mein change karo
         await fetch(`/api/admin/orders/${id}/status`, {
           method: 'PUT', headers: {'Content-Type':'application/json'},
           body: JSON.stringify({status: 'ready'})
         });
-        loadData(); // Orders refresh karo
+        loadData();
       } catch(e) { 
-        console.error(e);
-        loadData(); // Error pe bhi refresh karo (revert UI)
+        loadData();
       }
     }
 
-    // 🚀 INITIALIZATION - Kitchen display system start karta hai
-    // Steps:
-    // 1) Admin authentication check karo
-    // 2) Agar authenticated → data load karo
-    // 3) Auto-refresh setup karo:
-    //    - Har 5 seconds mein orders refresh (new orders detect karne ke liye)
-    //    - Har 1 second mein timers update (live timer ke liye)
     async function initKitchen() {
       const isAuthenticated = await checkAdminAuth();
       if (isAuthenticated) {
-        loadData(); // Initial data load
-        setInterval(loadData, 5000); // 🔄 Har 5 seconds mein orders refresh
-        setInterval(updateTimers, 1000); // ⏱️ Har 1 second mein timers update
+        loadData();
+        setInterval(loadData, 5000);
+        setInterval(updateTimers, 1000);
       }
     }
 
-    // 🎬 Start kitchen display system
     initKitchen();
   </script>
 </body>

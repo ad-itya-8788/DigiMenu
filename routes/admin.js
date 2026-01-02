@@ -7,7 +7,6 @@ const { requireAdmin } = require("./auth");
 const bunnyCDN = require("./bunnyCDN");
 const crypto = require("crypto");
 
-// Configure multer for file uploads (memory storage)
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -26,12 +25,9 @@ const upload = multer({
   },
 });
 
-// Hash password helper
 const hashPassword = (password) => {
   return crypto.createHash('sha256').update(password).digest('hex');
 };
-
-// ========== MENU CATEGORIES CRUD ==========
 
 // Get all categories
 router.get("/categories", requireAdmin, async (req, res) => 
@@ -48,7 +44,7 @@ router.get("/categories", requireAdmin, async (req, res) =>
   }
 });
 
-// Create category 
+// Create category
 router.post("/categories", requireAdmin, async (req, res) => {
   try {
     const name = req.body.category_name?.trim();
@@ -70,7 +66,6 @@ router.post("/categories", requireAdmin, async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to create category" });
   }
 });
-
 
 
 // Update category
@@ -120,8 +115,6 @@ router.delete("/categories/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// ========== MENU ITEMS CRUD ==========
-
 // Get all menu items
 router.get("/items", requireAdmin, async (req, res) => {
   try {
@@ -146,7 +139,7 @@ router.get("/items", requireAdmin, async (req, res) => {
   }
 });
 
-// Create menu item with image upload
+// Create menu item with image
 router.post("/items", requireAdmin, (req, res, next) => {
   upload.single("image")(req, res, (err) => {
     if (err instanceof multer.MulterError) {
@@ -207,7 +200,7 @@ router.post("/items", requireAdmin, (req, res, next) => {
   }
 });
 
-// Update menu item with image upload
+// Update menu item with image
 router.put("/items/:id", requireAdmin, (req, res, next) => {
   upload.single("image")(req, res, (err) => {
     if (err instanceof multer.MulterError) {
@@ -332,26 +325,29 @@ router.delete("/items/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// ========== ORDERS MANAGEMENT ==========
-
-// Get all orders
+// Get orders
 router.get("/orders", requireAdmin, async (req, res) => {
   try {
-    const { status, date_filter, limit = 50, offset = 0, view_type } = req.query;
+    const {
+      status,
+      date_filter,
+      view_type = 'active',
+      limit = 50,
+      offset = 0
+    } = req.query;
 
     let query = `
       SELECT 
         o.order_id,
         o.customer_id,
-        c.name as customer_name,
-        c.phone as customer_phone,
+        c.name AS customer_name,
+        c.phone AS customer_phone,
         o.table_number,
         o.total_amount,
         o.status,
         o.created_at,
         p.payment_status,
         p.payment_method,
-        p.created_at as payment_date,
         p.razorpay_payment_id,
         COALESCE(
           json_agg(
@@ -360,10 +356,10 @@ router.get("/orders", requireAdmin, async (req, res) => {
               'quantity', oi.quantity,
               'price', oi.price,
               'item_name', mi.item_name
-            ) ORDER BY mi.item_name
+            )
           ) FILTER (WHERE oi.order_item_id IS NOT NULL),
           '[]'::json
-        ) as items
+        ) AS items
       FROM orders o
       INNER JOIN customers c ON o.customer_id = c.customer_id
       LEFT JOIN payments p ON o.order_id = p.order_id
@@ -371,74 +367,62 @@ router.get("/orders", requireAdmin, async (req, res) => {
       LEFT JOIN menu_items mi ON oi.item_id = mi.item_id
     `;
 
-    const params = [];
     const conditions = [];
-    const { custom_date } = req.query;
+    const params = [];
 
-    // Filter based on view_type
+    // ✅ Active view → hide completed orders
     if (view_type === 'active') {
-      // For admin.html - Show ALL active orders (not completed)
-      // EXCLUDE completed orders from active view
       conditions.push(`o.status != 'completed'`);
-      // Status filter will be applied below if provided
-    } else if (view_type === 'old') {
-      // For oldorders.html - show ALL orders from all time
-      // No date restriction - show all orders
-      // No status filter - show completed, cancelled, all statuses
     }
 
+    // ✅ Status filter (single or multiple)
     if (status) {
-      // Handle comma-separated status values (e.g., "pending,preparing,ready")
-      if (status.includes(',')) {
-        const statusList = status.split(',').map(s => s.trim());
-        const placeholders = statusList.map((_, i) => `$${params.length + i + 1}`).join(',');
-        conditions.push(`o.status IN (${placeholders})`);
-        params.push(...statusList);
-      } else {
-        conditions.push(`o.status = $${params.length + 1}`);
-        params.push(status);
-      }
+      const statusList = status.split(',').map(s => s.trim());
+      const placeholders = statusList.map((_, i) => `$${params.length + i + 1}`).join(',');
+      conditions.push(`o.status IN (${placeholders})`);
+      params.push(...statusList);
     }
 
+    // ✅ Date filter
     if (date_filter === 'today') {
       conditions.push(`DATE(o.created_at) = CURRENT_DATE`);
     } else if (date_filter === 'old') {
       conditions.push(`DATE(o.created_at) < CURRENT_DATE`);
     }
 
-    // Custom date filter
-    // Custom date filter removed - using today's date by default
-    if (custom_date) {
-      conditions.push(`DATE(o.created_at) = $${params.length + 1}`);
-      params.push(custom_date);
-    }
-
+    // ✅ WHERE clause
     if (conditions.length > 0) {
-      query += " WHERE " + conditions.join(" AND ");
+      query += ` WHERE ${conditions.join(' AND ')}`;
     }
 
-    query += ` 
-      GROUP BY o.order_id, o.customer_id, c.name, c.phone, o.table_number, 
-               o.total_amount, o.status, o.created_at, p.payment_status, 
-               p.payment_method, p.created_at, p.razorpay_payment_id
-      ORDER BY o.created_at DESC 
-      LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+    // ✅ Grouping + Pagination
+    query += `
+      GROUP BY 
+        o.order_id, c.name, c.phone,
+        p.payment_status, p.payment_method, p.razorpay_payment_id
+      ORDER BY o.created_at DESC
+      LIMIT $${params.length + 1}
+      OFFSET $${params.length + 2}
     `;
+
     params.push(parseInt(limit), parseInt(offset));
 
     const result = await db.query(query, params);
 
-    const ordersWithItems = result.rows.map(order => ({
-      ...order,
-      items: order.items || []
-    }));
+    return res.json({
+      success: true,
+      orders: result.rows.map(o => ({ ...o, items: o.items || [] }))
+    });
 
-    return res.json({ success: true, orders: ordersWithItems });
   } catch (error) {
     console.error("Get orders error:", error);
-    return res.status(500).json({ success: false, message: "Failed to fetch orders" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch orders"
+    });
   }
 });
+
 
 // Delete order
 router.delete("/orders/:id", requireAdmin, async (req, res) => {
@@ -502,7 +486,7 @@ router.put("/orders/:id/status", requireAdmin, async (req, res) => {
   }
 });
 
-// Mark order as paid (for cash payments at counter) - Updates ONLY payments table
+// Mark order as paid (cash payment)
 router.put("/orders/:id/mark-paid", requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -606,8 +590,6 @@ router.get("/dashboard/stats", requireAdmin, async (req, res) => {
   }
 });
 
-// ========== USERS & REPORTS ==========
-
 // Get customer statistics
 router.get("/customer-stats", requireAdmin, async (req, res) => {
   try {
@@ -632,7 +614,7 @@ router.get("/customer-stats", requireAdmin, async (req, res) => {
   }
 });
 
-// Get all users with their order statistics
+// Get all users with order stats
 router.get("/users", requireAdmin, async (req, res) => {
   try {
     const result = await db.query(`
@@ -658,7 +640,7 @@ router.get("/users", requireAdmin, async (req, res) => {
   }
 });
 
-// Get user details with order history and reviews
+// Get user details with orders and reviews
 router.get("/users/:id", requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -737,9 +719,7 @@ router.get("/users/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// ========== NOTIFICATIONS ==========
-
-// Get notifications (recent orders, low stock, etc.)
+// Get notifications
 router.get("/notifications", requireAdmin, async (req, res) => {
   try {
     const notifications = [];
@@ -797,10 +777,7 @@ router.get("/notifications", requireAdmin, async (req, res) => {
   }
 });
 
-// ========== RATINGS MANAGEMENT ==========
-
-
-// Admin ke liye saare ratings fetch karo
+// Get all ratings
 router.get("/ratings", requireAdmin, async (req, res) => {
   try {
     // Database se saare ratings fetch karo with customer aur item details
@@ -861,7 +838,7 @@ router.get("/ratings", requireAdmin, async (req, res) => {
 });
 
 
-// Delete a rating
+// Delete rating
 router.delete("/ratings/:id", requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -882,7 +859,7 @@ router.delete("/ratings/:id", requireAdmin, async (req, res) => {
   }
 });
 
-// Get rating statistics for dashboard
+// Get rating statistics
 router.get("/ratings/stats", requireAdmin, async (req, res) => {
   try {
     const result = await db.query(`
@@ -924,8 +901,6 @@ router.get("/ratings/stats", requireAdmin, async (req, res) => {
     return res.status(500).json({ success: false, message: "Failed to fetch rating statistics" });
   }
 });
-
-// ========== ADMIN MANAGEMENT ==========
 
 // Get all admins
 router.get("/admins", requireAdmin, async (req, res) => {
@@ -1056,8 +1031,6 @@ router.put("/change-password", requireAdmin, async (req, res) => {
     return res.status(500).json({ success: false, message: "Failed to change password" });
   }
 });
-
-// ========== ORDER ACCEPTANCE TOGGLE ==========
 
 // Get order acceptance status
 router.get("/order-accept-status", async (req, res) => {

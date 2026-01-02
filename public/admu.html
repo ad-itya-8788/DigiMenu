@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  
+
   <!-- Primary Meta Tags -->
   <title>User Management - Hotel Aditya Admin | Customer Reports</title>
   <meta name="title" content="User Management - Hotel Aditya Admin | Customer Reports">
-  <meta name="description" content="Manage Hotel Aditya customers, view user reports, track customer orders, and analyze customer behavior.">
+  <meta name="description"
+    content="Manage Hotel Aditya customers, view user reports, track customer orders, and analyze customer behavior.">
   <meta name="keywords" content="Hotel Aditya users, customer management, user reports, admin users, customer data">
   <meta name="author" content="Hotel Aditya">
   <meta name="robots" content="noindex, nofollow">
-  
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.servhunt.in/admin/users">
   <meta property="og:title" content="User Management - Hotel Aditya Admin">
   <meta property="og:description" content="Manage Hotel Aditya customers and view user reports.">
   <meta property="og:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
-  
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary">
   <meta property="twitter:url" content="https://www.servhunt.in/admin/users">
   <meta property="twitter:title" content="User Management - Hotel Aditya Admin">
   <meta property="twitter:description" content="Manage Hotel Aditya customers and view user reports.">
   <meta property="twitter:image" content="https://www.servhunt.in/favicon_io/android-chrome-512x512.png">
-  
+
   <!-- Canonical Link -->
   <link rel="canonical" href="https://www.servhunt.in/admin/users">
-  
+
   <!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
   <link rel="manifest" href="/favicon_io/site.webmanifest">
-  
+
   <!-- Mobile Optimization -->
   <meta name="theme-color" content="#6366f1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Hotel Aditya Admin">
-  
+
   <!-- Bootstrap 5.3 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- FontAwesome 6.4 -->
@@ -135,7 +137,10 @@
       border-left-color: var(--primary-color);
     }
 
-    .nav-btn i { width: 24px; text-align: center; }
+    .nav-btn i {
+      width: 24px;
+      text-align: center;
+    }
 
     /* --- Main Content --- */
     .main-content {
@@ -168,16 +173,31 @@
       align-items: center;
       gap: 1.5rem;
     }
-    .stat-card:hover { transform: translateY(-5px); border-color: rgba(99, 102, 241, 0.3); }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
 
     .stat-icon-wrapper {
-      width: 60px; height: 60px;
+      width: 60px;
+      height: 60px;
       border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 1.5rem;
     }
-    .bg-icon-users { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
-    .bg-icon-new { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+
+    .bg-icon-users {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+    }
+
+    .bg-icon-new {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+    }
 
     /* --- Table Card --- */
     .table-card {
@@ -186,7 +206,7 @@
       border: 1px solid var(--card-border);
       overflow: hidden;
     }
-    
+
     .table-card-header {
       padding: 1.25rem 1.5rem;
       border-bottom: 1px solid var(--card-border);
@@ -198,12 +218,15 @@
     }
 
     /* --- Inputs --- */
-    .form-control, .form-select {
+    .form-control,
+    .form-select {
       background-color: var(--body-bg-custom);
       border-color: var(--card-border);
       color: var(--bs-body-color);
     }
-    .form-control:focus, .form-select:focus {
+
+    .form-control:focus,
+    .form-select:focus {
       background-color: var(--body-bg-custom);
       border-color: var(--primary-color);
       box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
@@ -212,17 +235,36 @@
 
     /* --- Responsive --- */
     @media (max-width: 991px) {
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.show { transform: translateX(0); }
-      .main-content { margin-left: 0; }
-      .overlay {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.5); z-index: 999; display: none;
+      .sidebar {
+        transform: translateX(-100%);
       }
-      .overlay.show { display: block; }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+      }
+
+      .overlay.show {
+        display: block;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Mobile Overlay -->
@@ -232,7 +274,8 @@
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <a href="/admin" class="sidebar-brand">
-        <div style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
+        <div
+          style="width:36px; height:36px; background:linear-gradient(135deg, #6366f1, #8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white;">
           <i class="fas fa-hotel" style="font-size: 1.1rem;"></i>
         </div>
         <span>Hotel Aditya</span>
@@ -270,7 +313,7 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    
+
     <!-- Top Navbar -->
     <div class="top-navbar">
       <div class="d-flex align-items-center">
@@ -281,8 +324,10 @@
       </div>
 
       <div class="d-flex align-items-center gap-3">
-        <div class="d-flex align-items-center gap-2 ps-3 border-start" style="border-color: var(--sidebar-border) !important;">
-          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+        <div class="d-flex align-items-center gap-2 ps-3 border-start"
+          style="border-color: var(--sidebar-border) !important;">
+          <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center text-primary"
+            style="width: 40px; height: 40px;">
             <i class="fas fa-user-shield"></i>
           </div>
         </div>
@@ -320,7 +365,8 @@
       <div class="table-card-header">
         <h5 class="m-0 fw-bold"><i class="fas fa-list me-2 text-primary"></i>Customer List</h5>
         <div class="d-flex gap-2 flex-wrap">
-          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search name or phone..." style="min-width: 200px;">
+          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Search name or phone..."
+            style="min-width: 200px;">
           <select class="form-select form-select-sm" id="customerFilter" style="min-width: 150px;">
             <option value="all" selected>All Customers</option>
             <option value="new">New Today</option>
@@ -330,7 +376,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="table-responsive">
         <table class="table table-hover mb-0 align-middle" style="color: var(--bs-body-color);">
           <thead class="bg-body-tertiary">
@@ -344,7 +390,9 @@
             </tr>
           </thead>
           <tbody id="usersTableBody">
-             <tr><td colspan="6" class="text-center py-5 text-muted">Loading data...</td></tr>
+            <tr>
+              <td colspan="6" class="text-center py-5 text-muted">Loading data...</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -367,14 +415,14 @@
       try {
         const response = await fetch('/api/auth/admin/session-check');
         const data = await response.json();
-        if (!data.authenticated) { 
-          window.location.href = '/admin/login'; 
-          return; 
+        if (!data.authenticated) {
+          window.location.href = '/admin/login';
+          return;
         }
         loadStats();
         loadUsers();
-      } catch (error) { 
-        window.location.href = '/admin/login'; 
+      } catch (error) {
+        window.location.href = '/admin/login';
       }
     }
 
@@ -418,7 +466,7 @@
         filtered = filtered.filter(u => u.joined_date && u.joined_date.startsWith(todayStr));
       } else if (filterValue === 'birthday') {
         filtered = filtered.filter(u => {
-          if(!u.dob) return false;
+          if (!u.dob) return false;
           const d = new Date(u.dob);
           return `${d.getMonth() + 1}-${d.getDate()}` === monthDay;
         });
@@ -429,8 +477,8 @@
       }
 
       if (searchValue) {
-        filtered = filtered.filter(u => 
-          (u.name && u.name.toLowerCase().includes(searchValue)) || 
+        filtered = filtered.filter(u =>
+          (u.name && u.name.toLowerCase().includes(searchValue)) ||
           (u.phone && u.phone.includes(searchValue))
         );
       }
@@ -452,12 +500,12 @@
       tbody.innerHTML = users.map(user => {
         let dobDisplay = '<span class="text-muted small">Not set</span>';
         let birthdayIcon = '';
-        
+
         if (user.dob) {
           const d = new Date(user.dob);
           const isBday = `${d.getMonth() + 1}-${d.getDate()}` === monthDay;
           dobDisplay = d.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
-          if(isBday) birthdayIcon = '<i class="fas fa-birthday-cake text-danger me-2 fa-beat" title="Birthday Today!"></i>';
+          if (isBday) birthdayIcon = '<i class="fas fa-birthday-cake text-danger me-2 fa-beat" title="Birthday Today!"></i>';
         }
 
         return `
@@ -486,9 +534,10 @@
     }
 
     checkAdminAuth();
-    
+
     document.getElementById('customerFilter').addEventListener('change', applyFilter);
     document.getElementById('searchInput').addEventListener('input', applyFilter);
   </script>
 </body>
+
 </html>

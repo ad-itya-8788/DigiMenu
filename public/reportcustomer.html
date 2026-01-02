@@ -413,56 +413,38 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   <script>
-    // 🎨 THEME MANAGEMENT - Light/Dark mode toggle
-    
-    // 📱 toggleSidebar - Mobile sidebar toggle
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('show');
       document.getElementById('mobileOverlay').classList.toggle('show');
     }
 
-    // 🔍 GET CUSTOMER ID - URL se customer ID nikalta hai
-    // URL format: /admin/report/123 ya /admin/report?id=123
     const urlParams = new URLSearchParams(window.location.search);
     const customerId = window.location.pathname.split('/').pop() || urlParams.get('id');
 
-    // 🔐 AUTH CHECK - Admin authentication verify karta hai
-    // Agar logged out → login page
-    // Agar customer ID nahi hai → users page
-    // Agar sab theek hai → customer report load karo
     async function checkAdminAuth() {
       try {
         const response = await fetch('/api/auth/admin/session-check');
         const data = await response.json();
         if (!data.authenticated) { window.location.href = '/admin/login'; return; }
         
-        // Customer ID check karo
         if (customerId) { loadCustomerReport(customerId); } 
-        else { window.location.href = '/admin/users'; } // ID nahi hai to users page pe jao
+        else { window.location.href = '/admin/users'; }
       } catch (error) { window.location.href = '/admin/login'; }
     }
 
-    // 📊 LOAD CUSTOMER REPORT - Specific customer ka detailed report fetch karta hai
-    // Server se customer details, orders aur reviews data lete hain
-    // Success → customer info, orders aur reviews display karo
-    // Error → error message dikhao with back button
     async function loadCustomerReport(id) {
       try {
-        // 🌐 API call - Customer data fetch karo
         const response = await fetch(`/api/admin/users/${id}`);
         const data = await response.json();
         
         if (!data.success) throw new Error(data.message);
 
-        // 🎨 Display functions call karo
-        displayCustomerInfo(data.user, data.orders); // Profile section
-        displayOrders(data.orders); // Orders only (no reviews)
+        displayCustomerInfo(data.user, data.orders);
+        displayOrders(data.orders);
 
-        // ✅ Loading hide karo aur content dikhao
         document.getElementById('loadingContainer').style.display = 'none';
         document.getElementById('contentContainer').style.display = 'block';
       } catch (error) {
-        // ❌ Error state - Error message with back button
         document.getElementById('loadingContainer').innerHTML = `
           <div class="text-center text-danger">
             <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
@@ -473,53 +455,34 @@
       }
     }
 
-    // 👤 DISPLAY CUSTOMER INFO - Customer ki profile details dikhata hai
-    // Profile section mein:
-    // - Avatar with initials
-    // - Name, phone, join date
-    // - Birthday (agar di hai to)
-    // - WhatsApp link
-    // Stats section mein:
-    // - Total orders count
-    // - Total spent amount
-    // - Average order value
-    // - Last order date
     function displayCustomerInfo(customer, orders) {
-       // 🎭 Avatar - Customer ke naam se initials nikalo (e.g., "John Doe" → "JD")
        const initials = customer.name.split(' ').map(n=>n[0]).join('').toUpperCase().substring(0,2);
        document.getElementById('customerAvatar').textContent = initials;
        document.getElementById('customerName').textContent = customer.name;
        document.getElementById('customerPhone').textContent = customer.phone || '-';
        
-       // 📅 Dates - Join date aur birthday
-       const joinDate = new Date(customer.created_at).toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', month:'short', year:'numeric'});
+       const joinDate = new Date(customer.created_at).toLocaleDateString('en-IN', {month:'short', year:'numeric'});
        document.getElementById('joinDate').textContent = joinDate;
        
-       // 🎂 Birthday - Agar customer ne birthday di hai to dikhao
        if(customer.dob) {
-         const dob = new Date(customer.dob).toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', day:'numeric', month:'short'});
+         const dob = new Date(customer.dob).toLocaleDateString('en-IN', {day:'numeric', month:'short'});
          document.getElementById('customerDob').textContent = dob;
          document.getElementById('dobInfo').style.display = 'inline-flex';
        }
 
-       // 💬 WhatsApp link - Direct message bhejne ke liye
        document.getElementById('waLink').href = `https://wa.me/91${customer.phone}`;
 
-       // 📊 STATS CALCULATION - Customer ke order statistics
-       const totalOrders = orders.length; // Total orders count
-       // Total spent - Sirf completed orders ka amount
+       const totalOrders = orders.length;
        const totalSpent = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + parseFloat(o.total_amount||0), 0);
-       const avg = totalOrders > 0 ? totalSpent / totalOrders : 0; // Average order value
-       const lastOrder = orders.length > 0 ? new Date(orders[0].created_at) : null; // Last order date
+       const avg = totalOrders > 0 ? totalSpent / totalOrders : 0;
+       const lastOrder = orders.length > 0 ? new Date(orders[0].created_at) : null;
 
-       // 🎨 Stats display karo
        document.getElementById('statOrders').textContent = totalOrders;
        document.getElementById('statSpent').textContent = `₹${totalSpent.toFixed(0)}`;
        document.getElementById('statAvg').textContent = `₹${avg.toFixed(0)}`;
-       document.getElementById('statLastOrder').textContent = lastOrder ? lastOrder.toLocaleDateString('en-IN', {timeZone: 'Asia/Kolkata', day:'numeric', month:'short'}) : '-';
+       document.getElementById('statLastOrder').textContent = lastOrder ? lastOrder.toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : '-';
     }
 
-    // 📦 DISPLAY ORDERS - Simple order display without reviews
     function displayOrders(orders) {
        const container = document.getElementById('ordersContainer');
        
@@ -530,7 +493,6 @@
 
        container.innerHTML = orders.map(order => {
          const date = new Date(order.created_at).toLocaleDateString('en-IN', {
-           timeZone: 'Asia/Kolkata', 
            day:'numeric', 
            month:'short', 
            year:'numeric', 
@@ -574,7 +536,10 @@
        }).join('');
     }
 
-    async function logout() { await fetch('/api/auth/admin/logout', {method: 'POST'}); window.location.href = '/admin/login'; }
+    async function logout() { 
+      await fetch('/api/auth/admin/logout', {method: 'POST'}); 
+      window.location.href = '/admin/login'; 
+    }
 
     checkAdminAuth();
   </script>

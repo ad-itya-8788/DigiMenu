@@ -328,21 +328,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
   <script>
-    // 🎨 UI FUNCTIONS
-    // toggleSidebar → mobile pe sidebar open/close karta hai
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('show');
       document.getElementById('mobileOverlay').classList.toggle('show');
     }
 
-    // 📦 GLOBAL VARIABLES - Old orders page ke liye
-    // orders → archived orders ki list (completed/cancelled)
     let orders = [];
 
-    // 🔐 CHECK ADMIN AUTH - Admin logged in hai ya nahi check karta hai
-    // Server se session check API call karte hain
-    // Agar authenticated nahi hai → login page pe redirect karo
-    // Agar authenticated hai → orders load karo
     async function checkAdminAuth() {
       try {
         const response = await fetch('/api/auth/admin/session-check');
@@ -352,13 +344,6 @@
       } catch (error) { window.location.href = '/admin/login'; }
     }
 
-    // 📋 LOAD ORDERS - Archived orders ko server se load karta hai
-    // API call → /api/admin/orders?view_type=old
-    // Sirf completed aur cancelled orders aate hain (purane orders)
-    // Success hone par:
-    //   → orders array mein save karo
-    //   → stats calculate karo (total count, revenue)
-    //   → orders display karo (cards mein)
     async function loadOrders() {
       try {
         const response = await fetch('/api/admin/orders?view_type=old');
@@ -368,15 +353,9 @@
           calculateStats();
           displayOrders();
         }
-      } catch (error) { console.error(error); }
+      } catch (error) {}
     }
 
-    // 📊 CALCULATE STATS - Summary stats calculate karta hai
-    // count → total archived orders kitne hain
-    // revenue → sirf completed orders ka total revenue
-    //   (cancelled orders ka revenue count nahi hota)
-    // Stats cards mein values update karta hai
-    // Stats row ko visible karta hai
     function calculateStats() {
       const count = orders.length;
       const revenue = orders.reduce((sum, order) => {
@@ -388,16 +367,6 @@
       document.getElementById('statsRow').style.display = 'flex';
     }
 
-    // 🎴 DISPLAY ORDERS - Orders ko cards mein dikhata hai
-    // Agar orders nahi hain → empty state message dikhao
-    // Har order ke liye card banate hain with:
-    //   → Order ID, date, time
-    //   → Customer name, phone
-    //   → Table number
-    //   → Items list with quantities
-    //   → Payment method aur status
-    //   → Total amount
-    //   → Delete button (permanent delete)
     function displayOrders() {
       const container = document.getElementById('ordersCardsContainer');
       if (orders.length === 0) {
@@ -406,7 +375,7 @@
       }
 
       container.innerHTML = orders.map(order => {
-        const date = new Date(order.created_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const date = new Date(order.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         const tableNumber = order.table_number.replace('T-', '');
         
         let statusBadge = 'badge-soft-warning';
@@ -416,7 +385,6 @@
         const isPaid = order.payment_status === 'completed' || (order.payment_method && order.payment_method !== 'cash');
         const payIcon = order.payment_method === 'online' ? 'fa-credit-card' : 'fa-money-bill-wave';
 
-        // Items List
         const itemsHtml = (order.items || []).map(item => `
             <div class="d-flex justify-content-between small mb-1 border-bottom border-opacity-10 pb-1" style="border-color: var(--card-border) !important;">
                <span>${item.quantity}x ${item.item_name}</span>
@@ -474,14 +442,6 @@
       }).join('');
     }
 
-    // 🗑️ DELETE ORDER - Order ko permanently delete karta hai
-    // orderId → konse order ko delete karna hai
-    // Pehle confirmation popup dikhate hain (SweetAlert)
-    // Agar user confirm kare:
-    //   → Server ko DELETE request bhejte hain
-    //   → Success hone par orders reload karte hain
-    //   → Success toast dikhate hain
-    // IMPORTANT: Ye permanent delete hai, undo nahi ho sakta
     async function deleteOrder(orderId) {
       if((await Swal.fire({title: 'Delete Order?', text: 'Permanent action.', icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc3545'})).isConfirmed) {
         try {
@@ -494,13 +454,11 @@
       }
     }
 
-    // 🚪 LOGOUT - Admin ko logout karta hai
-    // Server ko logout request bhejte hain
-    // Login page pe redirect karte hain
-    async function logout() { await fetch('/api/auth/admin/logout', { method: 'POST' }); window.location.href = '/admin/login'; }
+    async function logout() { 
+      await fetch('/api/auth/admin/logout', { method: 'POST' }); 
+      window.location.href = '/admin/login'; 
+    }
 
-    // 🚀 INIT - Page load hone par ye functions call hote hain
-    // checkAdminAuth → admin logged in hai ya nahi check karo
     checkAdminAuth();
   </script>
 </body>

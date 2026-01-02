@@ -16,20 +16,40 @@ if (!RAZORPAY_KEY_SECRET && process.env.NODE_ENV === 'production') {
 
 router.post("/create-after-payment", requireAuth, async (req, res) => {
   try {
-    const { items, table_number, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const {
+      items,
+      table_number,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    } = req.body;
+
     const customerId = req.customer.customerId;
 
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ success: false, message: "Cart is empty. Please add items to cart." });
+    // ---------------- VALIDATIONS ----------------
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Cart is empty"
+      });
     }
 
-    if (!table_number || !table_number.trim()) {
-      return res.status(400).json({ success: false, message: "Table number is required." });
+    if (!table_number) {
+      return res.status(400).json({
+        success: false,
+        message: "Table number required"
+      });
     }
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return res.status(400).json({ success: false, message: "Payment details are required." });
+      return res.status(400).json({
+        success: false,
+        message: "Payment details missing"
+      });
     }
+
+    // ---------------- PAYMENT SIGNATURE VERIFY ----------------
 
     const text = `${razorpay_order_id}|${razorpay_payment_id}`;
     const generatedSignature = crypto
@@ -38,61 +58,69 @@ router.post("/create-after-payment", requireAuth, async (req, res) => {
       .digest("hex");
 
     if (generatedSignature !== razorpay_signature) {
-      return res.status(400).json({ success: false, message: "Invalid payment signature. Payment verification failed." });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment signature"
+      });
     }
 
+    // ---------------- TABLE AVAILABILITY CHECK ----------------
+
     const tableCheck = await db.query(
-      `SELECT order_id FROM orders 
-       WHERE table_number = $1 
-       AND status IN ('pending', 'preparing', 'ready')
-       AND DATE(created_at) = CURRENT_DATE
-       LIMIT 1`,
+      `SELECT order_id FROM orders
+       WHERE table_number = $1
+       AND status IN ('pending','preparing','ready')
+       AND DATE(created_at) = CURRENT_DATE`,
       [table_number.trim()]
     );
 
     if (tableCheck.rows.length > 0) {
-      return res.status(400).json({ 
-        success: false, 
-        message: `Table ${table_number} is currently occupied. Please select another table.` 
+      return res.status(400).json({
+        success: false,
+        message: `Table ${table_number} is occupied`
       });
     }
+
+    // ---------------- CALCULATE TOTAL ----------------
 
     let totalAmount = 0;
     for (const item of items) {
       if (!item.item_id || !item.quantity || !item.price) {
-        return res.status(400).json({ success: false, message: "Invalid item data." });
+        return res.status(400).json({
+          success: false,
+          message: "Invalid item data"
+        });
       }
-      totalAmount += parseFloat(item.price) * parseInt(item.quantity);
+      totalAmount += item.price * item.quantity;
     }
+
+    // ---------------- DB TRANSACTION START ----------------
 
     await db.query("BEGIN");
 
     try {
+      // 1️⃣ CREATE ORDER
       const orderResult = await db.query(
-        `INSERT INTO orders (customer_id, table_number, total_amount, status) 
-         VALUES ($1, $2, $3, 'pending') 
-         RETURNING order_id, customer_id, table_number, total_amount, status, created_at`,
+        `INSERT INTO orders (customer_id, table_number, total_amount, status)
+         VALUES ($1, $2, $3, 'pending')
+         RETURNING order_id, table_number, total_amount, status, created_at`,
         [customerId, table_number.trim(), totalAmount]
       );
 
       const order = orderResult.rows[0];
 
-      const orderItemsValues = items.map((item, index) => 
-        `($1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4})`
-      ).join(', ');
-      
-      const orderItemsParams = [order.order_id];
-      items.forEach(item => {
-        orderItemsParams.push(item.item_id, item.quantity, item.price);
-      });
+      // 2️⃣ INSERT ORDER ITEMS
+      for (const item of items) {
+        await db.query(
+          `INSERT INTO order_items (order_id, item_id, quantity, price)
+           VALUES ($1, $2, $3, $4)`,
+          [order.order_id, item.item_id, item.quantity, item.price]
+        );
+      }
 
+      // 3️⃣ INSERT PAYMENT RECORD
       await db.query(
-        `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES ${orderItemsValues}`,
-        orderItemsParams
-      );
-
-      await db.query(
-        `INSERT INTO payments (order_id, amount, payment_status, payment_method, razorpay_payment_id) 
+        `INSERT INTO payments (order_id, amount, payment_status, payment_method, razorpay_payment_id)
          VALUES ($1, $2, 'completed', 'razorpay', $3)`,
         [order.order_id, totalAmount, razorpay_payment_id]
       );
@@ -101,24 +129,24 @@ router.post("/create-after-payment", requireAuth, async (req, res) => {
 
       return res.json({
         success: true,
-        message: "Order placed successfully after payment!",
-        order: {
-          order_id: order.order_id,
-          table_number: order.table_number,
-          total_amount: parseFloat(order.total_amount),
-          status: order.status,
-          created_at: order.created_at,
-        },
+        message: "Order placed successfully",
+        order
       });
-    } catch (error) {
+
+    } catch (err) {
       await db.query("ROLLBACK");
-      throw error;
+      throw err;
     }
+
   } catch (error) {
     console.error("Create order after payment error:", error);
-    return res.status(500).json({ success: false, message: "Failed to create order after payment. Please contact support." });
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong"
+    });
   }
 });
+
 
 router.get("/table-availability", requireAuth, async (req, res) => {
   try {
